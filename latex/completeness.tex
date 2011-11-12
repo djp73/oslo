@@ -1,0 +1,48 @@
+\section{The $p$-adic Metric and Completeness}
+  To prove completeness of the set of $p$-adic, we will begin
+  by introducing a valuation function. From this point we will
+  define the $p$-adic metric and concluding with a proof showing
+  that $\zzzp$ satisfies the Cauchy criterion.
+
+\label{pval}
+\begin{definition}
+  Let $\alpha=\an\in\zzzp\setminus\{0\}$. If $m$ is the smallest
+  number in $\nnn$ such that $x_m \not\equiv 0 \pmod p^{m+1}$,
+  then the valuation of $\alpha$ is $m$, or $v_p(\alpha)=m$. \\ \\
+  
+  If $\alpha=0$, then $v_p(\alpha)=\infty$.
+\end{definition}
+
+\label{pnorm}
+\begin{definition}
+  If $\alpha \in \zzzp$, then the $p$-adic norm of $\alpha$ is
+  $\lVert \alpha \rVert_p = p^{-m}$ where $m = v_p(\alpha)$. 
+\end{definition}
+
+% \begin{definition}
+% Given a sequence of $p$-adic integers $\{\alpha_n\}$. The sequence is bounded by an integer $M$ if
+% \[
+%   \lVert \alpha \rVert_p \leq p^{-M} \ \ \ \forall \alpha_i \in \{\alpha_n\}. 
+% \].
+% \end{definition}
+%
+% \begin{theorem}
+% For every sequence of $p$-adic integers there exists a convergent subsequence.
+% \end{theorem}
+% 
+% \begin{proof}
+% Let $\{\alpha_n\}$ be a sequence of $p$-adic integers. Then
+% \[
+%  \lVert \alpha_i \rVert_p \leq p^0 = 1 \ \ \ \forall i \in \nnn.
+% \]
+% Define
+% \[
+%   \alpha_i=\{a_{0,i},a_{0,i}+a_{1,i}*p,a_{0,i}+a_{1,i}*p+a_{2,i}*p^2,...\} \ \ \ \rm{for} \ 0 \leq a_{j,k} < p 
+% \]
+% \end{proof}
+
+\begin{definition} \label{def:cauchy}
+  A sequence $\{\alpha_n\}$, where $\alpha_i\in\zzzp$, converges
+  if \ $\exists\alpha\in\zzzp \ s.t. \\ \forall \ \epsilon>0 \ 
+  \exists N \in\nnn \ s.t. \ \forall \ n \geq N \Rightarrow \lVert\alpha_n-\alpha\rVert_p<\epsilon \ .$
+\end{definition}
