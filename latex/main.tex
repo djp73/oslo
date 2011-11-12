@@ -3,11 +3,11 @@
 % Packages
 \usepackage[bookmarks]{hyperref}
 \hypersetup{
-  colorlinks,
-  citecolor=black,
-  filecolor=black,
-  linkcolor=black,
-  urlcolor=black
+colorlinks,
+citecolor=black,
+filecolor=black,
+linkcolor=black,
+urlcolor=black
 }
 % \usepackage[T1]{fontenc}
 % \usepackage[latin1]{inputenc}
@@ -44,24 +44,16 @@
 
 \theoremstyle{remark}
 \newtheorem{remark}{Remark}[section]
-
+%\includeonly{fcsr}
 \begin{document}
-\title{On Algebraic Shift Registers}
-\author{MIDN 1/C Charles Celerier}
-
-\maketitle
-
-\input{abstract}
-
-\par This is an Honors Project Proposal for 2011-2012 between
-myself and my advisor, Professor Joyner.
-
-\input{introduction} 
-\input{n-adic-ring}
-\input{constructing-sequences}
-%\input{completeness}
-\input{fcsr}
-\input{xu}
+\include{title}
+\include{abstract}
+\include{introduction} 
+\include{n-adic-ring}
+\include{constructing-sequences}
+\include{completeness}
+\include{fcsr}
+\include{xu}
 
 \bibliographystyle{amsplain}
 \bibliography{refs}
