@@ -1,5 +1,16 @@
 \section{Feedback with Carry Shift Registers}
-\par A description of algebraic feedback shift registers specific to $\zzzp$ is defined here.
+\par First, the definition of a {\em finite state machine}
+according to Golomb's famous book {\em Shift Register Sequences}
+is given.
+
+\begin{definition}\label{finite-state-machine}
+  A {\em finite state machine} consists of a finite collection
+  of {\em states} $K=\{K_i\}$, sequentially accepts a sequence
+  of {\em inputs} from a finite set $A=\{a_i\}$, and produces
+  a sequence of {\em outputs} from a finite set $B=\{b_i\}$
+\end{definition}
+\par A {\em feedback with carry shift register} is a feedback shift register
+which uses a linear combination each state toA description of $N$-ary feedback with carry shift registers is defined here.
 The definition of the register follows the one given in Andrew Klapper's book.
 
 \begin{definition}\label{afsr}
