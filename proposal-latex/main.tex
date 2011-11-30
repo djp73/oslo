@@ -1,6 +1,7 @@
 \documentclass[english]{article}
 
 % Packages
+\usepackage{verbatim}
 \usepackage[bookmarks]{hyperref}
 \hypersetup{
 colorlinks,
@@ -45,13 +46,14 @@ urlcolor=black
 \theoremstyle{remark}
 \newtheorem{remark}{Remark}[section]
 \begin{document}
-\title{On Algebraic Shift Registers}
+\title{Register Synthesis of Feedback with Carry Shift Registers}
 \author{MIDN 1/C Charles Celerier}
 \maketitle
 \input{abstract}
 \input{introduction}
 \input{n-adic-integers}
 \input{finite-state-machines}
+\input{sage}
 
 \bibliographystyle{amsplain}
 \bibliography{refs}
