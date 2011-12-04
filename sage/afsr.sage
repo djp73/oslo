@@ -1,15 +1,17 @@
 """
-Algebraic feedback shift register functions
+Algebraic feedback shift register sequences
 
 
 
-AUTHOR:
-   David Joyner, wdjoyner@gmail.com, 2011-10-19
+AUTHORS:
+   David Joyner, wdjoyner@gmail.com
    Charles Celerier, charles.celerier@gmail.com
+   copyright 2011
 
 LICENSE:
    Modified BSD
 
+last modified 2011-12-04
 """
 
 def connection_element(Qs, p):
@@ -142,7 +144,7 @@ def afsr(S, T, As, Qs, m, p, N):
     return newAs
 
 
-def adic_seq2(u, q, p, N): 
+def afsr2(u, q, p, N): 
     """
     Input consists of 
         u, q - positive integers (q<p^(20))
@@ -376,3 +378,24 @@ def xu(As, M):
 
 ###################################################
 
+def walsh_transform(s,k):
+    """
+    This computes the Walsh(-Fourier) transform of the sequence s of length n.
+    We assume that the elements of s are in GF(2). We assume that k is in the interval [0,n-1].
+
+    EXAMPLES:
+        sage: s = [F.random_element() for i in range(100)]
+        sage: max([walsh_transform(s,i) for i in range(100)])
+        10
+        sage: min([walsh_transform(s,i) for i in range(100)])
+        -14
+        sage: s = [F.random_element() for i in range(10000)]
+        sage: max([walsh_transform(s,i) for i in range(100)])
+        124
+        sage: min([walsh_transform(s,i) for i in range(100)])
+        -16
+
+    """
+    n = len(s)
+    terms = [(-1)^(s[i]+i*k) for i in range(n)]
+    return sum(terms)
