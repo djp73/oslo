@@ -1,6 +1,8 @@
 """
-Algebraic feedback shift register sequences
-
+Algebraic feedback shift register sequences,
+N-adic sequences and bent functions. Also, this includes
+some examples of usage of the sage.crypto.boolean_function
+module.
 
 
 AUTHORS:
@@ -11,7 +13,7 @@ AUTHORS:
 LICENSE:
    Modified BSD
 
-last modified 2011-12-04
+last modified 2012-01-11
 """
 
 def connection_element(Qs, p):
@@ -43,7 +45,8 @@ def generating_quotient(As, Qs, m, p):
         p - prime
         N - positive integer > r
 
-    This function returns
+    This function returns a rational whose p-adic expansion 
+    agrees with As.
 
     EXAMPLES:
         sage: p = 5; Qs = [2,2,1,2]; As = [1,2,2]; m = 4
@@ -157,6 +160,7 @@ def afsr2(u, q, p, N):
         to (u, q, p), as in Theorem 10, [KX])
   
     EXAMPLES:
+        sage: u = 972; q = 1001; p = 5; N = 20
         sage: adic_seq(u, q, p, N)
         (972, 1001, [2, 4, 3, 1, 1, 4, 0, 4, 0, 3, 1, 3, 4, 1, 3, 2, 4, 2, 3, 3])
         sage: afsr2(u, q, p, N)
@@ -203,15 +207,25 @@ def index(x,M):
 def height(x,y,M):
     """
     Inputs a pair of non-zero integers and outputs the 
-    max of the integer part of their log.
+    max of the integer part of their log base M.
 
+    EXAMPLE:
+        sage: height(32,33,2)
+        5
     """
     return int(max(log(abs(x))/log(M),log(abs(y))/log(M)))
 
 def interpolation_set(M):
     """
-    Returns the interpolation set associated to the 
+    Returns the interpolation set [1] associated to the 
     modulus M.
+
+    Needed in rational_synthesis_xu.
+
+    REFERENCE:
+        [KX] Klapper and Xu, "Register Synthesis for Algebraic Feedback 
+             Shift Registers Based on Non-Primes," (section 3)
+             http://www.cs.uky.edu/~klapper/papers.html
 
     """
     if M==2:
@@ -226,6 +240,7 @@ def findst(h1,h2,i,M):
     """
     Solves h1*s+h2*t = 0 mod M^5.
 
+    Needed in rational_synthesis_xu.
 
     """
     P = interpolation_set(M)
@@ -237,6 +252,8 @@ def findst(h1,h2,i,M):
 def maxpower(u,q,M):
     """
     Returns max power of M dividing u,q
+
+    Needed in rational_synthesis_xu.
 
     EXAMPLES:
         sage: maxpower(1000, 200, 10)
@@ -255,6 +272,10 @@ def maxpower(u,q,M):
 
 def ifsinP(i,h,r,a,M,P):
     """"
+    Returns s if s is in P and is non-zero.
+    Returns 0 otherwise.
+
+    Needed in rational_synthesis_xu.
 
     """
     B = 5
@@ -304,7 +325,7 @@ def adic_seq(u,q,x,N):
     return u,q,b
 
 
-def xu(As, M):
+def rational_synthesis_xu(As, M, verbose = False):
     """
     This outputs the rational which "best fits" the
     decimal expansion in a.
@@ -316,23 +337,23 @@ def xu(As, M):
     EXAMPLES:
         sage: adic_seq(972,1001,10,20)
         (972, 1001, [2, 7, 9, 8, 2, 0, 1, 7, 9, 8, 2, 0, 1, 7, 9, 8, 2, 0, 1, 7])
-        sage: xu([2, 7, 9, 8, 2, 0, 1, 7, 9, 8, 2], 10)
+        sage: rational_synthesis_xu([2, 7, 9, 8, 2, 0, 1, 7, 9, 8, 2], 10)
         (72849565132, 384693842281)
-        sage: xu([2, 7, 9, 8, 2, 0, 1, 7, 9, 8, 2, 0, 1, 7, 9], 10)
+        sage: rational_synthesis_xu([2, 7, 9, 8, 2, 0, 1, 7, 9, 8, 2, 0, 1, 7, 9], 10)
         (10846647308, 62610590489)
-        sage: xu([2, 7, 9, 8, 2, 0, 1, 7, 9, 8, 2, 0, 1, 7, 9, 8, 2, 0, 1, 7], 10)
+        sage: rational_synthesis_xu([2, 7, 9, 8, 2, 0, 1, 7, 9, 8, 2, 0, 1, 7, 9, 8, 2, 0, 1, 7], 10)
         (972, 1001)
-        sage: xu([0,1,0,0,0,0,0],10)
+        sage: rational_synthesis_xu([0,1,0,0,0,0,0],10)
         (10, 1)
-        sage: xu([0,0,1,0,0,0,0],10)
+        sage: rational_synthesis_xu([0,0,1,0,0,0,0],10)
         (100, 1)
-        sage: xu([1,0,0,0],10)
+        sage: rational_synthesis_xu([1,0,0,0],10)
         (1, 1)
-        sage: xu([1,0,0],10)
+        sage: rational_synthesis_xu([1,0,0],10)
         (-9, 91)
-        sage: xu([2, 7, 8, 2, 1, 7, 8, 2, 1, 7, 8, 2, 1],10)
+        sage: rational_synthesis_xu([2, 7, 8, 2, 1, 7, 8, 2, 1, 7, 8, 2, 1],10)
         (72, 101)
-        sage: xu([2, 7, 8, 2, 1, 7, 8, 2, 1],10)
+        sage: rational_synthesis_xu([2, 7, 8, 2, 1, 7, 8, 2, 1],10)
         (149711144, 196122577)
 
     QUESTION: Do you need 3 times the period to arrive with the
@@ -350,24 +371,28 @@ def xu(As, M):
     h[1] = 1+M*sum([As[j]*M**j for j in range(B)])
     r[1] = 1+M**B
     for i in range(1, k):
-        #print "start", numerator((-1+(h[i]/r[i]))/M), denominator((-1+(h[i]/r[i]))/M)
+        if verbose:
+            print "start", numerator((-1+(h[i]/r[i]))/M), denominator((-1+(h[i]/r[i]))/M)
         if (h[i]-a*r[i])%(M**(i+1)) <> 0:
             s = ifsinP(i,h,r,a,M,P)
             t = 0
             if s<>0:
                 h[i+1] = s*h[i]
                 r[i+1] = s*r[i]
-                #print "type 1 update", i, numerator((-1+(h[i]/r[i]))/M), denominator((-1+(h[i]/r[i]))/M)
+                if verbose:
+                    print "type 1 update", i, numerator((-1+(h[i]/r[i]))/M), denominator((-1+(h[i]/r[i]))/M)
             else:
                 s,t = findst(h[i]-r[i]*a,M**(i-m)*(h[m]-r[m]*a),i,M)
                 h[i+1] = s*h[i]+t*M**(i-m)*h[m]
                 r[i+1] = s*r[i]+t*M**(i-m)*r[m]
-                #print "type 2 update", i, numerator((-1+(h[i]/r[i]))/M), denominator((-1+(h[i]/r[i]))/M)
+                if verbose:
+                    print "type 2 update", i, numerator((-1+(h[i]/r[i]))/M), denominator((-1+(h[i]/r[i]))/M)
             cond1 = bool(height(h[i+1],r[i+1],M)>height(h[i],r[i],M))
             cond2 = bool(height(h[i],r[i],M) <= i-m+height(h[m],r[m],M))
             if (cond1 and cond2 and t<> 0):
                 m = i
-                #print "turn updating", i, numerator((-1+(h[i]/r[i]))/M), denominator((-1+(h[i]/r[i]))/M)
+                if verbose:
+                    print "turn updating", i, numerator((-1+(h[i]/r[i]))/M), denominator((-1+(h[i]/r[i]))/M)
         else:
               h[i+1] = h[i]
               r[i+1] = r[i]
@@ -378,24 +403,318 @@ def xu(As, M):
 
 ###################################################
 
-def walsh_transform(s,k):
+
+"""
+Sage implements in the module sage.crypto.boolean_function
+several classes and methods for boolean functions.
+
+We recall some background from [1].
+
+A function $f$ on $GF(2)^n$ can be uniquely represented by
+a polynomial on $GF(2)$ whose degree in each variable in each term is 
+at most $1$. Namely,
+
+\[
+f (x_1 ,\dots , x_n ) =
+\sum_{(a_1,\dots ,a_n)\in GF(2)^n}
+g(a_1 ,\dots , a_n )x^{a_1}\cdot \dots \cdot x^{a_n},
+\]
+where $g$ is also a function on $GF(2)^n$. This polynomial 
+representation of $f$ is called
+the {\it algebraic normal form} (ANF) of the function.
+The {\it algebraic degree} of $f$, denoted by $\deg(f )$,
+is defined as the number of variables in the longest term 
+of the ANF of $f$.
+
+
+A Boolean function $f$ is said to be {\it balanced} if 
+${\rm wt}(f ) = {\rm wt}(f + 1) = 2^{n-1}$. (Here $1$ denotes the 
+constant function $1$ on $GF(2)^n$.
+A {\it subfunction} of a Boolean function $f$ is a function $f$ 
+obtained by substituting some constants for some variables in $f$.
+
+The Boolean function $f$ is called 
+{\it correlation immune of order $m$} if 
+$[\rm wt}(f') = {\rm wt}(f )/2^m$ for any its subfunctions 
+$f'$ of $n - m$ variables. 
+
+
+
+If $\deg(f ) \leq 1$ then $f$ is called an {\it affine function}. 
+If $f$ is an affine function and $f(0) = 0$ then $f$ is called a 
+{\it linear function}.
+
+For two Boolean functions $f_1$ and $f_2$ on $GF(2)^n$, 
+we define the {\it distance} between $f_1$ and $f_2$ by 
+
+\[
+d(f_1 , f_2 ) = | \{x \in GF(2)^n \ |\ f_1 (x) \not= f_2 (x)\} |.
+\]
+(Here $|S|$ denotes the cardinality of a set $S$.)
+The {\it weight} of a Boolean function is the distance between it
+and the constant function $0$, denoted ${\rm wt}(f)$.
+It is easy to see that 
+
+\[
+d(f_1,f_2)={\rm wt}(f_1+f_2).
+\]
+The minimum distance between $f$ and the set of all affine functions 
+is called the {\it nonlinearity} of $f$ and denoted by 
+$[\rm nl}(f )$.
+
+
+
+The {\it Walsh transform} of a Boolean function $f$ is an integer-
+valued function over $GF(2)^n$ that can be defined as
+
+\[
+W_f(u) =
+\sum_{x in GF(2)^n}
+(-1)^{f(x)+ \langle u,x\rangle}.
+\]
+The Walsh coefficients satisfy {\it Parseval’s equation}
+
+\[
+\sum_{x in GF(2)^n}
+W_f(u)^2 = 2^{2n}.
+\]
+
+
+For any Boolean function $f$ on $GF(2)^n$, we have
+
+\[
+wt(f ) = 2^{n-1} - {\frac{1}{2}W_f(0),
+\]
+and
+\[
+{\rm nl}(f ) = 2^{n-1} - {\frac{1}{2}\max_{u \in GF(2)^n} |W_f (u)|.
+\]
+
+
+For each $u \in GF(2)^n$, the {\it autocorrelation coefficient} of the function 
+$f$ at the vector $u$ is defined 
+
+\[
+\Delta_f(u) =
+\sum_{x in GF(2)^n}
+(-1)^{f(x)+ f(x+u)}.
+\]
+
+The {\it absolute indicator} of $f$ is defined as
+
+\[
+\Delta_f = \max_{u \in GF(2)^n-\{0\}} |\Delta_f (u)|.
+\]
+
+EXAMPLES:
+    sage: from sage.crypto.boolean_function import *
+    sage: P.<x0,x1,x2,x3> = BooleanPolynomialRing()
+    sage: b = x0*x1 + x2*x3
+    sage: f = BooleanFunction(b)
+    sage: [b(x[0],x[1],x[2],x[3]) for x in GF(2)^4]
+    [0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0]
+    sage: f.truth_table()
+    (False, False, False, True, False, False, False, True, False, False, 
+     False, True, True, True, True, False)
+    sage: WT = f.walsh_hadamard_transform(); WT
+    (-4, -4, -4, 4, -4, -4, -4, 4, -4, -4, -4, 4, 4, 4, 4, -4)
+    sage: f.absolute_walsh_spectrum()
+    {4: 16}
+    sage: f.nonlinearity()
+    6
+    sage: 2^(4-1) - (1/2)*max([abs(x) for x in WT])
+    6
+    sage: f.autocorrelation()
+    (16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+    sage: f.absolute_autocorrelation()
+    {16: 1, 0: 15}
+    sage: f.absolut_indicator() # this is a mis-spelling in Sage
+    0
+    sage: f.is_bent()
+    True
+    sage: f.is_balanced()
+    False
+    sage: f.is_symmetric()
+    False
+    sage: f.sum_of_square_indicator()
+    256
+    sage: f.correlation_immunity()
+    0
+
+
+REFERENCES:
+  [1] Yuriy Tarannikov, Peter Korolev, and Anton Botev, 
+      {\it Autocorrelation coefficients and correlation immunity of Boolean 
+      functions}, in {\bf Advances in Cryptology—ASIACRYPT 2001}. Available:
+      \newline
+      \url{http://www.iacr.org/cryptodb/data/paper.php?pubkey=515}
+
+
+
+"""
+
+def walsh_transform_1d(s,k):
     """
-    This computes the Walsh(-Fourier) transform of the sequence s of length n.
-    We assume that the elements of s are in GF(2). We assume that k is in the interval [0,n-1].
+    This computes the Walsh(-Fourier) transform of the 
+    sequence s of length n.
+    
+    INPUT:
+        s - a sequence of n elements in GF(2), represented as a list
+        k - an integer in the interval [0,n-1].
 
     EXAMPLES:
+        sage: F = GF(2)
+        sage: V = F^4
         sage: s = [F.random_element() for i in range(100)]
-        sage: max([walsh_transform(s,i) for i in range(100)])
+        sage: max([walsh_transform_1d(s,i) for i in range(100)])
         10
-        sage: min([walsh_transform(s,i) for i in range(100)])
+        sage: min([walsh_transform_1d(s,i) for i in range(100)])
         -14
         sage: s = [F.random_element() for i in range(10000)]
-        sage: max([walsh_transform(s,i) for i in range(100)])
+        sage: max([walsh_transform_1d(s,i) for i in range(100)])
         124
-        sage: min([walsh_transform(s,i) for i in range(100)])
+        sage: min([walsh_transform_1d(s,i) for i in range(100)])
         -16
 
     """
     n = len(s)
     terms = [(-1)^(s[i]+i*k) for i in range(n)]
     return sum(terms)
+
+def walsh_transform(f, a):
+    """
+    This computes the Walsh(-Fourier) transform of the 
+    Boolean function f on $GF(2)^n$ at $a \in GF(2)^n$.
+    
+    INPUT:
+        s - a sequence of n elements in GF(2), represented as a list
+        k - an integer in the interval [0,n-1].
+
+    EXAMPLES:
+        sage: F = GF(2)
+        sage: V = F^4
+        sage: f = bent_function_standard
+        sage: a = V([1,0,1,1])
+        sage: walsh_transform(f, a)
+        -4
+        sage: a = V([0,0,0,0])
+        sage: walsh_transform(f, a)
+        4
+        sage: WT = [walsh_transform(f, a) for a in V]; WT
+        [4, 4, 4, -4, 4, 4, 4, -4, 4, 4, 4, -4, -4, -4, -4, 4]
+        sage: 2^(4-1) - (1/2)*max([abs(x) for x in WT])
+        6
+
+    WARNING: This seems to differ by a sign from the method
+    walsh_hadamard_transform in sage.crypto.boolean_function.
+
+    """
+    F = a[0].parent()
+    n = len(a)
+    terms = [(-1)^(f(x)+x.dot_product(a)) for x in F**n]
+    return sum(terms)
+
+def bent_function_standard(x):
+    """
+    This function returns the value of a bent function at x.
+    The bent function is constructed using the "simplest" 
+    construction [1].
+
+    INPUT:
+        n - an even integer >= 4
+        x - an element of GF(2)^n
+
+    EXAMPLES:
+        sage: V = GF(2)^4
+        sage: s = [bent_function_standard(x) for x in V]
+        sage: s
+        [0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0]
+
+
+    REFERENCES:
+        [1] http://en.wikipedia.org/wiki/Bent_function
+
+    """
+    n = x.degree()
+    if n<1 or n%2 <> 0:
+        raise ValueError("%s must be a positive even integer"%n)
+    m = int(n/2)
+    terms = [x[2*i]*x[2*i+1] for i in range(m)]
+    return sum(terms)
+    
+def bent_function_MM(x, M = identity_matrix(GF(2), int(len(x)/2)), g = lambda x: GF(2)(0) ):
+    """
+    This function returns the value of a bent function at x.
+    The bent function is constructed using the Maiorana-McFarland
+    construction [1].
+
+    INPUT:
+        n - an even integer >= 4
+        x - an element of GF(2)^n
+        M - an invertible n/2 x n/2 matrix over GF(2)
+        g - a boolean function on GF(2)^(n/2)
+
+    EXAMPLES:
+        sage: V = GF(2)^4
+        sage: s = [bent_function_MM(x) for x in V]
+        sage: s
+        [0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0]
+        sage: [walsh_transform(s, k) for k in range(2^4)]
+        [4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4]
+        sage: V = GF(2)^8
+        sage: M = GL(4, GF(2)).random_element(); M
+        [0 0 1 1]
+        [1 1 0 1]
+        [1 0 1 0]
+        [1 0 0 0]
+        sage: g = lambda x: bent_function_standard(x) 
+        sage: s = [bent_function_MM(x, M, g) for x in V]
+        sage: len(s)
+        256
+        sage: [walsh_transform(s, k) for k in range(2^8)]
+        [16, ..., 16]
+
+    REFERENCES:
+        [1] C. Carlet, "Boolean Functions for Cryptography and 
+            Error Correcting Codes," preprint (available on www).
+
+    """
+    n = x.degree()
+    if n<1 or n%2 <> 0:
+        raise ValueError("%s must be a positive even integer"%n)
+    m = int(n/2)
+    V = GF(2)^m
+    v1 = V([x[i] for i in range(m)])
+    v2 = V([x[i] for i in range(m,n)])
+    return v1*M*v2+g(v2)
+
+###################################################
+
+def boolean_fcn_synthesis(f, n, p):
+    """
+    Returns rational number whose p-adic expansion matches the values of 
+    f:GF(p)^n -> GF(p).
+
+    INPUT:
+
+    EXAMPLES:
+        sage: f = lambda x: x[0]*x[1]+x[2]*x[3]
+        sage: boolean_fcn_synthesis(f, 4, 2)
+        -30856/65535
+        sage: boolean_fcn_synthesis(f, 4, 3)
+        -158298070546506595701961644853448561652/221713244121518884974124815309574946401
+        sage: V = GF(2)^3
+        sage: V.list()
+        [(0, 0, 0), (1, 0, 0), (0, 1, 0), (1, 1, 0), (0, 0, 1), (1, 0, 1), (0, 1, 1), (1, 1, 1)]
+        sage: f = lambda x: x[0]               
+        sage: boolean_fcn_synthesis(f, 3, 2)
+        -2/3
+        sage: f = lambda x: x[2]
+        sage: boolean_fcn_synthesis(f, 3, 2)
+        -16/17
+        sage: adic_seq(-16, 17, 2, 15)
+        (-16, 17, [0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1])
+    """
+    F = GF(p)
+    V = GF(p)**n
+    return (1-p**(p**n))**(-1)*sum([int(f(V[j]))*p**j for j in range(p**n)])
