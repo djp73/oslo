@@ -718,3 +718,13 @@ def boolean_fcn_synthesis(f, n, p):
     F = GF(p)
     V = GF(p)**n
     return (1-p**(p**n))**(-1)*sum([int(f(V[j]))*p**j for j in range(p**n)])
+
+def ANF(BF,N):
+    if N==1:
+        return list(BF)
+    else:
+        for i in range(0,N/2-1):
+            BF[i+N/2]=BF[i]+BF[i+N/2]
+        ANF_coef=ANF(BF[0:N/2],N/2)+ANF(BF[N/2:N],N/2)
+        return list(ANF_coef)
+
