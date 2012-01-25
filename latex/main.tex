@@ -1,6 +1,7 @@
 \documentclass[english]{article}
 
 % Packages
+\usepackage[T1]{fontenc}
 \usepackage[bookmarks]{hyperref}
 \hypersetup{
 colorlinks,
@@ -16,6 +17,7 @@ urlcolor=black
 \usepackage{amsthm}
 \usepackage{enumerate}
 % \usepackage{graphicx}
+\usepackage{cite}
 
 % Definitions
 \def\qqq{\mathbb{Q}}
@@ -58,6 +60,7 @@ urlcolor=black
 \include{xu}
 \include{bent-functions}
 
+\nocite{*}
+\bibliography{refs}{}
 \bibliographystyle{amsplain}
-\bibliography{refs}
 \end{document}
