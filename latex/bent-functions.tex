@@ -6,9 +6,9 @@ a boolean function is defined.
 % Definition of a Boolean Function
 \begin{definition}
 \label{def:boolean-function}
-  Any function $BF$ with the property
+  Any function $\mathcal{BF}$ with the property
   \begin{equation}
-    BF:\fff_2^n\rightarrow\fff_2
+    \mathcal{BF}:F\fff_2^n\rightarrow\fff_2
   \end{equation}
   is a {\em boolean function}.
 \end{definition}
@@ -18,7 +18,7 @@ and false for use in logic circuits. The number of boolean functions increases
 extremely rapidly as the number of variables increases.
 
 \begin{equation}
-  \lVert\{BF:\fff_2^n\rightarrow\fff_2\}\rVert = 2^{2^n}
+  \lvert\{\mathcal{BF}:\fff_2^n\rightarrow\fff_2\}\rvert = 2^{2^n}
 \end{equation}
 
 \par As observed by Carlet, consider the set of all boolean functions on 7 variables,
@@ -34,7 +34,7 @@ $f$.
 \\
 \begin{tabular}{|c|c|c|c|c|}
   \hline
-  $x_4$&$x_3$&$x_2$&$x_1$&$f(x_4,x_3,x_2,x_1)$\\
+  $x_3$&$x_2$&$x_1$&$x_0$&$f(x_3,x_2,x_1,x_0)$\\
   \hline
   0&0&0&0&0\\
   0&0&0&1&1\\
@@ -57,15 +57,20 @@ $f$.
 \\
 \\
 \par The function $f$ can be written as a sum of many different functions.
-In particular, it is convenient to use {\em standard boolean functions} which
-equal $1$ at exactly one point in $\fff_2^n$. Then every boolean function can
-be written as a sum of $w(f)$ standard boolean functions. For the above example,
-we have $f=f_2+f_3+f_5+f_7+f_{11}+f_{15}+f_{16}$.
+In particular, it is convenient to use {\em atomic boolean functions}.
+
+\begin{definition}
+  An {\em atomic boolean function} is a boolean function that equals 1 for exactly
+  one input.
+\end{definition}
+
+Then every boolean function can be written as a sum of $w(f)$ standard boolean
+functions. For the above example, we have $f=f_1+f_2+f_4+f_6+f_{10}+f_{14}+f_{15}$.
 \\
 \\
 \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
   \hline
-  $x_4$&$x_3$&$x_2$&$x_1$&$f$&$f_2$&$f_3$&$f_5$&$f_7$&$f_{11}$&$f_{15}$&$f_{16}$\\
+  $x_3$&$x_2$&$x_1$&$x_0$&$f$&$f_1$&$f_2$&$f_4$&$f_6$&$f_{10}$&$f_{14}$&$f_{15}$\\
   \hline
   0&0&0&0&0&0&0&0&0&0&0&0\\
   0&0&0&1&1&1&0&0&0&0&0&0\\
@@ -91,88 +96,26 @@ we have $f=f_2+f_3+f_5+f_7+f_{11}+f_{15}+f_{16}$.
 the standard boolean functions are well-known.
 
 \begin{align*}
-  f_2   &=(1\oplus x_4)(1\oplus x_3)(1\oplus x_2)x_1\\
-        &=x_1 \oplus x_2x_1 \oplus x_3x_1 \oplus x_3x_2x_1 \oplus x_4x_1 \oplus x_4x_2x_1
-        \oplus x_4x_3x_1 \oplus x_4x_3x_2x_1\\
-  f_3   &=(1\oplus x_4)(1\oplus x_3)x_2(1\oplus x_1)\\
-  f_5   &=(1\oplus x_4)x_3(1\oplus x_2)(1\oplus x_1)\\
-  f_7   &=(1\oplus x_4)x_3x_2(1\oplus x_1)\\
-  f_{11}&=x_4(1\oplus x_3)x_2(1\oplus x_1)\\
-  f_{15}&=x_4x_3x_2(1\oplus x_1)\\
-  f_{16}&=x_4x_3x_2x_1\\
+  f_1   &=(1\oplus x_3)(1\oplus x_2)(1\oplus x_1)x_0\\
+        &=x_0 \oplus x_1x_0 \oplus x_2x_0 \oplus x_2x_1x_0 \oplus x_3x_0 \oplus x_3x_1x_0
+        \oplus x_3x_2x_0 \oplus x_3x_2x_1x_0\\
+  f_2   &=(1\oplus x_3)(1\oplus x_2)x_1(1\oplus x_0)\\
+  f_4   &=(1\oplus x_3)x_2(1\oplus x_1)(1\oplus x_0)\\
+  f_6   &=(1\oplus x_3)x_2x_1(1\oplus x_0)\\
+  f_{10}&=x_3(1\oplus x_2)x_1(1\oplus x_0)\\
+  f_{14}&=x_3x_2x_1(1\oplus x_0)\\
+  f_{15}&=x_3x_2x_1x_0\\
 \end{align*}
 
-\par Writing out all of the standard boolean functions on $n$ variables, it is clear that
-the number of terms in $f_i$ equals $2^{2^{n}}-i+1$. Moreover, as $i$ increases, the terms that
-drop off are those which correspond to the binary numbers less than $i-1$. To see this, associate
-each term with a binary number in the following way:
+\par Rather than continuing the computation and finding the polynomial for the boolean function
+$f$, an algorithm will be introduced for computing the polynomial coefficients for any boolean
+function.
 
-\begin{align*}
-  x_1&=2^0 , x_2=2^1 , x_3=2^2 , x_4=2^3 \\
-  \\
-  1&=0\\
-  x_1&=1\\
-  x_2&=2\\
-  x_2x_1&=3\\
-  &\vdots\\
-  x_4x_3x_2x_1&=15\\
-\end{align*}
+\begin{theorem}
+  For a boolean function $f$ of the form $f(x)=\bigoplus_{I\in\mathcal{P}(N)}a_Ix^I$, 
+  \begin{equation}
+    \forall I \in \mathcal{P}(N) \ \ a_I=\bigoplus_{supp(y)\subseteq I}f(y)
+  \end{equation}
+\end{theorem}
 
-\par Recognizing this association with the number of terms and which ones drop off as
-$i$ increases for the standard boolean functions the following formula should now be clear.
 
-\begin{equation}
-  f(x_n,\cdots,x_1)=\bigoplus_{u\in\fff_2^n}a_u\lgroup\prod_{j=1}^nx_j^{u_j}\rgroup.
-\end{equation}
-  
-
-%\section{The Ring of $N$-adic Integers}
-%\par The notation used in the definition of the $N$-adic numbers will follow
-%the same notation used by Borevich and Shafarevich in Chapter 1 of
-%{\bf Number Theory}.
-%
-%\par In this section, the set of $N$-adic integers is shown to be a
-%commutative ring with an identity.
-%  
-%% Definition of N-adic integers
-%\begin{definition}
-%\label{def:N-adic}
-%  Let $N$ be an integer. Then the infinite integer sequence $\xn$
-%  determines a {\em $N$-adic integer} $\alpha$, or $\xn \rightarrow \alpha$, if
-%\begin{equation} \label{eq:seq}
-%  x_{i+1} \equiv x_i \pmod{N^{i+1}} \ \ \ \forall i \geq 0.
-%\end{equation}
-%  Two sequences $\xn$ and $\{x_n'\}$ determine the same $N$-adic integer
-%  if 
-%\begin{equation} \label{eq:equiv}
-%  x_i \equiv x_i' \pmod{N^{i+1}}\ \ \ \forall i \geq 0.
-%\end{equation}
-%  The {\em set of all $N$-adic integers} will be denoted by $\zzzn$.
-%\end{definition}
-%
-%\par Ordinary integers will be called {\em rational integers} and each
-%rational integer $x$ is associated with a $N$-adic integer, determined
-%by the sequence \{$x,\ x, \ \dots, \ x,\ \dots$\}.
-%	
-%% example of equivalent sequences in Zp
-%\begin{example} \label{ex:equiv-seq}
-%  Let $\xn \rightarrow \alpha \in \zzz_3$. Then the first 5 terms of
-%  $\xn$ may look something like:
-%  \begin{align*}
-%    \xn = \{&1 \ , \ 1+2\cdot3 \ , \ 1+2\cdot3+1\cdot3^2 \ , \\
-%    &1+2\cdot3+1\cdot3^2 \ , \ 1+2\cdot3+1\cdot3^2+1\cdot3^4 \ , \ \dots\} \\
-%        = \{&1,7,16,16,97,\dots\}
-%  \end{align*}
-%  Then equivalent sequences to $\xn$ could begin differently for the
-%  first few terms:
-%  \begin{align*}
-%    \yn &= \{4,25,16,178,583,\dots\} \\
-%    \zn &= \{-2,-47,232,-308,97,\dots\}
-%  \end{align*}
-%  The sequences for $\yn$ and $\zn$ satisfy equation (\ref{eq:seq})
-%  for the first 5 terms, so they could be $N$-adic integers up to this
-%  point. Also, both are equivalent to $\xn$ according to the
-%  equivalence defined in equation (\ref{eq:equiv}).
-%  \begin{align*}
-%    &1 \equiv 4 \equiv 2 \pmod 3 \\
-%    &7 \equiv 25 \equiv -47 \pmod{3^2} \\

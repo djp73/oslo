@@ -719,13 +719,30 @@ def boolean_fcn_synthesis(f, n, p):
     V = GF(p)**n
     return (1-p**(p**n))**(-1)*sum([int(f(V[j]))*p**j for j in range(p**n)])
 
-def ANF(BF,N):
-    bf=BF
-    if N==1:
-        return list(bf)
-    else:
-        for i in range(N/2-1):
-            bf[i+N/2]=bf[i]+bf[i+N/2]
-        ANF_coef=ANF(bf[0:N/2],N/2)+ANF(bf[N/2:N],N/2)
-        return list(ANF_coef)
+def ANF_coef(BF,N):
+	V=GF(2)^N
+	coef=V(BF)
+	if N==1: 
+		return list(coef)
+	for i in range(N/2):
+		coef[i+N/2]=coef[i]+coef[i+N/2]
+	coef_final=ANF_coef(list(coef[0:N/2]),N/2)+ANF_coef(list(coef[N/2:N]),N/2)
+	return coef_final
 
+def ANF(BF,N):
+	from sage.crypto.boolean_function import BooleanFunction
+	coef=ANF_coef(BF,N)
+	vars='x0'
+	for i in range(1,log(N,2)):
+		vars=vars+',x'+str(i)
+	R=BooleanPolynomialRing(log(N,2),vars)
+	x=R.gens()
+	poly=x[0]-x[0]
+	poly=BooleanFunction(poly)
+	for i in range(N):
+		n=ZZ(i).digits(base=2,padto=log(N,2))
+		next_term=BooleanFunction(coef[i]*x[0]^n[0])
+		for j in range(1,log(N,2)):
+			next_term=next_term*BooleanFunction(x[j]^n[j])
+		poly=poly+next_term
+	return poly
