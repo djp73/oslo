@@ -3,6 +3,7 @@
 % Packages
 \usepackage[T1]{fontenc}
 \usepackage[bookmarks]{hyperref}
+\usepackage{graphicx}
 \hypersetup{
 colorlinks,
 citecolor=black,
@@ -24,6 +25,7 @@ urlcolor=black
 \def\rrr{\mathbb{R}}
 \def\zzz{\mathbb{Z}}
 \def\fff{\mathbb{F}}
+\def\gftwo{\mathbb{F}_2}
 \def\zzzp{\mathbb{Z}_p}
 \def\zzzn{\mathbb{Z}_N}
 \def\zg{\mathbb{Z}_g}
@@ -47,18 +49,17 @@ urlcolor=black
 
 \theoremstyle{remark}
 \newtheorem{remark}{Remark}[section]
-%\includeonly{fcsr}
 \begin{document}
-\include{title}
-\include{abstract}
-\include{introduction}
-\include{n-adic-ring}
-\include{constructing-sequences}
-\include{completeness}
-\include{finite-state-machines}
-\include{fcsr}
-\include{xu}
-\include{bent-functions}
+\input{title}
+\input{abstract}
+\input{introduction}
+\input{n-adic-ring}
+\input{constructing-sequences}
+\input{completeness}
+\input{finite-state-machines}
+\input{fcsr}
+\input{xu}
+\input{bent-functions}
 
 \nocite{*}
 \bibliography{refs}{}
