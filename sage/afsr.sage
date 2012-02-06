@@ -13,7 +13,7 @@ AUTHORS:
 LICENSE:
    Modified BSD
 
-last modified 2012-01-11
+last modified 2012-02-06
 """
 
 def connection_element(Qs, p):
@@ -588,7 +588,7 @@ def walsh_transform(f, a):
     
     INPUT:
         s - a sequence of n elements in GF(2), represented as a list
-        k - an integer in the interval [0,n-1].
+        a - an element of GF(2)^n.
 
     EXAMPLES:
         sage: F = GF(2)
@@ -649,7 +649,6 @@ def bent_function_MM(x, M = identity_matrix(GF(2), int(len(x)/2)), g = lambda x:
     construction [1].
 
     INPUT:
-        n - an even integer >= 4
         x - an element of GF(2)^n
         M - an invertible n/2 x n/2 matrix over GF(2)
         g - a boolean function on GF(2)^(n/2)
@@ -659,8 +658,9 @@ def bent_function_MM(x, M = identity_matrix(GF(2), int(len(x)/2)), g = lambda x:
         sage: s = [bent_function_MM(x) for x in V]
         sage: s
         [0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0]
-        sage: [walsh_transform(s, k) for k in range(2^4)]
-        [4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4]
+        sage: b = lambda x: bent_function_MM(x)
+        sage: [walsh_transform(b, a) for a in V]
+        [4, 4, 4, 4, 4, -4, 4, -4, 4, 4, -4, -4, 4, -4, -4, 4]
         sage: V = GF(2)^8
         sage: M = GL(4, GF(2)).random_element(); M
         [0 0 1 1]
@@ -671,8 +671,9 @@ def bent_function_MM(x, M = identity_matrix(GF(2), int(len(x)/2)), g = lambda x:
         sage: s = [bent_function_MM(x, M, g) for x in V]
         sage: len(s)
         256
-        sage: [walsh_transform(s, k) for k in range(2^8)]
-        [16, ..., 16]
+        sage: b = lambda x: bent_function_MM(x, M, g)
+        sage: W = [walsh_transform(b, a) for a in V]
+        #list of \pm 16 of length 256
 
     REFERENCES:
         [1] C. Carlet, "Boolean Functions for Cryptography and 
@@ -687,6 +688,42 @@ def bent_function_MM(x, M = identity_matrix(GF(2), int(len(x)/2)), g = lambda x:
     v1 = V([x[i] for i in range(m)])
     v2 = V([x[i] for i in range(m,n)])
     return v1*M*v2+g(v2)
+
+def bent_function_rothaus(x, g = lambda x: GF(2)(0)):
+    """
+    This function returns the value of a bent function at x.
+    The bent function is constructed using the Rothaus 
+    construction [1]. (This construction was generalized by
+    the Maiorana-McFarland construction.
+
+    INPUT:
+        x - an element of GF(2)^n
+        g - a boolean function on GF(2)^(n/2)
+
+    EXAMPLES:
+        sage: V = GF(2)^4
+        sage: s = [bent_function_rothaus(x) for x in V]
+        sage: s
+        [0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0]
+        sage: b = lambda x: bent_function_rothaus(x)
+        sage: [walsh_transform(b, a) for a in V]
+        [4, 4, 4, 4, 4, -4, 4, -4, 4, 4, -4, -4, 4, -4, -4, 4]
+
+    REFERENCES:
+        [1] O. S. Rothaus: On "Bent" Functions. 
+            J. Comb. Theory, Ser. A 20 (1976) 300-305
+
+    """
+    n = x.degree()
+    if n<1 or n%2 <> 0:
+        raise ValueError("%s must be a positive even integer"%n)
+    m = int(n/2)
+    V = GF(2)^m
+    v1 = V([x[i] for i in range(m)])
+    v2 = V([x[i] for i in range(m,n)])
+    M = identity_matrix(GF(2), m)
+    return v1*M*v2+g(v1)
+
 
 ###################################################
 
@@ -718,31 +755,3 @@ def boolean_fcn_synthesis(f, n, p):
     F = GF(p)
     V = GF(p)**n
     return (1-p**(p**n))**(-1)*sum([int(f(V[j]))*p**j for j in range(p**n)])
-
-def ANF_coef(BF,N):
-	V=GF(2)^N
-	coef=V(BF)
-	if N==1: 
-		return list(coef)
-	for i in range(N/2):
-		coef[i+N/2]=coef[i]+coef[i+N/2]
-	coef_final=ANF_coef(list(coef[0:N/2]),N/2)+ANF_coef(list(coef[N/2:N]),N/2)
-	return coef_final
-
-def ANF(BF,N):
-	from sage.crypto.boolean_function import BooleanFunction
-	coef=ANF_coef(BF,N)
-	vars='x0'
-	for i in range(1,log(N,2)):
-		vars=vars+',x'+str(i)
-	R=BooleanPolynomialRing(log(N,2),vars)
-	x=R.gens()
-	poly=x[0]-x[0]
-	poly=BooleanFunction(poly)
-	for i in range(N):
-		n=ZZ(i).digits(base=2,padto=log(N,2))
-		next_term=BooleanFunction(coef[i]*x[0]^n[0])
-		for j in range(1,log(N,2)):
-			next_term=next_term*BooleanFunction(x[j]^n[j])
-		poly=poly+next_term
-	return poly
