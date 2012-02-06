@@ -1,7 +1,38 @@
-\section{Bent Functions}
-\par A bent function is a special type of boolean function. It is sometimes
-called a perfectly non-linear function. Before introducing a bent function
-a boolean function is defined.
+\section{Boolean Functions}
+\par This section will establish the definition of a Boolean function and introduce
+a few different tools used to measure properties of these functions. First, the
+finite field with two elements, denoted $\gftwo$, is defined. The definitions and
+notations will follow those found in \cite{cs_crypto-boolean-functions}.
+
+% Definition of the finited field GF(2)
+\begin{definition}
+\label{def:GF(2)}
+	$\gftwo = \{0,1\}$ with addition and multiplication defined as follows
+	\begin{align*}
+		0\oplus0&:=0\\
+		0\oplus1&:=1\\
+		1\oplus0&:=1\\
+		1\oplus1&:=0\\
+		0\cdot0&:=0\\
+		0\cdot1&:=0\\
+		1\cdot0&:=0\\
+		1\cdot1&:=1\\
+	\end{align*}
+\end{definition}
+
+\par It is clear that $\{\gftwo,\oplus,\cdot\}$ is a commutative ring with an identity.
+Additionally, the only non-zero element $1$ is it's own inverse. Therefore $\{\gftwo,\oplus,\cdot\}$
+is a finite field. Now consider the vector space $\gftwo^n$.
+
+\begin{definition}
+\label{def:GF(2)^n}
+$\gftwo^n = \{(a_0,\cdots,a_{n-1}) | a_i \in \gftwo\}$ is the vector space of dimension $n$
+over the finite field $\gftwo$ with scalar product
+${\bf a}\cdot{\bf b} = a_0b_0\oplus\cdots\oplus a_{n-1}b_{n-1}$.
+\end{definition}
+
+
+
 
 % Definition of a Boolean Function
 \begin{definition}
@@ -14,7 +45,7 @@ a boolean function is defined.
 \end{definition}
 
 \par Oftentimes the codomain of a boolean function represents values of true
-and false for use in logic circuits. The number of boolean functions increases
+and false. The number of boolean functions increases
 extremely rapidly as the number of variables increases.
 
 \begin{equation}
