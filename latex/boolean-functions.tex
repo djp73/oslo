@@ -31,11 +31,12 @@ is a finite field. The $n$-dimensional vector space over $\gftwo$ will be denote
 with the usual inner product. Components of these vectors, the individual 1s and 0s, will
 be known as {\em bits}.
 
-\begin{remark}
+\begin{definition}
+\label{def:GF(2)^n-bos}
 	Let $x,y\in\gftwo^n$ where $x=(x_0,\cdots,x_{n-1})$ and $y=(y_0,\cdots,y_{n-1})$.
-	Then $x+y=(x_0\oplus y_0,\cdots,x_{n-1}\oplus y_{n-1})$ and 
-	$x\cdot y=x_0\cdot y_0 \oplus \cdots \oplus x_{n-1}\cdot y_{n-1}$. \\ \\
-\end{remark}
+	$x+y\equiv(x_0\oplus y_0,\cdots,x_{n-1}\oplus y_{n-1})$ and 
+	$x\cdot y\equiv x_0\cdot y_0 \oplus \cdots \oplus x_{n-1}\cdot y_{n-1}$.
+\end{definition}
 
 \begin{example}
 	Let $a,b\in\gftwo^3$ such that $a=(1,0,1)$ and $b=(0,1,1)$ then
@@ -45,33 +46,56 @@ be known as {\em bits}.
 	\end{align*}
 \end{example}
 
-\par Typically the vectors in $\gftwo^n$ are listed in {\em lexicographic order} based on
-the binary number associated to them as defined by the following function:
-
+\par Each vector in $\gftwo^n$ can be uniquely represented by an integer between
+$0$ and $2^{n-1}$. The binary representation function $B$ is one-to-one.
 \begin{equation}
 	B:\gftwo^n\rightarrow\nnn\cup\{0\} {\rm such\ that } B(u)\equiv \sum_{i=0}^{n-1}u_i\cdot2^i.
 \end{equation}
 
 \par This definition of $B$ has created the convention where the {\em low bit} or
 {\em least significant bit} appears on the left and the {\em high bit} or {\em most significant bit}
-appears on the right.
+appears on the right. Another property of vectors in $\gftwo^n$ is what is called the {\em hamming\ weight}
+of each vector.
 
 \begin{definition}
-\label{def:lex-order}
-	Let $v_i\in\gftwo^n$ such that $B(v_i)=i$. Then the sequence
-	\[
-		(v_0,\dots,v_i,\dots,v_{2^n-1})
-	\]
-	is in {\em lexicographic order}.
+\label{def:hamming}
+	Let $u,v\in\gftwo^n$ such that $u=(u_0,\cdots,u_{n-1})$ and $v=(v_0,\cdots,v_{n-1})$.
+	Then $wt:\gftwo^n\rightarrow\nnn\cup\{0\}$ is defined by $wt(u):=\sum_{i=0}^{n-1}u_i$,
+	and $d:\gftwo^n\times\gftwo^n\rightarrow\nnn\cup\{0\}$ is defined by $d(u,v):=w(u+v)$.
+	Then $wt(u)$ is the {\em Hamming\ weight} of $u$ and $d(u,v)$ is the {\em Hamming\ distance}
+	between $u$ and $v$.
 \end{definition}
 
-\par Using the convention of lexicographic ordering and the inner product in $\gftwo^n$, a
+\begin{remark}
+	The Hamming weight of a vector $u\in\gftwo^n$ is the number of 1s in the vector, and the
+	Hamming distance between two vectors $u,v\in\gftwo^n$ is the number of bit differences
+	between the two vectors.
+\end{remark}
+
+\begin{example}
+	Let $a,b,c\in\gftwo^5$.
+	\begin{align*}
+		a=(0,1,1,0,1) &\Rightarrow wt(a)=3 \\
+		b=(1,1,1,0,0) &\Rightarrow wt(b)=3 \\
+		c=(0,0,1,1,0) &\Rightarrow wt(c)=2 \\
+		\\
+		d(a,b)=2\\
+		d(a,c)=3\\
+		d(b,c)=3\\
+	\end{align*}
+\end{example}
+	
+\par Consider the sequence $(v_0,v_1,\cdots,v_{2^n-1})$ where $B(v_i)=i$. This sequences
+is said to be in {\em lexicographical order}.
+
+\par Using the convention of lexicographical ordering and the inner product in $\gftwo^n$, a
 matrix can be written which captures all of the possible inner products of two vectors in
 $\gftwo^n$. This is a matrix where $u_i\cdot v_j$ appears in the $i$th row and $j$th column.
 This particular matrix turns out to be a {\em Hadamard matrix} which will be studied later.
 
-\par There is an important orthogonality principle to be considered in $\gftwo^n$. This is that
-every non-zero vector in $\gftwo^n$ is orthogonal to exactly half of the vectors in the vectorspace.
+\par To complete this brief discussion about the vectors in $\gftwo^n$ is the
+{\em orthogonality principle} that every non-zero vector in $\gftwo^n$ is orthogonal to
+exactly half of the vectors in the vectorspace.
 
 \begin{theorem}
 	\label{thm:orthogonality-principle}
@@ -97,14 +121,19 @@ every non-zero vector in $\gftwo^n$ is orthogonal to exactly half of the vectors
 	$\sum_{v\in\gftwo^n}(-1)^{u\cdot v}=0$.
 \end{proof}
 
+\par When introduced to a new vector field, it is natural to begin looking at functions in
+that field. The particular function of interest here will be what is known as a {\em Boolean function}.
+
 % Definition of a Boolean Function
 \begin{definition}
 \label{def:boolean-function}
-  Any function $\mathcal{BF}$ defined such that 
+  Any function $f$ defined such that 
   \begin{equation}
-    \mathcal{BF}:\gftwo^n\rightarrow\gftwo
+    f:\gftwo^n\rightarrow\gftwo
   \end{equation}
-  is a {\em boolean function}.
+  is a {\em boolean function}.\\
+	\\
+	The set of all Boolean function on $n$ variables will be denoted by $\mathcal{BF}_n$
 \end{definition}
 
 \par Boolean functions have been studied extensively, and there are various properties that
