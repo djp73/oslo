@@ -1,42 +1,34 @@
 \section{Boolean Functions}
-\par This section will establish the definition of a Boolean function and introduce
+\par This section will establish the definition of a {\em Boolean function} and introduce
 a few different tools used to measure properties of these functions. First, the
 finite field with two elements, denoted $\gftwo$, is defined. The definitions and
 notations will follow those found in \cite{bk:cs09}.
 
 % Definition of the finited field GF(2)
-\begin{definition}
-\label{def:GF(2)}
-	$(\gftwo,\oplus,\cdot)$ is the set $\{0,1\}$ with defined binary operations $\oplus$ and $\cdot$, also
-	commonly referred to as the {\em XOR} and {\em AND} operators, respectively.
-	\begin{table}[h!]\label{table:GF(2)}
-		\centering
-		\begin{tabular}{|c|c|}
-			\hline
-			XOR&AND\\
-			\hline
-			$0\oplus0:=0$&$0\cdot0:=0$\\
-			$0\oplus1:=1$&$0\cdot1:=0$\\
-			$1\oplus0:=1$&$1\cdot0:=0$\\
-			$1\oplus1:=0$&$1\cdot1:=1$\\
-			\hline
-		\end{tabular}
-		\caption{Binary Operations for $\gftwo$}
-	\end{table}
-\end{definition}
-
-\par It is clear that $(\gftwo,\oplus,\cdot)$ is a commutative ring with an identity.
-Additionally, the only non-zero element $1$ is it's own inverse. Therefore $(\gftwo,\oplus,\cdot)$
-is a finite field. The $n$-dimensional vector space over $\gftwo$ will be denoted by $\gftwo^n$,
-with the usual inner product. Components of these vectors, the individual 1s and 0s, will
-be known as {\em bits}.
-
-\begin{definition}
-\label{def:GF(2)^n-bos}
-	Let $x,y\in\gftwo^n$ where $x=(x_0,\cdots,x_{n-1})$ and $y=(y_0,\cdots,y_{n-1})$.
-	$x+y\equiv(x_0\oplus y_0,\cdots,x_{n-1}\oplus y_{n-1})$ and 
-	$x\cdot y\equiv x_0\cdot y_0 \oplus \cdots \oplus x_{n-1}\cdot y_{n-1}$.
-\end{definition}
+\par The two element field $(\gftwo,\oplus,\cdot)$ is the set $\{0,1\}$ with defined binary
+operations $\oplus$ and $\cdot$, also commonly referred to as the {\em XOR} and
+{\em AND} operators, respectively.
+\begin{table}[h!]\label{table:GF(2)}
+	\centering
+	\begin{tabular}{|c|c|}
+		\hline
+		XOR&AND\\
+		\hline
+		$0\oplus0:=0$&$0\cdot0:=0$\\
+		$0\oplus1:=1$&$0\cdot1:=0$\\
+		$1\oplus0:=1$&$1\cdot0:=0$\\
+		$1\oplus1:=0$&$1\cdot1:=1$\\
+		\hline
+	\end{tabular}
+	\caption{Binary Operations for $\gftwo$}
+\end{table}
+\par It should be clear that $(\gftwo,\oplus,\cdot)$ is a commutative ring with an
+identity. Additionally, the only non-zero element $1$ is it's own inverse. Therefore
+$(\gftwo,\oplus,\cdot)$ is a finite field. The $n$-dimensional vector space over $\gftwo$
+will be denoted by $\gftwo^n$, with the usual inner product. Components of these vectors,
+the individual 1s and 0s, will be known as {\em bits}. For two vectors $x,y\in\gftwo^n$
+where $x=(x_0,\cdots,x_{n-1})$ and $y=(y_0,\cdots,y_{n-1})$, the scalar product in
+$\gftwo^n$ will be defined as $x\cdot y\equiv x_0\cdot y_0 \oplus \cdots \oplus x_{n-1}\cdot y_{n-1}$.
 
 \begin{example}
 	Let $a,b\in\gftwo^3$ such that $a=(1,0,1)$ and $b=(0,1,1)$ then
@@ -49,21 +41,26 @@ be known as {\em bits}.
 \par Each vector in $\gftwo^n$ can be uniquely represented by an integer between
 $0$ and $2^{n-1}$. The binary representation function $B$ is one-to-one.
 \begin{equation}
-	B:\gftwo^n\rightarrow\nnn\cup\{0\} {\rm such\ that } B(u)\equiv \sum_{i=0}^{n-1}u_i\cdot2^i.
+	B:\gftwo^n\rightarrow\nnn\cup\{0\}\ {\rm such\ that }\ B(u)\equiv \sum_{i=0}^{n-1}u_i\cdot2^i.
 \end{equation}
 
 \par This definition of $B$ has created the convention where the {\em low bit} or
 {\em least significant bit} appears on the left and the {\em high bit} or {\em most significant bit}
-appears on the right. Another property of vectors in $\gftwo^n$ is what is called the {\em hamming\ weight}
-of each vector.
+appears on the right. There is another notable function which counts the number of 1s in each
+vector.
 
 \begin{definition}
-\label{def:hamming}
-	Let $u,v\in\gftwo^n$ such that $u=(u_0,\cdots,u_{n-1})$ and $v=(v_0,\cdots,v_{n-1})$.
-	Then $wt:\gftwo^n\rightarrow\nnn\cup\{0\}$ is defined by $wt(u):=\sum_{i=0}^{n-1}u_i$,
-	and $d:\gftwo^n\times\gftwo^n\rightarrow\nnn\cup\{0\}$ is defined by $d(u,v):=w(u+v)$.
-	Then $wt(u)$ is the {\em Hamming\ weight} of $u$ and $d(u,v)$ is the {\em Hamming\ distance}
-	between $u$ and $v$.
+\label{def:Hamming}
+	Let $u,v\in\gftwo^n$. Then $wt:\gftwo^n\rightarrow\nnn\cup\{0\}$ is defined by
+	\[
+	  wt(u):=\sum_{i=0}^{n-1}u_i
+	\]
+	and $d:\gftwo^n\times\gftwo^n\rightarrow\nnn\cup\{0\}$ is defined by
+	\[
+	  d(u,v):=w(u+v).
+	\]
+	Then $wt(u)$ is the {\em Hamming\ weight} of $u$ and $d(u,v)$ is the
+	{\em Hamming\ distance} between $u$ and $v$.
 \end{definition}
 
 \begin{remark}
@@ -73,15 +70,15 @@ of each vector.
 \end{remark}
 
 \begin{example}
-	Let $a,b,c\in\gftwo^5$.
+	Let $a,b,c\in\gftwo^5$ such that
+	\[
+	a=(0,1,1,0,1),\ b=(1,1,1,0,0),\ {\rm and}\ c=(0,0,1,1,0)
+	\]
+	Then,
 	\begin{align*}
-		a=(0,1,1,0,1) &\Rightarrow wt(a)=3 \\
-		b=(1,1,1,0,0) &\Rightarrow wt(b)=3 \\
-		c=(0,0,1,1,0) &\Rightarrow wt(c)=2 \\
-		\\
-		d(a,b)=2\\
-		d(a,c)=3\\
-		d(b,c)=3\\
+		wt(a)=3 &\hspace{5mm} d(a,b)=2\\
+		wt(b)=3 &\hspace{5mm} d(a,c)=3\\
+		wt(c)=2 &\hspace{5mm} d(b,c)=3.\\
 	\end{align*}
 \end{example}
 	
