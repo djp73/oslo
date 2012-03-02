@@ -1,1 +1,83 @@
 \section{Bent Functions}
+\par Bent functions were originally defined in a paper by Rothaus in the Journal
+of Combinatorial Theory in 1976 \cite{art:r76}. These functions are useful for
+cryptographic applications because they are {\em perfectly\ nonlinear} which
+makes them resistant to differential attacks. The original defintion of the
+{\em bent\ function} is presented.
+
+\par First, the discrete Fourier transform should be understood.
+
+% Insert discussion about DFTs
+
+% Insert discussion about Hadammard matrices
+
+\par If $f(x)\in\BF_n$, so $(-1)^{f(x)}$ is well defined, then by the
+theory of discrete fourier transforms
+\begin{equation}\label{eqn:DFT}
+  (-1)^{f(x)}=\frac{1}{2^{n/2}}\sum_{\lambda\in\gftwo^n}c(\lambda)(-1)^{\lambda\cdot x}
+\end{equation}
+Where the $c(\lambda)$, the {\em Fourier\ coefficients} of $(-1)^{f(x)}$ are given by
+\[
+  c(\lambda)=\frac{1}{2^{n/2}}\sum_{x\in\gftwo^n}(-1)^{f(x)}(-1)^{\lambda\cdot x}.
+\]
+As observed by Rothaus, $2^{n/2}c(\lambda)$ is the number of zeros minus the number
+of ones of the function $f(x)+\lambda\cdot x$. It is clear that when there are more
+zeros than ones $c(\lambda)>0$ and when there are more ones than zeros $c(\lambda)<0$.
+Counting the number of zeros in $f(x)$ is also easily seen. Consider the zero Fourier
+coefficient $c(0)$:
+\begin{align*}
+	c(0)&=\frac{1}{2^{n/2}}\sum_{x\in\gftwo^n}(-1)^{f(x)}\\
+	&=\frac{1}{2^{n/2}}{\rm \ number\ of\ zeros\ of\ }f(x)-{\rm \ number\ of \ ones\ of \ }f(x).
+\end{align*}
+Since $2^n=\ $ number of zeros of $f(x)+$ number of ones of $f(x)$,
+\begin{align*}
+	{\rm number\ of\ zeros\ of\ }f(x)&=\frac{2^{n/2}c(0)+2^n}{2}\\
+	                                 &=2^{n/2-1}c(0)+2^{n-1}.
+\end{align*}
+
+\begin{definition}\label{def:bent-function}
+  If all of the Fourier coefficients of $(-1)^{f(x)}$ are $\pm1$ then
+  $f(x)$ is a {\em bent\ function}.
+\end{definition}
+
+\par There are two immediate observations for any bent function $f(x)$ on $\gftwo^n$.
+First, $n$ must be even because $2^{n/2}c(\lambda)$ is an integer. Second, the Hamming
+weight of $f(x)$ equals $2^{n-1}\pm2^{n/2-1}c(0)$. There also is a bound on the degree
+of the polynomial of $f(x)$ proved by Rothaus. The theorem and proof are presented here.
+
+\begin{theorem}\label{thm:deg-of-bent-function}
+	If $f(x)$ is a bent function on $\gftwo^n$, then $n$ is even, $n=2k$;
+	the degree of $f(x)$ is at most $k$, except in the case $k=1$.
+\end{theorem}
+\begin{proof}
+\par That $n$ is even has already been observed.
+\par Let $n=2k$ with $k>1$, and let $r>k$. Consider the polynomial
+$f(x_1,x_2,\dots,x_r,0,0,\dots,0)=g(x_1,x_2,\dots,x_r)$. Then by equation \ref{eqn:DFT},
+\[
+	(-1)^{g(x)}=\frac{1}{2^{r/2}}\sum_{\lambda_1,\lambda_2,\dots,\lambda_r=0,1}b(\lambda_1,\dots,\lambda_r)(-1)^{\lambda_1x_1+\dots+\lambda_rx_r}
+\]
+and
+\[
+	(-1)^{f(x)}=\frac{1}{2^{n/2}}\sum_{\lambda_1,\lambda_2,\dots,\lambda_n=0,1}c(\lambda_1,\dots,\lambda_n)(-1)^{\lambda_1x_1+\dots+\lambda_rx_r}.
+\]
+Because $f(x)=g(x)$ and the uniqueness of the Fourier expansion, $b$ and $c$ are related such that
+\[
+b(\lambda_1,\dots,\lambda_r)=\frac{1}{2^{(n-r)/2}}\sum_{\lambda_{r+1},\dots,\lamda_n=0,1}c(\lambda_1,\dots,\lamda_r,\lamda_{r+1},\dots,\lamda_n).
+\]
+Each $b(\lambda_1,\dots,\lambda_r)$ is a sum of $c(\lambda_1,\dots,\lambda_n)$'s in this way.
+\par The number of zeros of $g(x_1,\dots,x_r)=f(x_1,\dots,x_r,0,0,\dots,0)$ equals
+$2^{r-1}+
+
+% Talk about some different properties associated with the bent functions
+%  -weight is 2^(n/2)\pm2^(n\2-1)
+
+\par A simple bent function construction is accomplished by the Boolean functions
+in the {\em Maiorana-McFarland\ class}. This is the the set $\mathcal{M}$ which
+contains all Boolean function on $\gftwo^n=\{(x,y):x,y\in\gftwo^n\}$, of the form:
+  \[
+  f(x,y)=x\cdot\pi(y)\oplus g(y)
+  \]
+where $\pi$ is any permutation on $\gftwo^{n/2}$ and $g$ any Boolean function on
+$\gftwo^{n/2}$.
+
+\par All function in the Maiorana-McFarland class of Boolean functions are bent.

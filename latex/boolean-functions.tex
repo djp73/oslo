@@ -158,8 +158,8 @@ For eight variables, there are more Boolean functions than there are atoms in th
 universe (~$10^{80}$).
 
 \par Here is an example of a Boolean function presented in a {\em truth\ table}.
-\begin{figure}
-\label{fig:truth-table}
+\begin{table}
+\label{tab:truth-table}
 	\centering
   \begin{tabular}{|c|c|c|c|c|}
     \hline
@@ -184,7 +184,7 @@ universe (~$10^{80}$).
   	\hline
 	\end{tabular}
 	\caption{Truth Table of $f$}
-\end{figure}
+\end{table}
 \par The Hamming weight of $f$ is the number of 1s that $f$ has when evaluated
 at every point in the $\gftwo^n$. Formally, this can be written
 \[
@@ -228,7 +228,7 @@ $f$ defined in Figure \ref{fig:truth-table} can be written as a linear combinati
 of the atomic Boolean functions in $\mathcal{BF}_4$. Since the coefficients in the
 linear combinations are either 0 or 1, it is true that every Boolean function can be
 written as the sum of $wt(f)$ atomic Boolean functions.
-\begin{figure}[h!]\label{fig:atomic-f}
+\begin{table}[h!]\label{tab:atomic-f}
 	\centering
   \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
     \hline
@@ -253,7 +253,7 @@ written as the sum of $wt(f)$ atomic Boolean functions.
   	\hline
 	\end{tabular}
 	\caption{$f$ broken into atomic Boolean function in $\mathcal{BF}_4$}
-\end{figure}
+\end{table}
 \par From Figure \ref{fig:atomic-f} the following equation should be clear:
 \[
 f=f_1+f_2+f_4+f_6+f_{10}+f_{14}+f_{15}.
