@@ -212,14 +212,13 @@ $\mathcal{BF}_n$.
 	e_{2^n-1}&=(0,\dots,0,1).
 \end{align*}
 
-\par Every vector of $\gftwo^{2^n}$ can be written as a linear combination of these
-basis vectors. Equivalently, every Boolean function is a linear combination of the
-inverse maps of the basis vectors under $V$. Let $u\in\gftwo^{2^n}$ and define
-$f=V^{-1}(u)$ and $f_i=V^{-1}(e_i)$. Then there exist a set of $c_i\in\gftwo$ such that
+\par Every vector of $\gftwo^{2^n}$ can be written as a linear combination of the
+standard basis vectors. Therefore, every Boolean function is a linear combination of
+atomic Boolean functions defined by $f_i=V^{-1}(e_i)$. Then there exist a set of
+$c_i\in\gftwo$ such that
 \begin{align*}
-						  u        &=c_0e_0\oplus\cdots\oplus c_{2^n-1}e_{2^n-1} \\
-	\Rightarrow V^{-1}(u)&=c_0V^{-1}(e_0)\oplus\cdots\oplus c_{2^n-1}V^{-1}(e_{2^n-1}) \\
-	\Rightarrow f        &=c_0f_0\oplus\cdots\oplus c_{2^n-1}f_{2^n-1}.\\
+	u  &=c_0e_0\oplus\cdots\oplus c_{2^n-1}e_{2^n-1} \\
+	\LeftRightarrow f &=c_0f_0\oplus\cdots\oplus c_{2^n-1}f_{2^n-1}.\\
 \end{align*}
 
 \par The Boolean fucntions $f_i=V^{-1}(e_i)$ are alled {\em atomic Boolean functions}
@@ -260,12 +259,12 @@ f=f_1+f_2+f_4+f_6+f_{10}+f_{14}+f_{15}.
 \]
 
 \par So far, there has been no discussion about the $n$-variable polynomical
-representation of a Boolean function. It however should be clear now that
+representation of a Boolean function. It is clear now that
 if we can write the atomic Boolean functions as polynomials, then the
-rest of the Boolean functions should follow. Though, it is not immediately
-obvious how to write the each atomic Boolean function as a polynomial in
+rest of the Boolean functions should follow. It is not obvious how
+to write the each atomic Boolean function as a polynomial in
 $\gftwo[x_0,\cdots,x_{n-1}]/\allowbreak(x_0^2\oplus\allowbreak x_1,\cdots,x_{n-1}^2\oplus\allowbreak x_{n-1})$.
-
+The explanation is presented here.
 \par First, observe that $wt(f_i)$ always equals 1. Thus
 \begin{align*}
 	f_i(u)&=1\hspace{5mm}u=B^{-1}(i) \\
@@ -276,7 +275,9 @@ It follows that
 	f_i=\bigg(\prod_{j\in supp(f_i)}x_j\bigg)\bigg(\prod_{j\not\in supp(f_i)}(1\oplus x_j)\bigg).
 \end{equation}
 Equation \ref{eqn:atomic-ANF} equals 1 at the vector $B^{-1}(i)$ and zero
-everywhere else. Continuing the example with the the function $f$ will make
+everywhere else.
+
+\par Continuing the example with the the function $f$ will make
 this more apparent. The atomic functions which $f$ is the sum of are written
 as polynomials below:
 
@@ -298,9 +299,12 @@ as polynomials below:
 	x_1x_2\oplus x_1\oplus x_2x_3 \oplus x_2.
 \]
 
-\par All of the $n$-variable atomic Boolean functions are linearly independent and
-act as a basis for $\mathcal{BF}_n$. It follows that each $n$-variable Boolean
-function is uniquely represeneted as a polynomial with coefficients in $\gftwo$:
-\[
-f(x)=\sum_{I\in\mathcal{P}(N)}a_I\bigg(\prod_{i\in I}x_i\bigg).
-\]
+\par Now the uniqueness of the polynomial representation for each Boolean function
+is considered. To show this, Carlet uses the linear independence of the monomials.
+
+\begin{theorem}
+Each $n$-variable Boolean function is uniquely represeneted as a polynomial with coefficients in $\gftwo$:
+\begin{equation}\label{eqn:ANF}
+	f(x)=\sum_{I\in\mathcal{P}(N)}a_I\bigg(\prod_{i\in I}x_i\bigg).
+\end{equation}
+\end{theorem}

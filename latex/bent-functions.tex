@@ -19,28 +19,27 @@ on $\gftwo^n$ and for that we need the characters of $\gftwo^n$.
 
 \begin{definition}\cite{bk:t99}
 	A {\em character} $\chi$ of a finite abelian group $G$ is a group homomorphism
-	from $G$ into the multiplicative group $\{e^{frac{2\pi\imath k}{\lvert G \rvert}}:k\in\zzz\}$
+	from $G$ into the multiplicative group $\{e^{\frac{2\pi\imath k}{\lvert G \rvert}}:k\in\zzz\}$
 	of complex number of norm 1.
 \end{definition}
 
 For the purposes of this paper, it should be clear that $(-1)^{\lambda\cdot x}$ for
 $\lambda,x\in\gftwo^n$ is a {\em group\ character} of $\gftwo^n$ for each $\lambda\in\gftwo^n$.
-Define the {\em dual\ group} $\hat{\gftwo^n}$ to be the set of all character of $G$. The group
+Define the {\em dual\ group} $\hat{\gftwo^n}$ to be the set of all characters of $G$. The group
 operation in $\hat{\gftwo^n}$ is pointwise multiplication of functions. This means that
 \[
 \hat{\gftwo^n}=\{\chi\in\gftwo^n:\chi\ {\rm is\ a\ character\ of\ \gftwo^n}\},
 \]
-with $\chi\psi(x)=\chi(x)\psi(x)$, for all $x\in\gftwo^n$.
-\par By identifying each $\lambda$ with $(-1)^{\lambda\cdot x}$, it is easily seen that $\gftwo^n$
-is a subgroup of $\hat{\gftwo^n}$. Indeed,
-\[
-(-1)^{(\lambda_1+\lambda_2)\cdot x}=(-1)^{\lambda_1\cdot x}(-1)^{\lambda_2\cdot x}.
-\]
+with $\chi\psi(x)=\chi(x)\psi(x)$, for all $x\in\gftwo^n$, is closed under multiplication.
+
 \par The isomorphism $\gftwo^n\cong\hat{\gftwo^n}$ is shown by constructing a one-to-one
 and onto mapping $\Upsilon:\gftwo^n\rightarrow\hat{\gftwo^n}$ where
 $\Upsilon(\lambda)=(-1)^{\lambda\cdot x}$.
 
 \begin{proof}
+	Every character in $\hat{\gftwo^n}$ corresponds to an element of $\gftwo^n$. Thus,
+	$\lvert\hat{\gftwo^n}\rvert=2^n=\lvert\gftwo^n\rvert$. If $\Upsilon$ is one-to-one, then
+	it must be an isomorphism.\\
 	Let $\Upsilon(\lambda_1)=\Upsilon(\lambda_2)$. Then
 	\begin{align*}
 		(-1)^{\lambda_1\cdot x}&=(-1)^{\lambda_2\cdot x}\\
@@ -49,14 +48,15 @@ $\Upsilon(\lambda)=(-1)^{\lambda\cdot x}$.
 	\end{align*}
 	Thus, $(\lambda_1+\lambda_2)\cdot x=0$ for all $x\in\gftwo^n$, which implies
 	$\lambda_1+\lambda_2=0\Rightarrow\lambda_1=\lambda_2$. Therefore, $\Upsilon$ is
-	one-to-one.\\
-	\\
-	Add part of $\Upsilon$ being onto\ldots
-	\\
-	Finally, $\gftwo^n\cong\hat{\gftwo^n}$.
+	one-to-one.
 \end{proof}
 
-	
+\par Multiplication on $\hat{\gftwo^n}$ corresponds to addition on $\gftwo^n$. Let
+$\Chi_1(x)=(-1)^{\lambda_1\cdot x}$ and $\Chi_2(x)=(-1)^{\lambda_2\cdot x}$ and define
+\Chi_1\Chi_2(x)=(-1)^{(\lambda_1+\lambda_2)\cdot x}. Then,
+\[
+\Chi_1(x)\Chi_2(x)=(-1)^{\lambda_1\cdot x}(-1)^{\lambda_2\cdot x}=(-1)^{(\lambda_1+\lambda_2)\cdot x}=\Chi_1\Chi_2(x).
+\]
 
 
 
