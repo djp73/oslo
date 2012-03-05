@@ -7,12 +7,62 @@ makes them resistant to differential attacks. The original defintion of the
 
 \par First, the discrete Fourier transform should be understood.
 
-% Insert discussion about DFTs
+\par The Fourier transform of a function has many applications in signals analysis.
+The idea is to express a given signal as a function of frequency to reveal the dominant
+frequencies in the signal. Today, digital signals have taken over analog. This fact has
+made the discrete Fourier transform much more applicaple to modern communication
+systems. The DFTs of $n$-variable pseudo Boolean functions are studied here.
 
-% Insert discussion about Hadammard matrices
+\par The following discussion on DFTs will follow \cite{bk:t99}. The domain of all
+$n$-variable pseudo Boolean functions is $\gftwo^n$. The goal is to find a Fourier transform
+on $\gftwo^n$ and for that we need the characters of $\gftwo^n$.
+
+\begin{definition}\cite{bk:t99}
+	A {\em character} $\chi$ of a finite abelian group $G$ is a group homomorphism
+	from $G$ into the multiplicative group $\{e^{frac{2\pi\imath k}{\lvert G \rvert}}:k\in\zzz\}$
+	of complex number of norm 1.
+\end{definition}
+
+For the purposes of this paper, it should be clear that $(-1)^{\lambda\cdot x}$ for
+$\lambda,x\in\gftwo^n$ is a {\em group\ character} of $\gftwo^n$ for each $\lambda\in\gftwo^n$.
+Define the {\em dual\ group} $\hat{\gftwo^n}$ to be the set of all character of $G$. The group
+operation in $\hat{\gftwo^n}$ is pointwise multiplication of functions. This means that
+\[
+\hat{\gftwo^n}=\{\chi\in\gftwo^n:\chi\ {\rm is\ a\ character\ of\ \gftwo^n}\},
+\]
+with $\chi\psi(x)=\chi(x)\psi(x)$, for all $x\in\gftwo^n$.
+\par By identifying each $\lambda$ with $(-1)^{\lambda\cdot x}$, it is easily seen that $\gftwo^n$
+is a subgroup of $\hat{\gftwo^n}$. Indeed,
+\[
+(-1)^{(\lambda_1+\lambda_2)\cdot x}=(-1)^{\lambda_1\cdot x}(-1)^{\lambda_2\cdot x}.
+\]
+\par The isomorphism $\gftwo^n\cong\hat{\gftwo^n}$ is shown by constructing a one-to-one
+and onto mapping $\Upsilon:\gftwo^n\rightarrow\hat{\gftwo^n}$ where
+$\Upsilon(\lambda)=(-1)^{\lambda\cdot x}$.
+
+\begin{proof}
+	Let $\Upsilon(\lambda_1)=\Upsilon(\lambda_2)$. Then
+	\begin{align*}
+		(-1)^{\lambda_1\cdot x}&=(-1)^{\lambda_2\cdot x}\\
+		                       &=(-1)^{(\lambda_1+\lambda_1+\lambda_2)\cdot x}\\
+													 &=(-1)^{\lambda_1\cdot x}(-1)^{(\lambda_1+\lambda_2)\cdot x}.
+	\end{align*}
+	Thus, $(\lambda_1+\lambda_2)\cdot x=0$ for all $x\in\gftwo^n$, which implies
+	$\lambda_1+\lambda_2=0\Rightarrow\lambda_1=\lambda_2$. Therefore, $\Upsilon$ is
+	one-to-one.\\
+	\\
+	Add part of $\Upsilon$ being onto\ldots
+	\\
+	Finally, $\gftwo^n\cong\hat{\gftwo^n}$.
+\end{proof}
+
+	
+
+
+
 
 \par If $f(x)\in\BF_n$, so $(-1)^{f(x)}$ is well defined, then by the
-theory of discrete fourier transforms
+theory of discrete Fourier transforms
 \begin{equation}\label{eqn:DFT}
   (-1)^{f(x)}=\frac{1}{2^{n/2}}\sum_{\lambda\in\gftwo^n}c(\lambda)(-1)^{\lambda\cdot x}
 \end{equation}
@@ -50,6 +100,7 @@ of the polynomial of $f(x)$ proved by Rothaus. The theorem and proof are present
 	the degree of $f(x)$ is at most $k$, except in the case $k=1$.
 \end{theorem}
 \begin{proof}
+\end{proof}
 \par That $n$ is even has already been observed.
 \par Let $n=2k$ with $k>1$, and let $r>k$. Consider the polynomial
 $f(x_1,x_2,\dots,x_r,0,0,\dots,0)=g(x_1,x_2,\dots,x_r)$. Then by equation \ref{eqn:DFT},
@@ -62,11 +113,11 @@ and
 \]
 Because $f(x)=g(x)$ and the uniqueness of the Fourier expansion, $b$ and $c$ are related such that
 \[
-b(\lambda_1,\dots,\lambda_r)=\frac{1}{2^{(n-r)/2}}\sum_{\lambda_{r+1},\dots,\lamda_n=0,1}c(\lambda_1,\dots,\lamda_r,\lamda_{r+1},\dots,\lamda_n).
+b(\lambda_1,\dots,\lambda_r)=\frac{1}{2^{(n-r)/2}}\sum_{\lambda_{r+1},\dots,\lambda_n=0,1}c(\lambda_1,\dots,\lambda_r,\lambda_{r+1},\dots,\lambda_n).
 \]
-Each $b(\lambda_1,\dots,\lambda_r)$ is a sum of $c(\lambda_1,\dots,\lambda_n)$'s in this way.
-\par The number of zeros of $g(x_1,\dots,x_r)=f(x_1,\dots,x_r,0,0,\dots,0)$ equals
-$2^{r-1}+
+Each $b(\lambda_1,\dots,\lambda_r)$ is a sum of $c(\lambda_1,\dots,\lambda_n)$'s.
+\par The number of zeros of $g(x_1,\dots,x_r)=f(x_1,\cdots,x_r,0,\cdots,0)$
+equals $2^{r-1}+2^{r/2-1}b(0)=2^{r-1}+2^{r-n/2-1}=2^{r-1}+2^{r-k-1}$.
 
 % Talk about some different properties associated with the bent functions
 %  -weight is 2^(n/2)\pm2^(n\2-1)
