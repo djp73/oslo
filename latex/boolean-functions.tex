@@ -92,9 +92,9 @@ section. One counts the number of 1s in each vector and the other locates where 
 	\end{center}
 \end{example}
 
-\par If we define the vectors $v_i\in\gftwo^n$ such that $v_i=B^{-1}(i)$, then the sequence
-$(v_0,v_1,\cdots,v_{2^n-1})$ is said to be in {\em lexicographical order}. Using the convention
-of lexicographical ordering and the inner product in $\gftwo^n$, a $2^n\times 2^n$
+\par If we define the vectors $v_i\in\gftwo^n$ such that $v_i=B^{-1}(i)$ for $0\leq i\leq2^{n-1}$
+, then the sequence $(v_0,v_1,\cdots,v_{2^n-1})$ is said to be in {\em lexicographical order}.
+Using the convention of lexicographical ordering and the inner product in $\gftwo^n$, a $2^n\times 2^n$
 matrix can be written which captures all of the possible inner products of two vectors in
 $\gftwo^n$. This is a matrix where $u_i\cdot v_j$ appears in the $i$th row and $j$th column.
 This particular matrix turns out to be a {\em Hadamard matrix} which will be studied later.
@@ -147,7 +147,7 @@ are used to characterize them. The number of Boolean functions increases extreme
 as the number of variables increases.
 
 \begin{equation}
-  \lvert\{\mathcal{BF}_n:\fff_2^n\rightarrow\fff_2\}\rvert = 2^{2^n}
+  \lvert\mathcal{BF}_n\rvert = 2^{2^n}
 \end{equation}
 
 \par As observed by Carlet, consider the set of all Boolean functions on 7 variables,
@@ -197,14 +197,14 @@ algebraically a function will be one-to-one and onto function will be defined
 which maps every $f$ in $\mathcal{BF}_n$ to a vector in $\gftwo^{2^n}$. This
 will be the function $V:\mathcal{BF}_n\rightarrow\gftwo^{2^n}$ such that
 \begin{equation}\label{eqn:bool-vector}
-V(f(u_0,\dots,u_{n-1})):=(f(u_0),\dots,f(u_{n-1})).
+	V(f)(v_0,\dots,v_{2^n-1}):=(f(v_0),\dots,f(v_{2^n-1}))\ {\rm where\ } v_i=B^{-1}(i).
 \end{equation}
 It is trivial to show that addition is homomorphic under $V$, in other words
 \[
 V(f_1\oplus f_2)=V(f_1)\oplus V(f_2).
 \]
-Then a basis of $\gftwo^{2n}$ must relate to an equivalent basis of
-$\mathcal{BF}_n$. Take the standard basis vectors of $\gftwo^{2^n}$:
+Then the standard basis of $V$ can be sued to pull back an equivalent basis of
+$\mathcal{BF}_n$.
 \begin{align*}
 	e_0&=(1,0,\dots)\\
 	e_1&=(0,1,\dots)\\
