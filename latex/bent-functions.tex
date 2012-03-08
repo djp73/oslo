@@ -53,24 +53,37 @@ $\Upsilon(\lambda)=(-1)^{\lambda\cdot x}$.
 
 \par Multiplication on $\hat{\gftwo^n}$ corresponds to addition on $\gftwo^n$. Let
 $\Chi_1(x)=(-1)^{\lambda_1\cdot x}$ and $\Chi_2(x)=(-1)^{\lambda_2\cdot x}$ and define
-\Chi_1\Chi_2(x)=(-1)^{(\lambda_1+\lambda_2)\cdot x}. Then,
+$\Chi_1\Chi_2(x)=(-1)^{(\lambda_1+\lambda_2)\cdot x}$. Then,
 \[
 \Chi_1(x)\Chi_2(x)=(-1)^{\lambda_1\cdot x}(-1)^{\lambda_2\cdot x}=(-1)^{(\lambda_1+\lambda_2)\cdot x}=\Chi_1\Chi_2(x).
 \]
 
+\par For discrete Fourier transforms, it is useful to consider {\em pseudo\ Boolean\ functions}
+which have codomain $\{-1,1\}$. 
 
+\begin{definition}\label{def:pBF}
+	Any function $\hat{f}:\BF\rightarrow\{1,-1\}$ such that $\hat{f}(x)=(-1)^{f(x)}$ for $f\in\BF$
+	is called a {\em pseudo Boolean function}
+\end{definition}
 
+\begin{definition}\label{def:DFT}
+	The {\em discrete\ Fourier\ transform} or DFT of a pseudo Boolean function is defined by
+	\begin{equation}\label{eqn:DFW}
+		\mathcal{F}\hat{f}(\lambda)=\sum_x\in\gftwo^n(-1)^{f(x)}(-1)^{\lambda\cdot x}
+	\end{equation}
+\end{definition}
 
-\par If $f(x)\in\BF_n$, so $(-1)^{f(x)}$ is well defined, then by the
-theory of discrete Fourier transforms
+\begin{lemma}
 \begin{equation}\label{eqn:DFT}
-  (-1)^{f(x)}=\frac{1}{2^{n/2}}\sum_{\lambda\in\gftwo^n}c(\lambda)(-1)^{\lambda\cdot x}
+	\hat{f}(x)=\frac{1}{2^{n/2}}\sum_{\lambda\in\gftwo^n}c(\lambda)(-1)^{\lambda\cdot x}
 \end{equation}
-Where the $c(\lambda)$, the {\em Fourier\ coefficients} of $(-1)^{f(x)}$ are given by
-\[
-  c(\lambda)=\frac{1}{2^{n/2}}\sum_{x\in\gftwo^n}(-1)^{f(x)}(-1)^{\lambda\cdot x}.
-\]
-As observed by Rothaus, $2^{n/2}c(\lambda)$ is the number of zeros minus the number
+	where $c(\lambda)$, the {\em Fourier\ coefficients} of $\hat{f}(x)$ are given by
+	\[
+  	c(\lambda)=\frac{1}{2^{n/2}}\sum_{x\in\gftwo^n}(-1)^{f(x)}(-1)^{\lambda\cdot x}.
+	\]
+\end{lemma}
+
+\par As observed by Rothaus, $2^{n/2}c(\lambda)$ is the number of zeros minus the number
 of ones of the function $f(x)+\lambda\cdot x$. It is clear that when there are more
 zeros than ones $c(\lambda)>0$ and when there are more ones than zeros $c(\lambda)<0$.
 Counting the number of zeros in $f(x)$ is also easily seen. Consider the zero Fourier
