@@ -11,7 +11,6 @@ filecolor=black,
 linkcolor=black,
 urlcolor=black
 }
-% \usepackage[T1]{fontenc}
 % \usepackage[latin1]{inputenc}
 \usepackage{amsmath}
 \usepackage{amssymb}
@@ -46,9 +45,11 @@ urlcolor=black
 
 \theoremstyle{definition}
 \newtheorem{definition}{Definition}[section]
+
+\theoremstyle{proof}
 \newtheorem{example}[examples]{Example}
 
-%\theoremstyle{remark}
+\theoremstyle{remark}
 \newtheorem{remark}{Remark}[section]
 
 \begin{document}
@@ -57,7 +58,7 @@ urlcolor=black
 \input{introduction}
 \input{boolean-functions}
 \input{bent-functions}
-\input{bent-sequences}
+%\input{bent-sequences}
 \input{n-adic-ring}
 \input{constructing-sequences}
 \input{completeness}

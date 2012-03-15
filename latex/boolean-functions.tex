@@ -1,14 +1,14 @@
 \section{Boolean Functions}
-\par This section will establish the definition of a {\em Boolean function} and introduce
-a few different tools used to measure properties of these functions. First, the
-finite field with two elements, denoted $\gftwo$, is defined. The definitions and
+\par This section will establish the definition of a {\em Boolean function}
+and how to write these functions as polynomials. First, the finite field
+with two elements, denoted $\gftwo$, is defined. The definitions and
 notations will follow those found in \cite{bk:cs09}.
 
 % Definition of the finited field GF(2)
-\par The two element field $(\gftwo,\oplus,\cdot)$ is the set $\{0,1\}$ with defined binary
-operations $\oplus$ and $\cdot$, also commonly referred to as the {\em XOR} and
-{\em AND} operators, respectively.
-\begin{figure}[h!]\label{fig:GF(2)}
+\par The two element field $(\gftwo,\oplus,\cdot)$ is the set $\{0,1\}$
+with defined binary operations $\oplus$ and $\cdot$, also commonly referred
+to as the {\em XOR} and {\em AND} operators, respectively.
+\begin{table}[h!]\label{tab:GF(2)}
 	\centering
 	\begin{tabular}{|c|c|}
 		\hline
@@ -21,14 +21,18 @@ operations $\oplus$ and $\cdot$, also commonly referred to as the {\em XOR} and
 		\hline
 	\end{tabular}
 	\caption{Binary Operations for $\gftwo$}
-\end{figure}
-\par It should be clear that $(\gftwo,\oplus,\cdot)$ is a commutative ring with an
-identity. Additionally, the only non-zero element $1$ is it's own inverse. Therefore
-$(\gftwo,\oplus,\cdot)$ is a finite field. The $n$-dimensional vector space over $\gftwo$
-will be denoted by $\gftwo^n$, with the usual inner product. Components of these vectors,
-the individual 1s and 0s, will be known as {\em bits}. For two vectors $x,y\in\gftwo^n$
-where $x=(x_0,\cdots,x_{n-1})$ and $y=(y_0,\cdots,y_{n-1})$, the scalar product in
-$\gftwo^n$ will be defined as $x\cdot y\equiv x_0\cdot y_0 \oplus \cdots \oplus x_{n-1}\cdot y_{n-1}$.
+\end{table}
+\par It should be clear that $(\gftwo,\oplus,\cdot)$ is a commutative ring
+with an identity. Additionally, the only non-zero element $1$ is it's own
+inverse. Therefore $(\gftwo,\oplus,\cdot)$ is a finite field, which will now
+be denoted by $\gftwo$. The $n$-dimensional vector space over $\gftwo$ will
+be denoted by $\gftwo^n$, with the usual inner product. Components of these
+vectors, the individual 1s and 0s, will be known as {\em bits}. When a bit
+is {\em flipped} this means it changed from a 1 to a 0, or vice versa.
+For two vectors $x,y\in\gftwo^n$ where $x=(x_0,\cdots,x_{n-1})$ and
+$y=(y_0,\cdots,y_{n-1})$, the inner product in $\gftwo^n$ will be defined
+as $x\cdot y:=\allowbreak x_0\cdot y_0 \oplus\allowbreak
+\cdots \oplus\allowbreak x_{n-1}\cdot y_{n-1}$.
 
 \begin{example}
 	Let $a,b\in\gftwo^3$ such that $a=(1,0,1)$ and $b=(0,1,1)$ then
@@ -38,42 +42,48 @@ $\gftwo^n$ will be defined as $x\cdot y\equiv x_0\cdot y_0 \oplus \cdots \oplus 
 	\end{align*}
 \end{example}
 
-\par Each vector in $\gftwo^n$ can be uniquely represented by an integer between
-$0$ and $2^{n-1}$. The binary representation function $B$ is one-to-one.
+\par Each vector in $\gftwo^n$ can be uniquely represented by an integer
+between $0$ and $2^{n-1}$. The binary representation function $B$
+is one-to-one.
 \begin{equation}
-	B:\gftwo^n\rightarrow\nnn\cup\{0\}\ {\rm such\ that }\ B(u)\equiv \sum_{i=0}^{n-1}u_i\cdot2^i.
+	B:\gftwo^n\rightarrow\nnn\cup\{0\}\ \allowbreak
+  {\rm such\ that }\ \allowbreak B(u) := \sum_{i=0}^{n-1}u_i\cdot2^i.
 \end{equation}
 
-\par This definition of $B$ has created the convention where the {\em low bit} or
-{\em least significant bit} appears on the left and the {\em high bit} or {\em most significant bit}
-appears on the right. There is are two important functions which will be used extensively in this
-section. One counts the number of 1s in each vector and the other locates where those ones occur.
+\par This definition of $B$ has created the convention where the
+{\em least significant bit} appears on the left and the 
+{\em most significant bit} appears on the right. There are two important
+functions which are used extensively when comparing vectors in $\gftwo^n$.
+These functions count the number of 1s in a vector, locate where the 1s
+occur in a vector, and count the number of differences between two vectors.
 
 \begin{definition}
 \label{def:Hamming}
-	Let $u,v\in\gftwo^n$. Then $wt:\gftwo^n\rightarrow\nnn\cup\{0\}$ is defined by
+	Let $x,y\in\gftwo^n$. Then $wt:\gftwo^n\rightarrow\nnn\cup\{0\}$
+  is defined by
 	\[
-	  wt(u):=\sum_{i=0}^{n-1}u_i
+	  wt(x):=\sum_{i=0}^{n-1}x_i
 	\]
 	and $d:\gftwo^n\times\gftwo^n\rightarrow\nnn\cup\{0\}$ is defined by
 	\[
-	  d(u,v):=w(u+v).
+	  d(x,y):=w(x+y).
 	\]
-	Then $wt(u)$ is the {\em Hamming\ weight} of $u$ and $d(u,v)$ is the
-	{\em Hamming\ distance} between $u$ and $v$.
+	Then $wt(x)$ is the {\em Hamming\ weight} of $x$ and $d(x,y)$ is the
+	{\em Hamming\ distance} between $x$ and $y$.
 \end{definition}
 
 \begin{remark}
-	The Hamming weight of a vector $u\in\gftwo^n$ is the number of 1s in the vector, and the
-	Hamming distance between two vectors $u,v\in\gftwo^n$ is the number of bit differences
-	between the two vectors.
+	The Hamming weight of a vector $x\in\gftwo^n$ is the number of 1s in the
+  vector, and the Hamming distance between two vectors $x,y\in\gftwo^n$ is
+  the number of bit differences between the two vectors.
 \end{remark}
 
 \begin{definition}
 \label{def:support}
-	Let $u\in\gftwo^n$. Then $supp:\gftwo^n\rightarrow\mathcal{P}(\nnn\cup\{0\})$ is defined by
+	Let $x\in\gftwo^n$. Then $supp:\gftwo^n\rightarrow\allowbreak
+  \mathcal{P}(\nnn\cup\{0\})$ is defined by
 	\[
-		supp(u):=\{i\in\nnn\cup\{0\}:u_i\not=0\}
+		supp(x):=\{i\in\nnn\cup\{0\}:x_i=1\}
 	\]
 \end{definition}
 
@@ -92,43 +102,53 @@ section. One counts the number of 1s in each vector and the other locates where 
 	\end{center}
 \end{example}
 
-\par If we define the vectors $v_i\in\gftwo^n$ such that $v_i=B^{-1}(i)$ for $0\leq i\leq2^{n-1}$
-, then the sequence $(v_0,v_1,\cdots,v_{2^n-1})$ is said to be in {\em lexicographical order}.
-Using the convention of lexicographical ordering and the inner product in $\gftwo^n$, a $2^n\times 2^n$
-matrix can be written which captures all of the possible inner products of two vectors in
-$\gftwo^n$. This is a matrix where $u_i\cdot v_j$ appears in the $i$th row and $j$th column.
-This particular matrix turns out to be a {\em Hadamard matrix} which will be studied later.
+\par If we define the vectors $v_i\in\gftwo^n$ such that $v_i=B^{-1}(i)$
+for $0\leq i\leq2^{n-1}$, then the sequence $(v_0,v_1,\allowbreak \dots,
+\allowbreak v_{2^n-1})$ is said to be in {\em lexicographical order}.
+Using the convention of lexicographical ordering and the inner product in
+$\gftwo^n$, a $2^n\times 2^n$ matrix can be written which captures all of
+the possible inner products of two vectors in $\gftwo^n$. This is a matrix
+where $x_i\cdot x_j$ appears in the $i$th row and $j$th column. This
+particular matrix turns out to be a {\em Hadamard matrix} which will be
+studied later.
 
-\par There is an interesting orthogonality property in the vectorspace $\gftwo^n$ known as the
-{\em orthogonality principle} that every non-zero vector in $\gftwo^n$ is orthogonal to
-exactly half of the vectors in the vectorspace.
+\par There is an interesting orthogonality property in the vectorspace
+$\gftwo^n$ known as the {\em orthogonality principle} that every non-zero
+vector in $\gftwo^n$ is orthogonal to exactly half of the vectors in the
+vectorspace.
 
 \begin{theorem}
-	\label{thm:orthogonality-principle}
-	Let $u\in\gftwo^n$. Then
-	\begin{align*}
-		\sum_{v\in\gftwo^n}(-1)^{u\cdot v} &= 2^n {\rm \ for\ } u=0 \\
-		                                   &= 0 {\rm \ otherwise.}
+\label{thm:orthogonality-principle}
+  Let $x\in\gftwo^n$. Then
+  \begin{align*}
+    \sum_{y\in\gftwo^n}(-1)^{x\cdot y}
+      &= 2^n {\rm \ for\ } x=0 \\
+      &= 0 {\rm \ otherwise.}
   \end{align*}
 \end{theorem}
 
 \begin{proof}
-	Let $u=0\in\gftwo^n$. Then $\forall\ v\in\gftwo^n$, $u\cdot v=0$, so
-	$(-1)^{u\cdot v}=1$. Therefore $\sum_{v\in\gftwo^n}(-1)^{u\cdot v}=\lvert\gftwo^n\rvert=2^n$. \\
+  Let $x=0\in\gftwo^n$. Then $\forall y\in\gftwo^n$, $x\cdot y=0$, so
+  $(-1)^{x\cdot y}=1$. Therefore, $\sum_{y\in\gftwo^n}(-1)^{x\cdot y}=
+  \allowbreak\lvert\gftwo^n\rvert=\allowbreak 2^n$. \\
 
-	Let $u\in\gftwo^n$ where $u\not=0$. Assume the $i$th bit of $u$ is non-zero and
-	define $e_i\in\gftwo^n$ as a vector with all zero bits except for the $i$th bit which is $1$. Then
+  Let $x\in\gftwo^n$ where $x\not=0$. Assume the $i$th bit of $x$ is
+  non-zero and define $e_i\in\gftwo^n$ as a vector with all zero bits
+  except for the $i$th bit which is $1$. Then
 	\begin{align*}
-		\sum_{v\in\gftwo^n}(-1)^{u\cdot v} &= \sum_{v\in\gftwo^n}(-1)^{u\cdot (v+e_i)} \\
-		                                   &= \sum_{v\in\gftwo^n}(-1)^{u\cdot v}(-1)^{u\cdot e_i} \\
-																			 &= -\sum_{v\in\gftwo^n}(-1)^{u\cdot v}.
+    \sum_{y\in\gftwo^n}(-1)^{x\cdot y}
+      &= \sum_{y\in\gftwo^n}(-1)^{x\cdot (y+e_i)} \\
+      &= \sum_{y\in\gftwo^n}(-1)^{x\cdot y}(-1)^{x\cdot e_i} \\
+      &= -\sum_{y\in\gftwo^n}(-1)^{x\cdot y}.
   \end{align*}
-	Therefore, $\sum_{v\in\gftwo^n}(-1)^{u\cdot v}=-\sum_{v\in\gftwo^n}(-1)^{u\cdot v}$, which implies
-	$\sum_{v\in\gftwo^n}(-1)^{u\cdot v}=0$.
+  Therefore, $\sum_{y\in\gftwo^n}(-1)^{x\cdot y}=\allowbreak
+  -\sum_{y\in\gftwo^n}(-1)^{x\cdot y}$, which implies
+  $\sum_{y\in\gftwo^n}(-1)^{x\cdot y}=0$.
 \end{proof}
 
-\par When introduced to a new vector field, it is natural to begin looking at functions in
-that field. The particular function of interest here will be what is known as a {\em Boolean function}.
+\par When introduced to a new vector field, it is natural to begin looking
+at functions in that field. The particular function of interest here will
+be what is known as a {\em Boolean function}.
 
 % Definition of a Boolean Function
 \begin{definition}
@@ -137,31 +157,37 @@ that field. The particular function of interest here will be what is known as a 
   \begin{equation*}
     f:\gftwo^n\rightarrow\gftwo
   \end{equation*}
-  is a {\em Boolean function}.\\
-	\\
-	The set of all Boolean function on $n$ variables will be denoted by $\mathcal{BF}_n$
+  is a {\em Boolean function}. The set of all Boolean functions on $n$
+  variables will be denoted by $\BF_n$.
 \end{definition}
 
-\par Boolean functions have been studied extensively, and there are various properties that
-are used to characterize them. The number of Boolean functions increases extremely rapidly
-as the number of variables increases.
+\par The number of Boolean functions increases extremely rapidly as the
+number of variables increases.
 
 \begin{equation}
-  \lvert\mathcal{BF}_n\rvert = 2^{2^n}
+  \lvert\BF_n\rvert = 2^{2^n}
 \end{equation}
 
-\par As observed by Carlet, consider the set of all Boolean functions on 7 variables,
-and say that one nanosecond is spent at each function to identify the function and
-note some properties about it. If we visited every Boolean function this way, it
-would take 100 billions times the age of the universe to complete the search.
-For eight variables, there are more Boolean functions than there are atoms in the
-universe (~$10^{80}$).
+\par With today's fastest supercomputer operating at 10.51
+petaflops\footnote{http://en.wikipedia.org/wiki/K\_computer}, if one
+floating point operation was expended visiting every Boolean function of 7
+variables, it would take over a thousand trillion years to complete the
+process. This length of time is roughly 70,000 times the age of the
+universe. Though every symmetric cryptosystem in use can be broken down into
+several Boolean functions of several variables, it would be infeasible to
+brute force search through all of the possibilities of Boolean functions
+which reconstruct the cryptosystem.
 
-\par Here is an example of a Boolean function presented in a {\em truth\ table}.
+\par The Boolean function $f$ is presented in a {\em truth\ table} in 
+Table \ref{tab:truth-table}. The Hamming weight of $f$ is the number of 1s
+that $f$ has when evaluated at every point in the $\gftwo^n$: 
+\[
+wt(f)=\lvert\{u\in\gftwo^n:f(u)=1\}\rvert.
+\]
 \begin{table}
 \label{tab:truth-table}
 	\centering
-  \begin{tabular}{|c|c|c|c|c|}
+  \begin{tabular}{|c|c|c|c||c|}
     \hline
     $x_0$&$x_1$&$x_2$&$x_3$&$f(x_0,x_1,x_2,x_3)$\\
     \hline
@@ -185,53 +211,51 @@ universe (~$10^{80}$).
 	\end{tabular}
 	\caption{Truth Table of $f$}
 \end{table}
-\par The Hamming weight of $f$ is the number of 1s that $f$ has when evaluated
-at every point in the $\gftwo^n$. Formally, this can be written
-\[
-wt(f)=\lvert\{u\in\gftwo^n:f(u)=1\}\rvert.
-\]
-\par A truth table is not a very efficient method to define a Boolean function.
-An algebraic definition of $f$ is desirable. By writing $f$ algebraically, more
-properties of $f$ will become apparent. As a first step toward defining $f$
-algebraically a function will be one-to-one and onto function will be defined
-which maps every $f$ in $\mathcal{BF}_n$ to a vector in $\gftwo^{2^n}$. This
-will be the function $V:\mathcal{BF}_n\rightarrow\gftwo^{2^n}$ such that
+\par A truth table is not a very compact method to define a Boolean
+function. It is much more efficient and easier to implement a Boolean
+function when written as a formula. This can be done by writing a Boolean
+function algebraically. As a first step toward defining $f$ algebraically a
+one-to-one and onto function will be defined which maps every $f$ in
+$\BF_n$ to a vector in $\gftwo^{2^n}$. This will be the function
+$V:\BF_n\rightarrow\gftwo^{2^n}$ such that
 \begin{equation}\label{eqn:bool-vector}
 	V(f)(v_0,\dots,v_{2^n-1}):=(f(v_0),\dots,f(v_{2^n-1}))\ {\rm where\ } v_i=B^{-1}(i).
 \end{equation}
-It is trivial to show that addition is homomorphic under $V$, in other words
+It is trivial to show that addition is homomorphic under $V$,
 \[
 V(f_1\oplus f_2)=V(f_1)\oplus V(f_2).
 \]
-Then the standard basis of $V$ can be sued to pull back an equivalent basis of
-$\mathcal{BF}_n$.
+Then the standard basis of $\gftwo^{2^n}$ can be used to pull back an equivalent basis
+of $\BF_n$. Let $e_i\in\gftwo^{2^n}$ be defined so that
 \begin{align*}
 	e_0&=(1,0,\dots)\\
 	e_1&=(0,1,\dots)\\
 	\vdots \\
 	e_{2^n-1}&=(0,\dots,0,1).
 \end{align*}
-
-\par Every vector of $\gftwo^{2^n}$ can be written as a linear combination of the
-standard basis vectors. Therefore, every Boolean function is a linear combination of
-atomic Boolean functions defined by $f_i=V^{-1}(e_i)$. Then there exist a set of
-$c_i\in\gftwo$ such that
+\par The {\em atomic Boolean functions} will be defined as the
+$f_i\in\BF_n$ where there exists an $e_i\in\gftwo^{2^n}$ such that
+$V(f_i)=e_i$. Every vector of $\gftwo^{2^n}$ can be written as a linear
+combination of the standard basis vectors, and equivalently, every Boolean
+function is a linear combination of atomic Boolean functions. This means
+for every $u\in\gftwo^{2^n}$ there exists a set of $c_i\in\gftwo$ such that
 \begin{align*}
 	u  &=c_0e_0\oplus\cdots\oplus c_{2^n-1}e_{2^n-1} \\
-	\LeftRightarrow f &=c_0f_0\oplus\cdots\oplus c_{2^n-1}f_{2^n-1}.\\
+	\Leftrightarrow f &=c_0f_0\oplus\cdots\oplus c_{2^n-1}f_{2^n-1}.\\
 \end{align*}
+where $V(f)=u$.
 
-\par The Boolean fucntions $f_i=V^{-1}(e_i)$ are alled {\em atomic Boolean functions}
-because they are the building blocks of every Boolean function. Now the function
-$f$ defined in Figure \ref{fig:truth-table} can be written as a linear combination
-of the atomic Boolean functions in $\mathcal{BF}_4$. Since the coefficients in the
-linear combinations are either 0 or 1, it is true that every Boolean function can be
-written as the sum of $wt(f)$ atomic Boolean functions.
+\par The function $f$ defined in Table \ref{tab:truth-table} can be written
+as a linear combination of the atomic Boolean functions in $\BF_4$. Since
+the coefficients in the linear combinations are either 0 or 1, it is true
+that every Boolean function can be written as the sum of $wt(f)$ atomic
+Boolean functions.
 \begin{table}[h!]\label{tab:atomic-f}
-	\centering
-  \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
+  \centering
+  \begin{tabular}{|c|c|c|c||c|c|c|c|c|c|c|c|}
     \hline
-    $x_0$&$x_1$&$x_2$&$x_3$&$f$&$f_1$&$f_2$&$f_4$&$f_6$&$f_{10}$&$f_{14}$&$f_{15}$\\
+    $x_0$&$x_1$&$x_2$&$x_3$
+      &$f$&$f_1$&$f_2$&$f_4$&$f_6$&$f_{10}$&$f_{14}$&$f_{15}$\\
     \hline
     0&0&0&0&0&0&0&0&0&0&0&0\\
     1&0&0&0&1&1&0&0&0&0&0&0\\
@@ -249,62 +273,83 @@ written as the sum of $wt(f)$ atomic Boolean functions.
     1&0&1&1&0&0&0&0&0&0&0&0\\
     0&1&1&1&1&0&0&0&0&0&1&0\\
     1&1&1&1&1&0&0&0&0&0&0&1\\
-  	\hline
-	\end{tabular}
-	\caption{$f$ broken into atomic Boolean function in $\mathcal{BF}_4$}
+    \hline
+  \end{tabular}
+  \caption{$f$ broken into atomic Boolean function in $\BF_4$}
 \end{table}
-\par From Figure \ref{fig:atomic-f} the following equation should be clear:
-\[
-f=f_1+f_2+f_4+f_6+f_{10}+f_{14}+f_{15}.
-\]
-
-\par So far, there has been no discussion about the $n$-variable polynomical
-representation of a Boolean function. It is clear now that
-if we can write the atomic Boolean functions as polynomials, then the
-rest of the Boolean functions should follow. It is not obvious how
-to write the each atomic Boolean function as a polynomial in
-$\gftwo[x_0,\cdots,x_{n-1}]/\allowbreak(x_0^2\oplus\allowbreak x_1,\cdots,x_{n-1}^2\oplus\allowbreak x_{n-1})$.
-The explanation is presented here.
-\par First, observe that $wt(f_i)$ always equals 1. Thus
-\begin{align*}
-	f_i(u)&=1\hspace{5mm}u=B^{-1}(i) \\
-			  &=0\hspace{5mm}{\rm otherwise.}
-\end{align*}
-It follows that
+\par The equation $f=f_1+f_2+f_4+f_6+f_{10}+f_{14}+f_{15}$ should be clear
+from Table \ref{tab:atomic-f}. Knowing how to write the atomic Boolean
+functions as polynomials would lead to knowing how to write any Boolean
+function as a polynomial. The polynomials representing the Boolean functions
+will belong to the the polynomial ring $\gftwo[x_0,\cdots,x_{n-1}]/
+(x_0^2\oplus x_0,\cdots,x_{n-1}^2\oplus x_{n-1})$. To properly represent
+an atomic Boolean function, a polynomial must equal 1 at only one vector
+$(x_0,\cdots,x_{n-1})$. Recall the support function from Definition
+\ref{def:support}. Then the polynomial respresenting each Boolean function
+is as follows:
 \begin{equation}\label{eqn:atomic-ANF}
-	f_i=\bigg(\prod_{j\in supp(f_i)}x_j\bigg)\bigg(\prod_{j\not\in supp(f_i)}(1\oplus x_j)\bigg).
+  f_i=\bigg(\prod_{j\in supp(B^{-1}(i))}x_j\bigg)
+    \bigg(\prod_{j\not\in supp(B^{-1}(i))}(1\oplus x_j)\bigg).
 \end{equation}
-Equation \ref{eqn:atomic-ANF} equals 1 at the vector $B^{-1}(i)$ and zero
-everywhere else.
+\begin{proof}
+  Let $x=B^{-1}(i)$ where $x=(x_0,\cdots,x_{n-1})$. Then
+  $\{x_i:x_i=1\}=\{x_i:i\in supp(x)\}$. Therefore,
+  \[
+  f_i(x)=\bigg(\prod_{j\in supp(B^{-1}(i))}x_j\bigg)
+    \bigg(\prod_{j\not\in supp(B^{-1}(i))}(1\oplus x_j)\bigg)=1.
+  \]
 
-\par Continuing the example with the the function $f$ will make
-this more apparent. The atomic functions which $f$ is the sum of are written
-as polynomials below:
+  Let $x\not=B^{-1}(i)$. Then,
+  \[
+  \bigg(\prod_{j\in supp(B^{-1}(i))}x_j\bigg)=0
+  \]\[
+  \therefore f_i(x)=0.
+  \]
+\end{proof}
 
+\par Now the function $f$ from Table \ref{tab:truth-table} can be written as
+the sum of the following atomic polynomials:
 \begin{align*}
   f_1   &=(1\oplus x_3)(1\oplus x_2)(1\oplus x_1)x_0\\
-        &=x_0 \oplus x_1x_0 \oplus x_2x_0 \oplus x_2x_1x_0 \oplus x_3x_0 \oplus x_3x_1x_0
-        \oplus x_3x_2x_0 \oplus x_3x_2x_1x_0\\
+        &=x_0 \oplus x_1x_0 \oplus x_2x_0 \oplus x_2x_1x_0 \oplus
+          x_3x_0 \oplus x_3x_1x_0 \oplus x_3x_2x_0 \oplus x_3x_2x_1x_0\\
   f_2   &=(1\oplus x_3)(1\oplus x_2)x_1(1\oplus x_0)\\
   f_4   &=(1\oplus x_3)x_2(1\oplus x_1)(1\oplus x_0)\\
   f_6   &=(1\oplus x_3)x_2x_1(1\oplus x_0)\\
   f_{10}&=x_3(1\oplus x_2)x_1(1\oplus x_0)\\
   f_{14}&=x_3x_2x_1(1\oplus x_0)\\
-  f_{15}&=x_3x_2x_1x_0\\
+  f_{15}&=x_3x_2x_1x_0
 \end{align*}
-
-\par Therefore,
+\par After summing the atomic polynomials upon multiplying them out,
 \[
-	f=x_0x_1x_2x_3\oplus x_0x_1x_3 \oplus x_0x_3 \oplus x_0 \oplus x_1x_2x_3 \oplus
-	x_1x_2\oplus x_1\oplus x_2x_3 \oplus x_2.
+	f=x_0x_1x_2x_3\oplus x_0x_1x_3 \oplus x_0x_3 \oplus x_0 \oplus x_1x_2x_3
+    \oplus x_1x_2\oplus x_1\oplus x_2x_3 \oplus x_2.
 \]
 
-\par Now the uniqueness of the polynomial representation for each Boolean function
-is considered. To show this, Carlet uses the linear independence of the monomials.
+\par Now the uniqueness of the polynomial representation for each Boolean
+function is considered. This is easily seen by considering the uniqueness of
+each Boolean function and the size of the polynomial ring.
 
 \begin{theorem}
-Each $n$-variable Boolean function is uniquely represeneted as a polynomial with coefficients in $\gftwo$:
+Each $n$-variable Boolean function is uniquely represeneted as a polynomial
+in the polynomial ring $\gftwo[x_0,\cdots,x_{n-1}]/ (x_0^2\oplus x_0,\cdots,
+x_{n-1}^2 \oplus x_{n-1})$.
 \begin{equation}\label{eqn:ANF}
-	f(x)=\sum_{I\in\mathcal{P}(N)}a_I\bigg(\prod_{i\in I}x_i\bigg).
+  f(x)=\sum_{I\in\mathcal{P}(\nnn\cup\{0\})}a_I\bigg(\prod_{i\in I}x_i\bigg)
 \end{equation}
+where $a_I\in\gftwo$ and defined by the given Boolean function.
 \end{theorem}
+
+\begin{proof}
+  \begin{align*}
+  \lvert\BF_n\rvert
+    &= \lvert \gftwo^{2^n} \rvert \\
+    &= \lvert \{(a_{\{\}},\ldots,a_I,\ldots):a_I\in\gftwo\} \rvert \\
+    &= \lvert \gftwo[x_0,\cdots,x_{n-1}]/ (x_0^2\oplus x_0,\cdots,
+    x_{n-1}^2 \oplus x_{n-1})\rvert
+  \end{align*}
+  Because every Boolean function is determined by at least one polynomial
+  and the size of the polynomial ring equals the size of the set of all
+  Boolean functions, each Boolean function must be uniquely determined by a
+  polynomial in the polynomial ring.
+\end{proof}
