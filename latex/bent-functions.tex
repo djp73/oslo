@@ -1,147 +1,220 @@
 \section{Bent Functions}
-\par Bent functions were originally defined in a paper by Rothaus in the Journal
-of Combinatorial Theory in 1976 \cite{art:r76}. These functions are useful for
-cryptographic applications because they are {\em perfectly\ nonlinear} which
-makes them resistant to differential attacks. The original defintion of the
-{\em bent\ function} is presented.
+\par Bent functions were originally defined in a paper by Rothaus in the
+Journal of Combinatorial Theory in 1976 \cite{art:r76}. These functions are
+useful for cryptographic applications because they are {\em perfectly\ 
+nonlinear} which makes them resistant to differential
+attacks. The original defintion of the {\em bent\ function} is based on the
+Fourier coefficients.
 
-\par First, the discrete Fourier transform should be understood.
+\subsection{The Discrete Fourier Transform}
+\par The Fourier transform of a function has many applications in signals
+analysis. The idea is to express a given signal as a function of frequency
+to reveal the dominant frequencies in the signal. Today, digital signals
+have taken over analog. This fact has made the discrete Fourier transform
+much more applicaple to modern communication systems.
 
-\par The Fourier transform of a function has many applications in signals analysis.
-The idea is to express a given signal as a function of frequency to reveal the dominant
-frequencies in the signal. Today, digital signals have taken over analog. This fact has
-made the discrete Fourier transform much more applicaple to modern communication
-systems. The DFTs of $n$-variable pseudo Boolean functions are studied here.
-
-\par The following discussion on DFTs will follow \cite{bk:t99}. The domain of all
-$n$-variable pseudo Boolean functions is $\gftwo^n$. The goal is to find a Fourier transform
-on $\gftwo^n$ and for that we need the characters of $\gftwo^n$.
+\par The discrete Fourier transforms (DFTs) of $n$-variable pseudo Boolean
+functions are studied here. The following discussion on DFTs will follow
+\cite{bk:t99}. To begin the discussion about DFTs, {\em characters} are
+defined.
 
 \begin{definition}\cite{bk:t99}
-	A {\em character} $\chi$ of a finite abelian group $G$ is a group homomorphism
-	from $G$ into the multiplicative group $\{e^{\frac{2\pi\imath k}{\lvert G \rvert}}:k\in\zzz\}$
-	of complex number of norm 1.
+  A {\em character} $\Chi$ of a finite abelian group $G$ is a group
+  homomorphism from $G$ into the multiplicative group
+  $\{e^{\frac{2\pi\imath k}{\lvert G \rvert}}:k\in\zzz\}$ of complex numbers
+  of norm 1.
 \end{definition}
 
-For the purposes of this paper, it should be clear that $(-1)^{\lambda\cdot x}$ for
-$\lambda,x\in\gftwo^n$ is a {\em group\ character} of $\gftwo^n$ for each $\lambda\in\gftwo^n$.
-Define the {\em dual\ group} $\hat{\gftwo^n}$ to be the set of all characters of $G$. The group
-operation in $\hat{\gftwo^n}$ is pointwise multiplication of functions. This means that
+For the purposes of this paper, it should be clear that
+$\Chi_\lambda(x):=(-1)^{\lambda\cdot x}$ where $\lambda,x\in\gftwo^n$ is a
+{\em group\ character} of $\gftwo^n$. Define the {\em dual\ group}
+$\hat{\gftwo^n}$ to be the set of all characters of $G$. The group operation
+in $\hat{\gftwo^n}$ is pointwise multiplication of functions:
 \[
-\hat{\gftwo^n}=\{\chi\in\gftwo^n:\chi\ {\rm is\ a\ character\ of\ \gftwo^n}\},
+\Chi\psi(x)=\Chi(x)\psi(x)
 \]
-with $\chi\psi(x)=\chi(x)\psi(x)$, for all $x\in\gftwo^n$, is closed under multiplication.
-
-\par The isomorphism $\gftwo^n\cong\hat{\gftwo^n}$ is shown by constructing a one-to-one
-and onto mapping $\Upsilon:\gftwo^n\rightarrow\hat{\gftwo^n}$ where
-$\Upsilon(\lambda)=(-1)^{\lambda\cdot x}$.
+This operation is closed under multiplication. The isomorphism
+$\gftwo^n\cong\hat{\gftwo^n}$ is shown by constructing a one-to-one and onto
+mapping $\Upsilon:\gftwo^n\rightarrow\hat{\gftwo^n}$ where
+$\Upsilon(\lambda):=\Chi_\lambda$.
 
 \begin{proof}
-	Every character in $\hat{\gftwo^n}$ corresponds to an element of $\gftwo^n$. Thus,
-	$\lvert\hat{\gftwo^n}\rvert=2^n=\lvert\gftwo^n\rvert$. If $\Upsilon$ is one-to-one, then
+	Every character in $\hat{\gftwo^n}$ corresponds to an element of
+  $\gftwo^n$. Thus, $\lvert\gftwo^n\rvert=\lvert\hat{\gftwo^n}\rvert$. If
+  $\Upsilon$ is one-to-one, then
 	it must be an isomorphism.\\
-	Let $\Upsilon(\lambda_1)=\Upsilon(\lambda_2)$. Then
+	Let $\Upsilon(\lambda_1)=\Upsilon(\lambda_2)$. Then $\forall x$
 	\begin{align*}
-		(-1)^{\lambda_1\cdot x}&=(-1)^{\lambda_2\cdot x}\\
-		                       &=(-1)^{(\lambda_1+\lambda_1+\lambda_2)\cdot x}\\
-													 &=(-1)^{\lambda_1\cdot x}(-1)^{(\lambda_1+\lambda_2)\cdot x}.
+		(-1)^{\lambda_1\cdot x}
+      &=(-1)^{\lambda_2\cdot x}\\
+		  &=(-1)^{(\lambda_1+\lambda_1+\lambda_2)\cdot x}\\
+      &=(-1)^{\lambda_1\cdot x}(-1)^{(\lambda_1+\lambda_2)\cdot x}.
 	\end{align*}
-	Thus, $(\lambda_1+\lambda_2)\cdot x=0$ for all $x\in\gftwo^n$, which implies
-	$\lambda_1+\lambda_2=0\Rightarrow\lambda_1=\lambda_2$. Therefore, $\Upsilon$ is
-	one-to-one.
+	Finally, $(\lambda_1+\lambda_2)\cdot x=0$ for all $x\in\gftwo^n$, which
+  implies $\lambda_1+\lambda_2=0$. Therefore, $\lambda_1=\lambda_2$.
 \end{proof}
 
-\par Multiplication on $\hat{\gftwo^n}$ corresponds to addition on $\gftwo^n$. Let
-$\chi_1(x)=(-1)^{\lambda_1\cdot x}$ and $\chi_2(x)=(-1)^{\lambda_2\cdot x}$ and define
-$\chi_1\chi_2(x)=(-1)^{(\lambda_1+\lambda_2)\cdot x}$. Then,
+\par Addition in $\gftwo^n$ corresponds to multiplication in
+$\hat{\gftwo^n}$. Define
+$\Chi_{\lambda_1}\Chi_{\lambda_2}(x)=(-1)^{(\lambda_1+\lambda_2)\cdot x}$.
+Then,
 \[
-\chi_1(x)\chi_2(x)=(-1)^{\lambda_1\cdot x}(-1)^{\lambda_2\cdot x}=(-1)^{(\lambda_1+\lambda_2)\cdot x}=\chi_1\chi_2(x).
+\Chi_{\lambda_1}(x)\Chi_{\lambda_2}(x)
+  =(-1)^{\lambda_1\cdot x}(-1)^{\lambda_2\cdot x}
+  =(-1)^{(\lambda_1+\lambda_2)\cdot x}
+  =\Chi_{\lambda_1}\Chi_{\lambda_2}(x).
 \]
 
-\par For discrete Fourier transforms, it is useful to consider {\em pseudo\ Boolean\ functions}
+\par For discrete Fourier transforms, it is useful to consider {\em pseudo\ 
+Boolean\ functions}
 which have codomain $\{-1,1\}$. 
 
 \begin{definition}\label{def:pBF}
-	Any function $\hat{f}:\BF\rightarrow\{1,-1\}$ such that $\hat{f}(x)=(-1)^{f(x)}$ for $f\in\BF$
-	is called a {\em pseudo Boolean function}
+	Any function $\hat{f}:\gftwo^n\rightarrow\{1,-1\}$ such that
+  $\hat{f}(x)=(-1)^{f(x)}$ for $f\in\BF$ is called a {\em pseudo Boolean
+  function}
 \end{definition}
 
 \begin{definition}\label{def:DFT}
-	The {\em discrete\ Fourier\ transform} or DFT of a pseudo Boolean function is defined by
-	\begin{equation}\label{eqn:DFW}
-		\mathcal{F}\hat{f}(\lambda)=\sum_x\in\gftwo^n(-1)^{f(x)}(-1)^{\lambda\cdot x}
+	The {\em discrete\ Fourier\ transform} or DFT of a Boolean function is
+  defined by
+	\begin{equation}\label{eqn:DFT}
+    \mathcal{F}f(\lambda)
+      =\sum_{x\in\gftwo^n}f(x)\Chi_\lambda(x)
 	\end{equation}
 \end{definition}
 
+\par The characters of $\gftwo^n$ act similar to the sines and cosines of a
+continuous Fourier transform. The psuedo Boolean function can be rewritten
+in terms of Fourier transforms.
+
+%\begin{lemma}
+%\begin{equation}\label{eqn:pseudo-DFT}
+%  \mathcal{F}\hat{f}(\lambda)=\sum_{x\in\gftwo^n}(-1)^{f(x)+\lambda\cdot x}
+%\end{equation}
+%\end{lemma}
+
 \begin{lemma}
-\begin{equation}\label{eqn:DFT}
-	\hat{f}(x)=\frac{1}{2^{n/2}}\sum_{\lambda\in\gftwo^n}c(\lambda)(-1)^{\lambda\cdot x}
+\begin{equation}\label{eqn:rewrite-pseudo}
+	\hat{f}(x)
+    =\frac{1}{2^{n/2}}
+      \sum_{\lambda\in\gftwo^n}c(\lambda)\Chi_\lambda(x)
 \end{equation}
-	where $c(\lambda)$, the {\em Fourier\ coefficients} of $\hat{f}(x)$ are given by
+	where $c(\lambda)$, the {\em Fourier\ coefficients} of $\hat{f}(x)$ are
+  given by
 	\[
-  	c(\lambda)=\frac{1}{2^{n/2}}\sum_{x\in\gftwo^n}(-1)^{f(x)}(-1)^{\lambda\cdot x}.
+  c(\lambda)=\frac{1}{2^{n/2}}\mathcal{F}\hat{f}(\lambda).
+    %=\frac{1}{2^{n/2}}\sum_{x\in\gftwo^n}(-1)^{f(x)+\lambda\cdot x}.
 	\]
 \end{lemma}
 
-\par As observed by Rothaus, $2^{n/2}c(\lambda)$ is the number of zeros minus the number
-of ones of the function $f(x)+\lambda\cdot x$. It is clear that when there are more
-zeros than ones $c(\lambda)>0$ and when there are more ones than zeros $c(\lambda)<0$.
-Counting the number of zeros in $f(x)$ is also easily seen. Consider the zero Fourier
-coefficient $c(0)$:
+\par As observed by Rothaus, $2^{n/2}c(\lambda)$ is the number of zeros
+minus the number of ones of the function $f(x)+\lambda\cdot x$. The Hamming
+weight of f is easily determined using the zero Fourier coefficient $c(0)$:
 \begin{align*}
 	c(0)&=\frac{1}{2^{n/2}}\sum_{x\in\gftwo^n}(-1)^{f(x)}\\
-	&=\frac{1}{2^{n/2}}{\rm \ number\ of\ zeros\ of\ }f(x)-{\rm \ number\ of \ ones\ of \ }f(x).
+	&=\frac{1}{2^{n/2}}\big((2^n-wt(f))-wt(f)\big)
 \end{align*}
-Since $2^n=\ $ number of zeros of $f(x)+$ number of ones of $f(x)$,
-\begin{align*}
-	{\rm number\ of\ zeros\ of\ }f(x)&=\frac{2^{n/2}c(0)+2^n}{2}\\
-	                                 &=2^{n/2-1}c(0)+2^{n-1}.
-\end{align*}
+\begin{equation}
+  \Rightarrow wt(f)=2^{n-1}-2^{n/2-1}c(0).
+\end{equation}
 
+\subsection{Bent Functions}
 \begin{definition}\label{def:bent-function}
-  If all of the Fourier coefficients of $(-1)^{f(x)}$ are $\pm1$ then
-  $f(x)$ is a {\em bent\ function}.
+  If all of the Fourier coefficients of $\hat{f}$ are $\pm1$ then
+  $f$ is a {\em bent\ function}.
 \end{definition}
 
-\par There are two immediate observations for any bent function $f(x)$ on $\gftwo^n$.
-First, $n$ must be even because $2^{n/2}c(\lambda)$ is an integer. Second, the Hamming
-weight of $f(x)$ equals $2^{n-1}\pm2^{n/2-1}c(0)$. There also is a bound on the degree
-of the polynomial of $f(x)$ proved by Rothaus. The theorem and proof are presented here.
+\par Here is Rothaus's first theorem about bent functions.
 
 \begin{theorem}\label{thm:deg-of-bent-function}
-	If $f(x)$ is a bent function on $\gftwo^n$, then $n$ is even, $n=2k$;
-	the degree of $f(x)$ is at most $k$, except in the case $k=1$.
+	If $f$ is a bent function on $\gftwo^n$, then $n$ is even, $n=2k$;
+	the degree of $f$ is at most $k$, except in the case $k=1$.
 \end{theorem}
 \begin{proof}
+  \par $c(\lambda)=\pm1$. This implies $2^{n/2}c(\lambda)$ is an
+  integer. Therefore $n$ must be even.
+  \par Let $n=2k$ with $k>1$, and let $r>k$. Consider the polynomial
+  $f(x_1,x_2,\allowbreak\dots,\allowbreak x_r,\allowbreak 0,0,\dots,0)=
+  \allowbreak g(x_1,x_2,\dots,x_r)$ (up to this point all numbering has
+  started at 0; it is more convenient in this proof to begin numbering at
+  1). Then by Equation (\ref{eqn:rewrite-pseudo}),
+  \[
+  \hat{g}(x)=\frac{1}{2^{r/2}}\sum_{\lambda_1,\lambda_2,\dots,\lambda_r=0,1}
+    b(\lambda_1,\dots,\lambda_r)\Chi_{(\lambda_1,\ldots,\lambda_r)}(x)
+  \]
+  and
+  \[
+	\hat{f}(x,0)=\frac{1}{2^{n/2}}
+    \sum_{\lambda_1,\lambda_2,\dots,\lambda_n=0,1}
+    c(\lambda_1,\dots,\lambda_n)\Chi_{(\lambda_1,\ldots,\lambda_n)}(x,0).
+  \]
+  Because $f(x,0)=g(x)$ and the uniqueness of the Fourier expansion, $b$ and
+  $c$ are related such that
+  \[
+  b(\lambda_1,\dots,\lambda_r)
+    =\frac{1}{2^{(n-r)/2}}\sum_{\lambda_{r+1},\dots,\lambda_n=0,1}
+    c(\lambda_1,\dots,\lambda_r,\lambda_{r+1},\dots,\lambda_n).
+  \]
+  \par Then,
+  \begin{align*}
+  wt(f(x,0))&=wt(g(x))\\
+    &=2^{r-1}-2^{r/2-1}b(0)\\
+    &=2^{r-1}-2^{r-n/2-1}\sum_{\lambda_{r+1},\dots,\lambda_n=0,1}
+      c(0,\dots,0,\lambda_{r+1},\dots,\lambda_n).
+  \end{align*}
+  \par There are $2^{n-r}$ summands in
+  $\sum{c(0,\dots,0,\lambda_{r+1},\dots,\lambda_n)}.$ Since $f$ is bent,
+  $c(\lambda)=\pm1$. By rewriting $1=-1+2$,
+  \begin{align*}
+    \sum{c(0,\dots,0,\lambda_{r+1},\dots,\lambda_n)}
+      &=-2^{n-r}+2wt(c(0,\dots,0,\lambda_{r+1},\dots,\lambda_n))\\
+      &=2\big(wt(c(0,\dots,0,\lambda_{r+1},\dots,\lambda_n))-2^{n-r-1}\big)
+  \end{align*}
+  \par Thus, $wt(g(x))$ is even. This implies that $g(x)$ is the sum of an
+  even number of atomic Boolean functions. Therefore the coefficient of
+  $x_1x_2\cdots x_r$ in the polynomial representing $g(x)$ must be 0. This
+  is true for every $r>k$, so the degree of $f$ must not be greater than
+  $k$.
 \end{proof}
-\par That $n$ is even has already been observed.
-\par Let $n=2k$ with $k>1$, and let $r>k$. Consider the polynomial
-$f(x_1,x_2,\dots,x_r,0,0,\dots,0)=g(x_1,x_2,\dots,x_r)$. Then by equation \ref{eqn:DFT},
-\[
-	(-1)^{g(x)}=\frac{1}{2^{r/2}}\sum_{\lambda_1,\lambda_2,\dots,\lambda_r=0,1}b(\lambda_1,\dots,\lambda_r)(-1)^{\lambda_1x_1+\dots+\lambda_rx_r}
-\]
-and
-\[
-	(-1)^{f(x)}=\frac{1}{2^{n/2}}\sum_{\lambda_1,\lambda_2,\dots,\lambda_n=0,1}c(\lambda_1,\dots,\lambda_n)(-1)^{\lambda_1x_1+\dots+\lambda_rx_r}.
-\]
-Because $f(x)=g(x)$ and the uniqueness of the Fourier expansion, $b$ and $c$ are related such that
-\[
-b(\lambda_1,\dots,\lambda_r)=\frac{1}{2^{(n-r)/2}}\sum_{\lambda_{r+1},\dots,\lambda_n=0,1}c(\lambda_1,\dots,\lambda_r,\lambda_{r+1},\dots,\lambda_n).
-\]
-Each $b(\lambda_1,\dots,\lambda_r)$ is a sum of $c(\lambda_1,\dots,\lambda_n)$'s.
-\par The number of zeros of $g(x_1,\dots,x_r)=f(x_1,\cdots,x_r,0,\cdots,0)$
-equals $2^{r-1}+2^{r/2-1}b(0)=2^{r-1}+2^{r-n/2-1}=2^{r-1}+2^{r-k-1}$.
 
-% Talk about some different properties associated with the bent functions
-%  -weight is 2^(n/2)\pm2^(n\2-1)
+% Strict Avalanche Criterion
+% directional derivatives
+% equivalent definition of a bent function
 
-\par A simple bent function construction is accomplished by the Boolean functions
-in the {\em Maiorana-McFarland\ class}. This is the the set $\mathcal{M}$ which
-contains all Boolean function on $\gftwo^n=\{(x,y):x,y\in\gftwo^n\}$, of the form:
+\subsection{Constructions of Bent Functions}
+\par A simple bent function construction is accomplished by the Boolean
+functions in the {\em Maiorana-McFarland\ class}. This is the the set
+$\mathcal{M}$ which contains all Boolean function on
+$\gftwo^n=\{(x,y):x,y\in\gftwo^{n/2}\}$, of the form:
   \[
   f(x,y)=x\cdot\pi(y)\oplus g(y)
   \]
-where $\pi$ is any permutation on $\gftwo^{n/2}$ and $g$ any Boolean function on
-$\gftwo^{n/2}$.
+where $\pi$ is any permutation on $\gftwo^{n/2}$ and $g$ any Boolean
+function on $\gftwo^{n/2}$.
 
-\par All function in the Maiorana-McFarland class of Boolean functions are bent.
+\par All functions in the Maiorana-McFarland class of Boolean functions are
+bent.
+
+\subsection{Bent Sequences}
+\par The interest of this papers is stream ciphers, and there are a few
+different ways to use bent functions in the implementation of a stream
+cipher.
+
+\begin{definition}\label{def:lex-bent-seq}
+  Let $f\in\BF_n$ be a bent function, and $v_i\in\gftwo^n$ such that
+  $v_i=B^{-1}(i)$ for $0\leq i<2^n$. Then,
+  \begin{equation}
+    seq_l(f)=(f(v_0),f(v_1),\cdots,f(v_{2^n-1}),f(v_0),\cdots)
+  \end{equation}
+  is a {\em lexicographical\ bent\ sequence}.
+\end{definition}
+
+\begin{lemma}
+The lexicographical bent sequence has a maximal period of $2^n$.
+\end{lemma}
+
+\par The bent sequences will be considered as the coefficients of the power
+series used to define 2-adic integers. The next section will cover the
+construction of the N-adic integers and then explain how the 2-adic integers
+can be used to analyze bent sequences.
