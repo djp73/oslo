@@ -195,26 +195,3 @@ function on $\gftwo^{n/2}$.
 
 \par All functions in the Maiorana-McFarland class of Boolean functions are
 bent.
-
-\subsection{Bent Sequences}
-\par The interest of this papers is stream ciphers, and there are a few
-different ways to use bent functions in the implementation of a stream
-cipher.
-
-\begin{definition}\label{def:lex-bent-seq}
-  Let $f\in\BF_n$ be a bent function, and $v_i\in\gftwo^n$ such that
-  $v_i=B^{-1}(i)$ for $0\leq i<2^n$. Then,
-  \begin{equation}
-    seq_l(f)=(f(v_0),f(v_1),\cdots,f(v_{2^n-1}),f(v_0),\cdots)
-  \end{equation}
-  is a {\em lexicographical\ bent\ sequence}.
-\end{definition}
-
-\begin{lemma}
-The lexicographical bent sequence has a maximal period of $2^n$.
-\end{lemma}
-
-\par The bent sequences will be considered as the coefficients of the power
-series used to define 2-adic integers. The next section will cover the
-construction of the N-adic integers and then explain how the 2-adic integers
-can be used to analyze bent sequences.
