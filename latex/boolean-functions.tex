@@ -42,7 +42,7 @@ as $x\cdot y:=\allowbreak x_0\cdot y_0 \oplus\allowbreak
 \end{example}
 
 \par Each vector in $\gftwo^n$ can be uniquely represented by an integer
-between $0$ and $2^{n-1}$. The binary representation function $B$
+between $0$ and $2^n-1$. The binary representation function $B$
 is one-to-one.
 \begin{equation}
 	B:\gftwo^n\rightarrow\nnn\cup\{0\}\ \allowbreak
@@ -111,7 +111,7 @@ where $x_i\cdot x_j$ appears in the $i$th row and $j$th column. This
 particular matrix turns out to be a {\em Hadamard matrix} which will be
 studied later.
 
-\par There is an interesting orthogonality property in the vectorspace
+\par There is an interesting orthogonality property in the vector space
 $\gftwo^n$ known as the {\em orthogonality principle} that every non-zero
 vector in $\gftwo^n$ is orthogonal to exactly half of the vectors in the
 vectorspace.
@@ -145,7 +145,7 @@ vectorspace.
   $\sum_{y\in\gftwo^n}(-1)^{x\cdot y}=0$.
 \end{proof}
 
-\par When introduced to a new vector field, it is natural to begin looking
+\par When introduced to a new vector space, it is natural to begin looking
 at functions in that field. The particular function of interest here will
 be what is known as a {\em Boolean function}.
 
@@ -161,21 +161,19 @@ be what is known as a {\em Boolean function}.
 \end{definition}
 
 \par The number of Boolean functions increases extremely rapidly as the
-number of variables increases.
+number of variables increases.\footnote{With today's fastest supercomputer
+operating at 10.51 petaflops (the K computer in Japan), if one floating
+point operation was expended visiting every Boolean function of 7 variables,
+it would take over a thousand trillion years to complete the process. This
+length of time is roughly 70,000 times the age of the universe. Though
+every symmetric cryptosystem in use can be broken down into several Boolean
+functions of several variables, it would be infeasible to brute force search
+through all of the possibilities of Boolean functions which reconstruct the
+cryptosystem.}
 
 \begin{equation}
   \lvert\BF_n\rvert = 2^{2^n}
 \end{equation}
-
-\par With today's fastest supercomputer operating at 10.51
-petaflops\footnote{http://en.wikipedia.org/wiki/K\_computer}, if one
-floating point operation was expended visiting every Boolean function of 7
-variables, it would take over a thousand trillion years to complete the
-process. This length of time is roughly 70,000 times the age of the
-universe. Though every symmetric cryptosystem in use can be broken down into
-several Boolean functions of several variables, it would be infeasible to
-brute force search through all of the possibilities of Boolean functions
-which reconstruct the cryptosystem.
 
 \par The Boolean function $f$ is presented in a {\em truth\ table} in 
 Table \ref{tab:truth-table}. The Hamming weight of $f$ is the number of 1s
