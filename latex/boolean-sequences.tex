@@ -1,0 +1,75 @@
+\section{Boolean Sequences}
+\par The interest of this paper is stream ciphers, and there are a few
+different ways to use bent functions in the implementation of a stream
+cipher.
+
+\begin{definition}\label{def:lex-Bool-seq}
+  Let $f\in\BF_n$ and $v_i\in\gftwo^n$ such that $v_i=B^{-1}(i)$ for
+  $0\leq i<2^n$. Then,
+  \begin{equation}
+    seq(f)=(f(v_0),f(v_1),\cdots,f(v_{2^n-1}),f(v_0),\cdots)
+  \end{equation}
+  is a {\em lexicographical\ Boolean\ sequence}.
+\end{definition}
+
+\begin{lemma}\label{lem:Bseq-period}
+The lexicographical Boolean sequence has a maximal period of $2^n$.
+\end{lemma}
+
+\begin{theorem}
+  The lexicographical Boolean sequence of a Bent function has a period
+  exactly $2^n$.
+\end{theorem}
+\begin{proof}
+  Let $(x,1)\in\gftwo^n$ so that $(x,1)=(x_0,\cdots,x_{n-2},1)$. Define
+  $(x,0)$ and $(\lambda,1)$ in a similar way. Suppose $f\in\BF_n$ and
+  $seq(f)$ has a period $T=2^j<2^n$. Then, $f(x,0)=f(x,1)$.
+  \begin{align*}
+    c(\lambda,1)&=\frac{1}{2^{n/2}}
+      \left(\sum_{x\in\gftwo^{n-1}}
+        {(-1)^{f(x,0)+(x,0)\cdot(\lambda,1)}+
+        (-1)^{f(x,1)+(x,1)\cdot(\lambda,1)}}
+      \right)\\
+    &=\frac{1}{2^{n/2}}
+      \left(\sum_{x\in\gftwo^{n-1}}
+        {(-1)^{f(x,0)}\left((-1)^{(x,0)\cdot(\lambda,1)}+
+        (-1)^{(x,1)\cdot(\lambda,1)}\right)}
+      \right)\\
+    &=\frac{1}{2^{n/2}}
+      \left(\sum_{x\in\gftwo^{n-1}}
+      {(-1)^{f(x,0)}\left((-1)^{0\cdot1}+(-1)^{1\cdot1}\right)}
+      \right)\\
+    &=\frac{1}{2^{n/2}}
+      \left(\sum_{x\in\gftwo^{n-1}}{(-1)^{f(x,0)}\cdot0}\right)\\
+    &=0.
+  \end{align*}
+  One of the Fourier coefficients of $f$ must equal zero. Thus, $f$ cannot
+  be a Bent function. By Lemma\ \ref{lem:Bseq-period},\ every
+  lexicographical Boolean sequence has a maximal period of $2^n$. Therefore,
+  if $g$ is a Bent function, then $seq(g)$ has period exactly $2^n$.
+\end{proof}
+
+\par Boolean sequences will be considered as the coefficients of the power
+series used to define 2-adic integers.
+
+\begin{definition}\label{2-adic-ex}
+  Let $f\in\BF_n$ and $v_i\in\gftwo^n$ such that $v_i=B^{-1}(i)$ for
+  $0\leq i<2^n$. Then,
+  \begin{equation}
+    \alpha_f=(f(v_0),f(v_0)+f(v_1)\cdot2,\cdots,\allowbreak
+      f(v_0)+\cdots\allowbreak+f(v_i)\cdot2^i,\allowbreak\cdots)
+  \end{equation}
+  where $\alpha_f\in\zzz_2$ is called the {\em 2-adic\ expansion} of $f$.
+\end{definition}
+
+\begin{lemma}
+  The digit representation of $\alpha_f$ is $seq(f)$.
+\end{lemma}
+
+\par Recall the Maiorana-McFarland class of Boolean functions, and consider
+the subset of these functions where $g(y)=0$. Then the following theorem is
+true.
+
+\begin{theorem}
+  $\log_2(\alpha_{x\cdot\pi(y)})=2^{n/2}+2^{\bar{\pi}(y_0)}$
+\end{theorem}

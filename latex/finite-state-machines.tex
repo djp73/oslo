@@ -27,23 +27,23 @@ registers. In the next section, FCSRs will be defined with Golomb's style in min
 the periodicity of any finite state machine, which include FCSRs. The theorems
 and proofs are presented here.
 
-\begin{theorem}\label{thm:golomb-1}
-  If the input to a finite state machine is eventually constant, then the output
-  is eventually periodic.
-\end{theorem}
-\begin{proof}
-  Let $t$ be the time when the input becomes constant, so $a_t=a_{t+1}=\dots$.
-  Because $K$ is a finite collection of states, there exists times $r>s>t$ such
-  that $k_r=k_s$. Then, by induction, $\forall i>0$,
-  \[
-  k_{r+i+1}=\delta(k_{r+i},a_{r+i})=\delta(k_{s+i},a_{s+i})=k_{s+i+1}
-  \]
-  Therefore,
-  \[
-  b_{r+i+1}=\mu(k_{r+i+1},a_{r+i+1})=\delta(k_{s+i+1},a_{s+i+1})=b_{s+i+1}
-  \]
-  Thus, the eventual period of this machine is $r-s$.
-\end{proof}
+%\begin{theorem}\label{thm:golomb-1}
+%  If the input to a finite state machine is eventually constant, then the output
+%  is eventually periodic.
+%\end{theorem}
+%\begin{proof}
+%  Let $t$ be the time when the input becomes constant, so $a_t=a_{t+1}=\dots$.
+%  Because $K$ is a finite collection of states, there exists times $r>s>t$ such
+%  that $k_r=k_s$. Then, by induction, $\forall i>0$,
+%  \[
+%  k_{r+i+1}=\delta(k_{r+i},a_{r+i})=\delta(k_{s+i},a_{s+i})=k_{s+i+1}
+%  \]
+%  Therefore,
+%  \[
+%  b_{r+i+1}=\mu(k_{r+i+1},a_{r+i+1})=\delta(k_{s+i+1},a_{s+i+1})=b_{s+i+1}
+%  \]
+%  Thus, the eventual period of this machine is $r-s$.
+%\end{proof}
 
 \begin{theorem}\label{thm:golomb-2}
   If the input sequence to a finite state machine is eventually periodic, then the
