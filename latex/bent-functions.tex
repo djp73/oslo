@@ -20,9 +20,7 @@ defined.
 
 \begin{definition}\cite{bk:t99}
   A {\em character} $\Chi$ of a finite abelian group $G$ is a group
-  homomorphism from $G$ into the multiplicative group
-  $\{e^{\frac{2\pi\imath k}{\lvert G \rvert}}:k\in\zzz\}$ of complex numbers
-  of norm 1.
+  homomorphism from $G$ into the multiplicative group of complex numbers.
 \end{definition}
 
 For the purposes of this paper, it should be clear that
@@ -108,9 +106,10 @@ in terms of Fourier transforms.
 	\]
 \end{lemma}
 
-\par As observed by Rothaus, $2^{n/2}c(\lambda)$ is the number of zeros
-minus the number of ones of the function $f(x)+\lambda\cdot x$. The Hamming
-weight of f is easily determined using the zero Fourier coefficient $c(0)$:
+\par As observed by Rothaus \cite{art:r76}, $2^{n/2}c(\lambda)$ is the
+number of zeros minus the number of ones of the function
+$f(x)+\lambda\cdot x$. The Hamming weight of f is easily determined using
+the zero Fourier coefficient $c(0)$:
 \begin{align*}
 	c(0)&=\frac{1}{2^{n/2}}\sum_{x\in\gftwo^n}(-1)^{f(x)}\\
 	&=\frac{1}{2^{n/2}}\big((2^n-wt(f))-wt(f)\big)

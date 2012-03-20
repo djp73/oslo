@@ -1,7 +1,7 @@
 \section{$N$-adic Integers}
 \par The goal of this section is to introduce the reader to the $N$-adic
-integer ring and define the {\em 2-adic valuation}. The valuation will be
-used to analyze bent sequences.
+integer ring and define the {\em N-adic valuation}. The 2-adic valuation
+will be used to analyze bent sequences.
 
 \subsection{$N$-adic Integer Ring}
 \par The notation used in the definition of the $N$-adic numbers will follow
@@ -17,7 +17,7 @@ integers is shown to be a commutative ring with an identity.
   \begin{equation} \label{eq:seq}
   x_{i+1} \equiv x_i\pmod{N^{i+1}} \ \ \ \forall i \geq 0.
   \end{equation}
-  Two sequences $\xn$ and $\{x_n'\}$ determine the same $N$-adic integer if 
+  Two sequences $\xn$ and $(x_n')$ determine the same $N$-adic integer if 
 \begin{equation} \label{eq:equiv}
   x_i \equiv x_i' \pmod{N^{i+1}}\ \ \ \forall i \geq 0.
 \end{equation}
@@ -25,23 +25,23 @@ integers is shown to be a commutative ring with an identity.
 \end{definition}
 
 \par Each integer $x$ is associated with a $N$-adic integer, determined
-by the sequence \{$x,\ x, \ \dots, \ x,\ \dots$\}. These integers will be
+by the sequence ($x,\ x, \ \dots, \ x,\ \dots$). These integers will be
 called {\em rational integers} in the $N$-adic integers.
 	
 \begin{example} \label{ex:equiv-seq}
   Let $\xn \rightarrow \alpha \in \zzz_3$. Then the first 5 terms of
   $\xn$ may look something like:
   \begin{align*}
-    \xn = \{&\ 1\ , \ 1+2\cdot3 \ , \ 1+2\cdot3+1\cdot3^2 \ ,\\
+    \xn = (&\ 1\ , \ 1+2\cdot3 \ , \ 1+2\cdot3+1\cdot3^2 \ ,\\
             &1+2\cdot3+1\cdot3^2 \ , \ 1+2\cdot3+1\cdot3^2+1\cdot3^4 \ ,
-              \ \dots\}\\
-        = \{&1,7,16,16,97,\dots\}
+              \ \dots)\\
+        = (&1,7,16,16,97,\dots)
   \end{align*}
   Then equivalent sequences to $\xn$ could begin differently for the first
   few terms:
   \begin{align*}
-    \yn &= \{4,25,16,178,583,\dots\} \\
-    \zn &= \{-2,-47,232,-308,97,\dots\}
+    \yn &= (4,25,16,178,583,\dots) \\
+    \zn &= (-2,-47,232,-308,97,\dots)
   \end{align*}
   The sequences for $\yn$ and $\zn$ satisfy equation (\ref{eq:seq}) for the
   first 5 terms, so they could be $N$-adic integers up to this point. Also,
@@ -67,10 +67,10 @@ when writing $N$-adic integers as sequences.
   the properties:
   \begin{enumerate}[i.]
     \item $\an \rightarrow \alpha$
-    \item $\an=\{a_0, \ a_0+a_1\cdot N, \ \dots, \ a_0+\dots+a_i\cdot N^i, \ \dots\} : 0 \leq a_i < N \ \ \ \forall i \geq 0$
+    \item $\an=(a_0, \ a_0+a_1\cdot N, \ \dots, \ a_0+\dots+a_i\cdot N^i, \ \dots) : 0 \leq a_i < N \ \ \ \forall i \geq 0$
   \end{enumerate}
   will be called {\em canonical}. The sequence
-  $(a_0,a_1,a_2,\cdots,a_i,\cdots$ is the {\em digit representation} of
+  $(a_0,a_1,a_2,\cdots,a_i,\cdots)$ is the {\em digit representation} of
   $\alpha$. When $N\leq10$, the digits are usually written adjacent to one
   another.
 \end{definition}
@@ -81,20 +81,20 @@ when writing $N$-adic integers as sequences.
   sequence that determined the $N$-adic integer $\alpha$. A few more examples
   of canonical sequences determining 7-adic integers are given here:\\
   \\
- $\beta = 3164\dots$, then the canonical sequence $\{b_n\} \rightarrow \beta$ is
+ $\beta = 3164\dots$, then the canonical sequence $(b_n) \rightarrow \beta$ is
   \begin{align*}
-    \{b_n\} &= \{3, \ 3+1\cdot7, \ 3+1\cdot7+6\cdot7^2, \ 3+1\cdot7+6\cdot7^2+4\cdot7^3, \ \dots\}\\
-            &= \{3,10,304,1676,\dots\}
+    (b_n) &= (3, \ 3+1\cdot7, \ 3+1\cdot7+6\cdot7^2, \ 3+1\cdot7+6\cdot7^2+4\cdot7^3, \ \dots)\\
+            &= (3,10,304,1676,\dots)
   \end{align*}
-  $\gamma = 0164\dots$, then the canonical sequence $\{c_n\} \rightarrow \gamma$ is
+  $\gamma = 0164\dots$, then the canonical sequence $(c_n) \rightarrow \gamma$ is
   \begin{align*}
-    \{c_n\} &= \{0, \ 1\cdot7, \ 1\cdot7+6\cdot7^2, \ 1\cdot7+6\cdot7^2+4\cdot7^3, \ \dots\}\\
-            &= \{0,7,301,1673,\dots\}
+    (c_n) &= (0, \ 1\cdot7, \ 1\cdot7+6\cdot7^2, \ 1\cdot7+6\cdot7^2+4\cdot7^3, \ \dots)\\
+            &= (0,7,301,1673,\dots)
   \end{align*}
-  $\delta = 5031\dots$, then the canonical sequence $\{d_n\} \rightarrow \delta$ is
+  $\delta = 5031\dots$, then the canonical sequence $(d_n) \rightarrow \delta$ is
   \begin{align*}
-    \{d_n\} &= \{5, \ 5, 5+3\cdot7^2, \ 5+3\cdot7^2+1\cdot7^3, \ \dots\}\\
-            &= \{5,5,152,495,\dots\}.
+    (d_n) &= (5, \ 5, 5+3\cdot7^2, \ 5+3\cdot7^2+1\cdot7^3, \ \dots)\\
+            &= (5,5,152,495,\dots).
   \end{align*}
 \end{example}
 
@@ -102,11 +102,11 @@ when writing $N$-adic integers as sequences.
   Addition and multiplication in $\zzzn$ are done term by term. \\
   Let $\alpha,\beta \in \zzzn$ and $\xn \rightarrow \alpha, \yn \rightarrow \beta$. Then,
   \begin{align*}
-    \xn+\yn     &:= \{x_0+y_0, x_1+y_1, \dots\} \rightarrow \alpha+\beta\\
-    \xn\cdot\yn &:= \{x_0 \cdot y_0, x_1 \cdot y_1, \dots\} \rightarrow \alpha \cdot \beta\\ 
+    \xn+\yn     &:= (x_0+y_0, x_1+y_1, \dots) \rightarrow \alpha+\beta\\
+    \xn\cdot\yn &:= (x_0 \cdot y_0, x_1 \cdot y_1, \dots) \rightarrow \alpha \cdot \beta\\ 
   \end{align*}
 
-  Define $\{0,0,0,\dots\} \rightarrow 0 \in \zzzn$ and $\{1,1,1,\dots\} \rightarrow 1 \in \zzzn$
+  Define $(0,0,0,\dots) \rightarrow 0 \in \zzzn$ and $(1,1,1,\dots) \rightarrow 1 \in \zzzn$
 \end{definition}
 
 \begin{lemma}\label{lem:identity}
@@ -115,27 +115,27 @@ when writing $N$-adic integers as sequences.
 \begin{proof}
   Let $\xn\rightarrow\alpha\in\zzzn$.
   \begin{align*}
-    \xn+\{0,0,\dots\}&=\{x_0+0,x_1+0,\dots,x_i+0,\dots\}\\
-                     &=\{x_0,\dots,x_i,\dots\}.\\
-    \{0,0,\dots\}+\xn&=\{0+x_0,0+x_1,\dots,0+x_i,\dots\}\\
-                     &=\{x_0,\dots,x_i,\dots\}.
+    \xn+(0,0,\dots)&=(x_0+0,x_1+0,\dots,x_i+0,\dots)\\
+                     &=(x_0,\dots,x_i,\dots).\\
+    (0,0,\dots)+\xn&=(0+x_0,0+x_1,\dots,0+x_i,\dots)\\
+                     &=(x_0,\dots,x_i,\dots).
   \end{align*}
-  $\xn=\xn+\{0,0,\dots\}=\{0,0,\dots\}+\xn$ implies $\alpha=\alpha+0=0+\alpha$.
+  $\xn=\xn+(0,0,\dots)=(0,0,\dots)+\xn$ implies $\alpha=\alpha+0=0+\alpha$.
   Therefore, the additive identity in $\zzzn$ is 0.
 
   \begin{align*}
-    \xn\cdot\{1,1,\dots\}&=\{x_0\cdot 1,x_1\cdot 1,\dots,x_i\cdot 1,\dots\}\\
-                         &=\{x_0,\dots,x_i,\dots\}.\\
-    \{1,1,\dots\}\cdot\xn&=\{1\cdot x_0,1\cdot x_1,\dots,1\cdot x_i,\dots\}\\
-                         &=\{x_0,\dots,x_i,\dots\}.
+    \xn\cdot(1,1,\dots)&=(x_0\cdot 1,x_1\cdot 1,\dots,x_i\cdot 1,\dots)\\
+                         &=(x_0,\dots,x_i,\dots).\\
+    (1,1,\dots)\cdot\xn&=(1\cdot x_0,1\cdot x_1,\dots,1\cdot x_i,\dots)\\
+                         &=(x_0,\dots,x_i,\dots).
   \end{align*}
-   $\xn=\xn\cdot\{1,1,\dots\}=\{1,1,\dots\}\cdot\xn$ implies $\alpha=\alpha\cdot1=1\cdot\alpha$.
+   $\xn=\xn\cdot(1,1,\dots)=(1,1,\dots)\cdot\xn$ implies $\alpha=\alpha\cdot1=1\cdot\alpha$.
   Therefore, the multiplicative identity in $\zzzn$ is 1.
 \end{proof}   
 % Insert examples of multiplication and addition
 
-\par Finally, this section defines a {\em ring} \cite{bk:fgr12} and proves
-that $\zzzn$ is a {\em commutative ring with an identity}.
+\par Finally, this section defines a {\em ring} and proves that $\zzzn$ is a
+{\em commutative ring with an identity}.
 \begin{definition}
 \label{def:ring}
   A {\em ring} is a set $R$ with two binary operations defined on it. These are usually
@@ -180,18 +180,18 @@ that $\zzzn$ is a {\em commutative ring with an identity}.
   \begin{enumerate}
     \item {\em Commutativity of Addition}
       \begin{align*}
-            \xn+\yn&=\{x_0+y_0,\dots,x_i+y_i,\dots\} \\
-                   &=\{y_0+x_0,\dots,y_i+x_i,\dots\} \\
+            \xn+\yn&=(x_0+y_0,\dots,x_i+y_i,\dots) \\
+                   &=(y_0+x_0,\dots,y_i+x_i,\dots) \\
                    &=\yn+\xn.
       \end{align*}
       $\xn+\yn \rightarrow \alpha+\beta$ and $\xn+\yn=\yn+\xn \rightarrow \beta+\alpha$.
       Therefore, by Definition \ref{def:N-adic}, $\alpha+\beta=\beta+\alpha$.
     \item {\em Associativity of Addition}
       \begin{align*}
-        \xn+(\yn+\zn)&=\xn+\{y_0+z_0,\dots,y_i+z_i,\dots\} \\
-                     &=\{x_0+(y_0+z_0),\dots,x_i+(y_i+z_i),\dots\} \\
-                     &=\{(x_0+y_0)+z_0,\dots,(x_i+y_i)+z_i,\dots\} \\
-                     &=\{x_0+y_0,\dots,x_i+y_i,\dots\}+\zn \\
+        \xn+(\yn+\zn)&=\xn+(y_0+z_0,\dots,y_i+z_i,\dots) \\
+                     &=(x_0+(y_0+z_0),\dots,x_i+(y_i+z_i),\dots) \\
+                     &=((x_0+y_0)+z_0,\dots,(x_i+y_i)+z_i,\dots) \\
+                     &=(x_0+y_0,\dots,x_i+y_i,\dots)+\zn \\
                      &=(\xn+\yn)+\zn.
       \end{align*}
       Therefore, $\alpha+(\beta+\gamma)=(\alpha+\beta)+\gamma$.
@@ -200,38 +200,38 @@ that $\zzzn$ is a {\em commutative ring with an identity}.
       By Lemma \ref{lem:identity}, $0$ is the additive identity.
     \item {\em Existence of Additive Inverses}
       \\ \\
-      Define $-\xn = \{p-x_0,p^2-x_1,\dots,p^{i+1}-x_i,\dots\} \rightarrow -\alpha$.
+      Define $-\xn = (p-x_0,p^2-x_1,\dots,p^{i+1}-x_i,\dots) \rightarrow -\alpha$.
       Then
       \begin{align*}
-        \xn+(-\xn)&=\{x_0+p-x_0,x_1+p^2-x_1,\dots,x_i+p^{i+1}-x_i,\dots\} \\
-                  &=\{p,p^2,\dots,p^{i+1},\dots\} \\
-                  &\equiv\{0,0,\dots\} \\
+        \xn+(-\xn)&=(x_0+p-x_0,x_1+p^2-x_1,\dots,x_i+p^{i+1}-x_i,\dots) \\
+                  &=(p,p^2,\dots,p^{i+1},\dots) \\
+                  &\equiv(0,0,\dots) \\
                   &=0.
       \end{align*}
       Therefore, $\alpha+(-\alpha)=0$.
     \item {\em Associativity of Multiplication}
       \begin{align*}
-        \xn(\yn\zn)&=\xn\{y_0z_0,\dots,y_iz_i,\dots\} \\
-                   &=\{x_0(y_0z_0),\dots,x_i(y_iz_i),\dots\} \\
-                   &=\{(x_0y_0)z_0,\dots,(x_iy_i)z_i,\dots\} \\
-                   &=\{x_0y_0,\dots,x_iy_i,\dots\}\zn \\
+        \xn(\yn\zn)&=\xn(y_0z_0,\dots,y_iz_i,\dots) \\
+                   &=(x_0(y_0z_0),\dots,x_i(y_iz_i),\dots) \\
+                   &=((x_0y_0)z_0,\dots,(x_iy_i)z_i,\dots) \\
+                   &=(x_0y_0,\dots,x_iy_i,\dots)\zn \\
                    &=(\xn\yn)\zn.
       \end{align*}
       Therefore, $\alpha(\beta\gamma)=(\alpha\beta)\gamma$.
     \setcounter{enumi}{6}
     \item {\em Commutativity of Multiplication}
       \begin{align*}
-        \xn\yn&=\{x_0y_0,\dots,x_iy_i,\dots\} \\
-              &=\{y_0x_0,\dots,y_ix_i,\dots\} \\
+        \xn\yn&=(x_0y_0,\dots,x_iy_i,\dots) \\
+              &=(y_0x_0,\dots,y_ix_i,\dots) \\
               &=\yn\xn.
       \end{align*}
       Therefore, $\alpha\beta=\beta\alpha$.
     \setcounter{enumi}{5}
     \item {\em Left and right distributivity of multiplication over addition}
       \begin{align*}
-        \xn(\yn+\zn)&=\xn\{y_0+z_0,\dots,y_i+z_i,\dots\} \\
-                    &=\{x_0(y_0+z_0),\dots,x_i(y_i+z_i),\dots\} \\
-                    &=\{x_0y_0+x_0z_0,\dots,x_iy_i+x_iz_i,\dots\} \\
+        \xn(\yn+\zn)&=\xn(y_0+z_0,\dots,y_i+z_i,\dots) \\
+                    &=(x_0(y_0+z_0),\dots,x_i(y_i+z_i),\dots) \\
+                    &=(x_0y_0+x_0z_0,\dots,x_iy_i+x_iz_i,\dots) \\
                     &=\xn\yn+\xn\zn. \\
       \end{align*}
       By commutativity of multiplication,
@@ -287,19 +287,26 @@ unit if and only if $a$ is relatively prime to $N$. If $a$ is invertible in
 $\zzzn$, then for any rational integer $b\in\zzzn$, $b/a=a^{-1}b\in\zzzn$.
 
 
-\subsection{$2$-adic Valuation}
-\par In the digit representation, elements of $\zzz_2$ are infinite
-sequences of 0s and 1s, just like bent sequences. These two sequences are
-related.
+\subsection{$N$-adic Valuation and Norm}
+\par The 2-adic valuation will be used to analyze the Bent sequences
+presented later. The general definitions for the $N$-adic valuation and
+norm are given here.
 
-\begin{definition}\label{2-adic-val}
-  Let $\alpha=\an\in\zzz_2\setminus\{0\}$. If $m$ is the smallest
-  number in $\nnn$ such that $a_m \not\equiv 0 \pmod p^{m+1}$,
-	then the {\em 2-adic\ valuation} of $\alpha$ is $m$, or
-  $\log_2(\alpha)=m$. If $\alpha=0$, then $\log_2(\alpha)=\infty$.
+\begin{definition}\label{N-adic-val}
+  Let $\alpha=\an\in\zzz_N\setminus(0)$. If $m$ is the smallest number in
+  $\nnn$ such that $a_m \not\equiv 0 \pmod p^{m+1}$, then the {\em N-adic\ 
+  valuation} of $\alpha$ is $m$, or $\log_N(\alpha)=m$. If $\alpha=0$, then
+  $\log_N(\alpha)=\infty$.
 \end{definition}
 
-\begin{definition}\label{2-adic-norm}
-	If $\alpha \in \zzz_2$, then the {\em 2-adic norm} of $\alpha$ is
-  $\lVert \alpha \rVert_2 = 2^{-m}$ where $m=\log_2(\alpha)$. 
+\begin{definition}\label{N-adic-norm}
+	If $\alpha \in \zzz_N$, then the {\em N-adic norm} of $\alpha$ is
+  $\lVert \alpha \rVert_N = N^{-m}$ where $m=\log_N(\alpha)$. 
 \end{definition}
+
+\par This paper will be careful not to confuse $\log_N$ in $\zzzn$ with 
+$\log_N$ in $\mathbb{R}$.
+
+\begin{example}
+  Let the $\alpha=00001011011\cdots\in\zzzn$. Then $\log_2(\alpha)=4$.
+\end{example}

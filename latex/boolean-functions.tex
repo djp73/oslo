@@ -42,8 +42,9 @@ as $x\cdot y:=\allowbreak x_0\cdot y_0 \oplus\allowbreak
 \end{example}
 
 \par Each vector in $\gftwo^n$ can be uniquely represented by an integer
-between $0$ and $2^n-1$. The binary representation function $B$
-is one-to-one.
+between $0$ and $2^n-1$. To do this, the components of each vector in
+$\gftwo^n$ are trivially mapped to the integers 0 and 1, and then used in
+the one-to-one binary representation function $B$:
 \begin{equation}
 	B:\gftwo^n\rightarrow\nnn\cup\{0\}\ \allowbreak
   {\rm such\ that }\ \allowbreak B(u) := \sum_{i=0}^{n-1}u_i\cdot2^i.
