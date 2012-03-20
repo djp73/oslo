@@ -82,15 +82,30 @@ which have codomain $\{-1,1\}$.
 	\end{equation}
 \end{definition}
 
-\par The characters of $\gftwo^n$ act similar to the sines and cosines of a
-continuous Fourier transform. The psuedo Boolean function can be rewritten
-in terms of Fourier transforms.
+\begin{lemma}
+  The characters of $\gftwo^n$ are functions in $\hat{\BF}_n
+  =\{\hat{f}:f\in\BF_n$ and form an orthonormal basis of that set.
+\end{lemma}
+\begin{proof}
+  The dimension of $\hat{\BF_n}$ is $2^n$, and there are $2^n$ characters of
+  $\gftwo^n$.
+  \begin{align*}
+    \sum_{x\in\gftwo^n}{\Chi_{\lambda_i}(x)\cdot\Chi_{\lambda_j}(x)}
+    &=\sum_{x\in\gftwo^n}
+      {(-1)^{(\lambda_i+\lambda_j)\cdot x}}\\
+    &=\begin{cases}
+      0 & \text{if } i\not=j \\
+      2^n & \text{if } i=j.
+    \end{cases}
+  \end{align*}
+  Therefore, the characters of $\gftwo^n$ form an orthonormal basis of
+  $\hat{\BF}_n$.
+\end{proof}
 
-%\begin{lemma}
-%\begin{equation}\label{eqn:pseudo-DFT}
-%  \mathcal{F}\hat{f}(\lambda)=\sum_{x\in\gftwo^n}(-1)^{f(x)+\lambda\cdot x}
-%\end{equation}
-%\end{lemma}
+\par Every pseudo Boolean function can be written as a linear combination of
+the characters of $\gftwo^n$. The coefficients in these linear combinations
+reveal important properties of the functions. Rothaus rewrote the pseudo
+Boolean function as a linear combination as follows \cite{art:r76}. 
 
 \begin{lemma}
 \begin{equation}\label{eqn:rewrite-pseudo}
@@ -117,6 +132,27 @@ the zero Fourier coefficient $c(0)$:
 \begin{equation}
   \Rightarrow wt(f)=2^{n-1}-2^{n/2-1}c(0).
 \end{equation}
+
+\begin{definition}\label{def:walsh}
+  Let $f\in\BF_n$ and $\lambda\in\gftwo^n$. Then the {\em Walsh transform}
+  of $f$ is defined by:
+  \begin{equation}\label{eqn:walsh}
+    \mathcal{W}_f(\lambda)=\mathcal{F}\hat{f}(\lambda).
+  \end{equation}
+\end{definition}
+
+\par Clearly $\mathcal{W}_f(\lambda)=\frac{1}{2^{n/2}}c(\lambda)$. For large
+$|\mathcal{W}_f(\lambda)|$, $f$ is close to an affine function in $\BF_n$.
+
+\begin{example}
+  There are a two cases that should be clear to the reader.
+  \begin{enumerate}[1.]
+    \item Let $f(x)=\lambda\cdot x$. Then $\mathcal{W}_f(\lambda)=2^n$.
+    \item Let $f(x)\not=\lambda\cdot x \ \ \forall x$. Then $f(x)=
+      \lambda\cdot x+1 \ \ \forall x$. So, $\mathcal{W}_f(\lambda)=-2^n$
+  \end{enumerate}
+  In both cases, $f$ is an affine function.
+\end{example}
 
 \subsection{Bent Functions}
 \begin{definition}\label{def:bent-function}
