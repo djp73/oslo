@@ -597,33 +597,40 @@ bent.
 \end{definition}
 
 \begin{theorem}
-  If a function $f\in\BF_n$ is monotone, then it is not bent.
+  Let $f\in\BF_n$ be monotone and $x\in\gftwo^n$ such that
+  $f(x)=1$ and $\nexists y\in\gftwo^n$ such that $supp(y)\subsetneq
+  supp(x)$ where $f(y)=1$. Then, $f$ is not bent.
 \end{theorem}
 \begin{proof}
-  Let $0\not=f\in\BF_n$ be monotone and $x\in\gftwo^n$ such that
-  $f(x)=1$,$supp(x)\not=\{0,\cdots,n-1\}$, and there does not exist a
-  $y\in\gftwo^n$ such that $wt(y)<wt(x)$ and $f(y)=1$. Then for every
-  $r\in\gftwo^n$ such that $supp(x)\subset supp(r)$ $f(r)=1$. Define
-  $I=supp(x)$. Let $k\in\zzz$ such that $0\leq k\leq n-1$ and $k\in
-  supp(x)$, and $\lambda\in\gftwo^n$ such that $\lambda_k=1$. 
+  Let $f\in\BF_n$ be monotone and bent, and $x\in\gftwo^n$ such that
+  $f(x)=1$ and $\nexists y\in\gftwo^n$ such that $supp(y)\subsetneq
+  supp(x)$ where $f(y)=1$. Then $0<|supp(x)|<n$. Define $\lambda\in\gftwo^n$
+  such that $supp(x)\subsetneq supp(\lambda)$. 
   \begin{align*}
-    c(\lambda)&=
-%      \sum_{y\in\gftwo^n}
-%      {(-1)^{f(y)+y\cdot\lambda}} \\
-%      &=\frac{1}{2^{n/2}}
-%        \left(\sum_{x_0,\ldots,x_{i-1},x_{i+1},\ldots,x_{n-1}=0,1}
-%        {(-1)^{f(x)}\left((-1)^{x\cdot\lambda}+(-1)^{x'\cdot\lambda}\right)}
-%        \right)\\
-%    &=\frac{1}{2^{n/2}}
-%    \left(\sum_{x_0,\ldots,x_{i-1},x_{i+1},\ldots,x_{n-1}=0,1}
-%      {(-1)^{f(x,0)}\left((-1)^{0\cdot1}+(-1)^{1\cdot1}\right)}
-%      \right)\\
-%    &=\frac{1}{2^{n/2}}
-%      \left(\sum_{x\in\gftwo^{n-1}}{(-1)^{f(x,0)}\cdot0}\right)\\
-%    &=0.
+    c(\lambda)&=\frac{1}{2^{n/2}}\sum_{u\in\gftwo^n}
+        (-1)^{f(u)+u\cdot\lambda}\\
+      &=\frac{1}{2^{n/2}}\left(\sum_{x_I:supp(x)\subseteq I}
+        {(-1)^{f(x_I)+x_I\cdot\lambda}}+\sum_{x_J:supp(x)\nsubseteq J}
+        {(-1)^{f(x_J)+x_J\cdot\lambda}}\right)\\
+      &=\frac{1}{2^{n/2}}\left(\sum_{x_I:supp(x)\subseteq I}
+        {(-1)^{1+x_I\cdot\lambda}}+\sum_{x_J:supp(x)\nsubseteq J}
+        {(-1)^{f(x_J)+0}}\right)\\
+   \end{align*}
+   $f(x_I)=1$ because $f$ is monotone, so the first sum equals
+   $\pm2^{n-|supp(x)|+1}\mp1$. The second sum equals
+   $2wt(f)-2^{n-|supp(x)|+1}-2^n$. 
+   \begin{align*}
+      c(\lambda)&=
+      \begin{cases}
+        \frac{1}{2^{n/2}}
+          \left(2^{n-|supp(x)|+1}-1+2wt(f)-2^{n-|supp(x)|+1}-2^n\right)
+          & \text{for } |supp(x)|\ even \\
+        \frac{1}{2^{n/2}}
+          \left(-2^{n-|supp(x)|+1}+1+2wt(f)-2^{n-|supp(x)|+1}-2^n\right)
+          & \text{for } |supp(x)|\ odd\\
+      \end{cases}
+      &=
   \end{align*}
-%  One of the Fourier coefficients of $f$ must equal zero. Thus, $f$ cannot
-%  be a Bent function. Clearly, every lexicographical Boolean sequence has a
-%  minimal period at most $2^n$. Therefore, if $g$ is a Bent function, then
-%  $seq(g)$ has period exactly $2^n$.
+  \par It follows that $c(\lambda)$ cannot be an integer. For a Bent
+  function, $c(\lambda)=\pm1\in\zzz$. Therefore, $f$ is not bent.
 \end{proof}
