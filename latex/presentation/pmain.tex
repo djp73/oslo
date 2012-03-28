@@ -1,0 +1,182 @@
+\documentclass{beamer}
+\usetheme{Rochester}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+% Definitions
+\def\qqq{\mathbb{Q}}
+\def\rrr{\mathbb{R}}
+\def\zzz{\mathbb{Z}}
+\def\fff{\mathbb{F}}
+\def\gftwo{\mathbb{F}_2}
+\def\zzzp{\mathbb{Z}_p}
+\def\zzzn{\mathbb{Z}_N}
+\def\zg{\mathbb{Z}_g}
+\def\nnn{\mathbb{N}}
+\def\BF{\mathcal{BF}}
+\def\xn{(x_n)}
+\def\yn{(y_n)}
+\def\zn{(z_n)}
+\def\an{(a_n)}
+\def\Chi{\raisebox{2pt}{$\chi$}}
+% \def\qed{$\Box}
+% \newcounter{padic}
+
+\begin{document}
+\title{Pseudorandom Sequences}
+\author{Charles Celerier}
+\frame{\titlepage}
+\frame{\tableofcontents}
+
+\section{Introduction}
+
+\begin{frame}{Stream Ciphers}
+  \begin{tabular}{c c c c}
+              & 01001110010000110101010101010010 & = & NCUR\\
+              \pause
+     $\oplus$ & 00000101000010010001100100000010 & \\
+              \hline 
+              \pause
+              & 01001011010010100100110001010000 & = & KJLP
+  \end{tabular}
+\end{frame}
+
+\begin{frame}{Why use stream ciphers?}
+  \begin{itemize}
+    \item fast
+    \item easy to implement with hardware
+    \item plaintext length is not always known
+    \item near one-time-pad security
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{My research}
+  \begin{itemize}
+    \item Boolean functions
+    \item 2-adic integers
+    \item pseudorandom sequences
+    \item shift registers
+  \end{itemize}
+\end{frame}
+
+\section{Boolean Functions}
+\subsection{GF(2)}
+\begin{frame}{$\gftwo$ or ``GF two''}
+\begin{table}[h!]\label{tab:GF(2)}
+	\centering
+	\begin{tabular}{|c|c|}
+		\hline
+		XOR&AND\\
+		\hline
+		$0\oplus0:=0$&$0\cdot0:=0$\\
+		$0\oplus1:=1$&$0\cdot1:=0$\\
+		$1\oplus0:=1$&$1\cdot0:=0$\\
+		$1\oplus1:=0$&$1\cdot1:=1$\\
+		\hline
+	\end{tabular}
+	\caption{Binary Operations for $\gftwo$}
+\end{table}
+\end{frame}
+
+\begin{frame}{$\gftwo^n$ or ``GF two to the n''}
+\begin{example}
+	Let $a,b\in\gftwo^3$ such that $a=(1,0,1)$ and $b=(0,1,1)$ then
+	\begin{align*}
+		a+b      &=(1\oplus0,0\oplus1,1\oplus1)=(1,1,0) \\
+		a\cdot b &=1\cdot0\oplus0\cdot1\oplus1\cdot1=1
+	\end{align*}
+\end{example}
+
+\begin{fact}
+  $\gftwo^n$ is a vector space.
+\end{fact}
+\end{frame}
+
+\begin{frame}{Properties of $x\in\gftwo^n$}
+  \begin{definition}
+  \label{def:Hamming}
+  	Let $x,y\in\gftwo^n$. Then $wt:\gftwo^n\rightarrow\nnn\cup\{0\}$
+    is defined by
+  	\[
+  	  wt(x):=\sum_{i=0}^{n-1}x_i
+  	\]
+  	and $d:\gftwo^n\times\gftwo^n\rightarrow\nnn\cup\{0\}$ is defined by
+  	\[
+  	  d(x,y):=w(x+y).
+  	\]
+  	Then $wt(x)$ is the {\em Hamming\ weight} of $x$ and $d(x,y)$ is the
+  	{\em Hamming\ distance} between $x$ and $y$.
+  \end{definition}
+  \end{frame}
+  
+  \begin{frame}{Some examples}
+  \begin{example}
+  	Let $a,b,c\in\gftwo^5$ such that
+  	\[
+  	a=(0,1,1,0,1),\ b=(1,1,1,0,0),\ {\rm and}\ c=(0,0,1,1,0).
+  	\]
+  	Then,
+  	\begin{center}
+  		\begin{tabular}{c c}
+  			$wt(a)=3$&$d(a,b)=2$\\
+  			$wt(b)=3$&$d(a,c)=3$\\
+  			$wt(c)=2$&$d(b,c)=3$.\\
+  		\end{tabular}
+  	\end{center}
+  \end{example}
+\end{frame}
+
+\subsection{Boolean Functions}
+\begin{frame}{Boolean functions in $\BF^n$}
+  \begin{definition}
+  \label{def:boolean-function}
+    Any function $f$ defined such that 
+    \begin{equation*}
+      f:\gftwo^n\rightarrow\gftwo
+    \end{equation*}
+    is a {\em Boolean function}. The set of all Boolean functions on $n$
+    variables will be denoted by $\BF_n$.
+  \end{definition}
+\end{frame}
+\begin{frame}{An example}
+  \begin{example}
+    Let $f=x_0+x_1$.
+    \begin{table}
+    \label{tab:truth-table}
+    	\centering
+      \begin{tabular}{|c|c||c|}
+        \hline
+        $x_0$&$x_1$&$f(x_0,x_1)$\\
+        \hline
+        0&0&0\\
+        1&0&1\\
+        0&1&1\\
+        1&1&0\\
+      	\hline
+    	\end{tabular}
+    	\caption{Truth Table of $f$}
+    \end{table}
+  \end{example}
+\end{frame}
+
+\subsection{Discrete Fourier Transforms}
+\begin{frame}{Discrete Fourier Transform}
+  \begin{definition}
+    $\hat{f}(x):=(-1)^{f(x)}$
+  \end{definition}
+  \begin{lemma}
+  \begin{equation}\label{eqn:rewrite-pseudo}
+  	\hat{f}(x)
+      =\frac{1}{2^{n/2}}
+        \sum_{\lambda\in\gftwo^n}c(\lambda)\Chi_\lambda(x)
+  \end{equation}
+  	where $c(\lambda)$, the {\em Fourier\ coefficients} of $\hat{f}(x)$ are
+    given by
+    \begin{equation}\label{eqn:clambda}
+      c(\lambda)=\frac{1}{2^{n/2}}\mathcal{F}\hat{f}(\lambda).
+        %=\frac{1}{2^{n/2}}\sum_{x\in\gftwo^n}(-1)^{f(x)+\lambda\cdot x}.
+    \end{equation}
+  \end{lemma}
+\end{frame}
+
+\end{document}
