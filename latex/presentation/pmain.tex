@@ -1,5 +1,5 @@
 \documentclass{beamer}
-\usetheme{Hannover}
+\usetheme{Madrid}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{amsthm}
@@ -29,14 +29,17 @@
 \begin{document}
 \title{Analysis of Pseudorandom Sequences}
 \author{Charles Celerier}
+\date{NCUR 2012}
 \frame{\titlepage}
-\frame{\tableofcontents}
+%\frame{\tableofcontents}
 
 \section{Introduction}
 \subsection{What is a pseudorandom sequence?}
 \begin{frame}{What is a pseudorandom sequence?}
   \begin{itemize}
+      \pause
     \item uniform distribution
+      \pause
     \item low auto-correlation
   \end{itemize}
 \end{frame}
@@ -44,6 +47,7 @@
 \subsection{Stream Ciphers}
 \begin{frame}{Stream Ciphers}
   \begin{tabular}{c c c c}
+    \pause
               & 01001110010000110101010101010010 & = & NCUR\\
               \pause
      $\oplus$ & 00000101000010010001100100000010 & \\
@@ -139,7 +143,7 @@
 \end{frame}
 
 \subsection{Boolean Functions}
-\begin{frame}{Boolean functions in $\BF^n$}
+\begin{frame}{Boolean functions in $\BF_n$}
   \begin{definition}
   \label{def:boolean-function}
     Any function $f$ defined such that 
@@ -197,15 +201,15 @@
 
 \begin{frame}{Pseudo Boolean Functions}
   \begin{definition}
-    $\hat{f}(x):=(-1)^{f(x)}$ and $\hat{\BF}=\{\hat{f}:f\in\BF\}$.
+    $\hat{f}(x):=(-1)^{f(x)}$ and $\hat{\BF_n}=\{\hat{f}:f\in\BF_n\}$.
   \end{definition}
   \begin{lemma}
-    The characters of $\gftwo^n$ are functions in $\hat{\BF}_n
-    =\{\hat{f}:f\in\BF_n\}$ and form an orthonormal basis of that set.
+    The characters of $\gftwo^n$ are functions in $\hat{\BF}_n$ and form an
+    orthonormal basis of that set.
   \end{lemma}
 \end{frame}
 
-\begin{frame}
+\begin{frame}{Pseudo Boolean Functions}
   \begin{lemma}
   \begin{equation}\label{eqn:rewrite-pseudo}
   	\hat{f}(x)
@@ -236,14 +240,15 @@
 \begin{frame}{Properties of Bent Functions}
   \begin{enumerate}[1.]
     \item perfectly non-linear
-    \item nearly balanced
-    \item derivative is balanced
+    \item $wt(f)=2^{n-1}\pm2^{n/2-1}$
+    \item $\sum_{x\in\gftwo^n}{f(x)+f(x+a)}=0 \ \ \forall a\in\gftwo^n$
   \end{enumerate}
 \end{frame}
 
 \section{2-adic integers}
-\begin{frame}{Question}
+\begin{frame}{2-adic integers}
   What happens when we write positive integers with infinitely many digits? \\
+  \ \\
   \pause
   You get elements of $N$-adic integer rings!
 \end{frame}
@@ -267,7 +272,7 @@
     Let $\alpha=\an\in\zzz_2\setminus(0)$. If $m$ is the smallest number in
     $\nnn\cup\{0\}$ such that $a_m \not\equiv 0 \pmod 2^{m+1}$, then the {\em
     2-adic\ valuation} of $\alpha$ is $m$, or $\log_2(\alpha)=m$. If $\alpha=0$,
-    thenssss$\log_2(\alpha)=\infty$.
+    then $\log_2(\alpha)=\infty$.
   \end{definition}
   \begin{example}
     Let $\alpha=0001011101111\cdots$. Then $\log_2(\alpha)=3$.
@@ -307,7 +312,8 @@
   \end{lemma}
 \end{frame}
 
-\section{Shift Registers}
+\section{Linear Feedback Shift Registers}
+\subsection{Definition}
 \begin{frame}{LFSR}
   \begin{figure}[h!]
     \centering
@@ -328,10 +334,11 @@
 
 \subsection{Breaking a Stream Cipher}
 \begin{frame}{Breaking a Stream Cipher}
-  \par \textit{Kerckhoffs' principle}: ``In assessing the security of a
+  \textit{Kerckhoffs' principle}: ``In assessing the security of a
   cryptosystem, one should always assume the enemy knows the method being
-  used.''
-  \par Typically, breaking a stream cipher will mean recovering the state of
+  used.''\\
+  \ \\
+  Typically, breaking a stream cipher will mean recovering the state of
   the shift register at a given time.
 \end{frame}
 
@@ -394,12 +401,8 @@
     \item Pseudorandom sequences
     \item Stream Ciphers
     \item Analysis using Boolean functions and 2-adic integers
-    \item Connections between Bent functiosn and 2-adic valuation
+    \item Connections between Bent functions and 2-adic valuation
   \end{itemize}
-\end{frame}
-
-\begin{frame}{Questions?}
-  \includegraphics[totalheight=.98\textheight]{formal_logic.jpg}
 \end{frame}
 
 \end{document}
