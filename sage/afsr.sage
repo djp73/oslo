@@ -15,6 +15,7 @@ LICENSE:
 
 last modified 2012-02-06
 """
+from sage.crypto.boolean_function import *
 
 def connection_element(Qs, p):
     """
@@ -755,3 +756,169 @@ def boolean_fcn_synthesis(f, n, p):
     F = GF(p)
     V = GF(p)**n
     return (1-p**(p**n))**(-1)*sum([int(f(V[j]))*p**j for j in range(p**n)])
+
+###################################################
+
+def Bin(v):
+    """
+    Returns the integer value of the vector v interpreted as a binary number
+
+    INPUT:
+        v - vector in GF(2)^n
+
+    EXAMPLES:
+        sage: for x in V:             
+        ....:     Bin(x)
+        ....:     
+        0
+        1
+        2
+        3
+        4
+
+    """
+    S = 0
+    for i in range(len(v)):
+        S+=2^i*ZZ(v[i])
+    return S
+
+###################################################
+
+
+def is_monotone(f):
+    """
+    Returns the value True or False based on whether the Boolean function is
+    monotone.
+
+    INPUT:
+        f - Boolean function
+
+    EXAMPLES:
+        sage: B=BooleanPolynomialRing(5,'x')
+        sage: x0,x1,x2,x3,x4=B.gens()
+        sage: f=BooleanFunction(x0+x1)
+        sage: f
+        Boolean function with 5 variables
+        sage: is_monotone(f)
+        False
+        
+        sage: g=BooleanFunction(x0)
+        sage: is_monotone(g)
+        True
+
+        sage: h=BooleanFunction(x0+x1+x0*x1+x2+x3+x2*x3)
+        sage: is_monotone(h)
+        False
+        sage: h=BooleanFunction(x0+x1+x2+x0*x1+x0*x2+x1*x2+x0*x1*x2)
+        sage: is_monotone(h)
+        True
+
+        sage: f=BooleanFunction(x0*x2+x1+x0*x2*x1)
+        sage: is_monotone(f)
+        True
+
+
+    """
+    n = f.nvariables()
+    V = GF(2)^n
+    ALL = V.list()
+    
+    t = True
+    i = 0
+    while (t and i<2^n):
+        if f(i):
+            for j in [Bin(v) for v in V if Set(v.support()).issuperset(Set((V.list()[i]).support()))]:
+                if f(j)==0:
+                    t = False
+        i+=1
+    return t
+
+###################################################
+
+def atom_monotone(v):
+    """
+    Returns an atomic monotone Boolean function f based on the vector v in
+    GF(2)^n
+
+    INPUT:
+        v - list of element of GF(2)^n
+
+    OUTPUT:
+        f - Boolean function on n variables
+
+    EXAMPLES:
+        sage: V=GF(2)^4  
+        sage: W=GF(2)^(2^4)                                             
+        sage: A=matrix([W(atom_monotone([v]).truth_table()) for v in V])
+        sage: f=atom_monotone([V([1,0,0,0]),V([0,0,0,1])])              
+        sage: fvec=W(f.truth_table())                                   
+        sage: c_v=fvec*A^(-1)                                           
+        sage: c_v*A==fvec                                               
+        True
+
+
+    """
+
+    F = GF(2)
+    n = v[0].degree()
+    V = F^n
+    W = F^(2^n)
+    L = seq(W(0))
+
+    for i in range(len(v)):
+        supp_v = Set(v[i].support())
+        j=0
+        for x in V:
+            if Set(x.support()).issuperset(supp_v):
+                L[j]=1
+            j+=1
+
+    f = BooleanFunction(seq(L))
+
+    return f
+
+######################################################
+def Hamming_weight(v):
+
+    """
+    Returns the Hamming weight of a vector in GF(2)^n as an integer
+
+    INPUT:
+        v - vector in GF(2)^n
+
+    OUTPUT:
+        w - integer
+
+    EXAMPLES:
+
+    """
+    n = v.degree()
+    w = 0
+    for i in range(n):
+        w += ZZ(v[i])
+    return w
+
+############################################
+
+def print_truth(v):
+
+    """
+    INPUT:
+        v - list of monotone function basis vectors
+
+    OUTPUT:
+        Prints the truth table of the function which is a linear combination of
+    the functions based on the list of vectors in a nice way.
+
+    EXAMPLES:
+
+    """
+    n = (v[0]).degree()
+    V = GF(2)^(n)
+    W = GF(2)^(2^n)
+    A=matrix([W(atom_monotone([x]).truth_table()) for x in V])
+    f=atom_monotone(v)
+    fvec=W(f.truth_table())
+    c_v=fvec*A^(-1)
+    for x in V:
+        print str(x) + " " + str(c_v[Bin(x)]) + " " + str(f(Bin(x)))
