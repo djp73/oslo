@@ -900,24 +900,23 @@ def Hamming_weight(v):
 
 ############################################
 
-def print_truth(v):
+def print_truth(f):
 
     """
     INPUT:
-        v - list of monotone function basis vectors
+        f - Boolean function
 
     OUTPUT:
         Prints the truth table of the function which is a linear combination of
-    the functions based on the list of vectors in a nice way.
+    the monotone Boolean functions.
 
     EXAMPLES:
 
     """
-    n = (v[0]).degree()
+    n = f.nvariables()
     V = GF(2)^(n)
     W = GF(2)^(2^n)
     A=matrix([W(atom_monotone([x]).truth_table()) for x in V])
-    f=atom_monotone(v)
     fvec=W(f.truth_table())
     c_v=fvec*A^(-1)
     for x in V:
