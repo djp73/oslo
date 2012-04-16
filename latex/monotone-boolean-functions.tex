@@ -5,24 +5,22 @@ possible to construct every Boolean function from monotone Boolean
 functions.
 
 \subsection{Boolean Monomials}
-\begin{definition}
-  Let $f\in\BF_n$ such that if $supp(x)\subseteq supp(y)$ for
-  $x,y\in\gftwo^n$ then $f(x)=1$ implies $f(y)=1$. $f$ is a \textit{monotone
-  Boolean function}.
-\end{definition}
-
-\par The simplest examples of monotone Boolean functions are the monomials.
-
-\begin{definition}
-  Let $x_I\in\BF_n$ where $I=supp(v)$ for some $v\in\gftwo^n$ such that
-  $x_I=\prod_{i\in I}x_i$. Then $x_I$ is a \textit{monomial} in $\BF_n$.
-\end{definition}
+Define a partial order $\leq $ on $GF(2)^n$ as follows:
+for each $v,w\in GF(2)^n$, we say 
+\[
+v\leq w
+\]
+whenever we have $v_1 \leq w_1$, $v_2 \leq w_2$, \dots, $v_n \leq w_n$. (This
+partial order is not to be confused with the lexicographical order.) A Boolean
+function is called {\it monotone} if whenever we have $v\leq w$ then we also have
+$f(v) \leq f(w)$. 
 
 \begin{example}
-  In the following examples, the two functions $f=x_0x_x2$ and $g=x_1x_2$
-  are monomials. Each function is also a monotone function. For $f$, every
-  $x\in\gftwo^4$ such that $supp(x)\supseteq supp((1,0,1,0))$ implies
-  $f(x)=1$. For $g$, $supp(x)\supseteq supp( (0,1,1,0) )$ implies $g(x)=1$.
+  The simplest examples of monotone Boolean functions are the monomials. In the
+  following examples, the two functions $f=x_0x_x2$ and $g=x_1x_2$ are monomials.
+  Each function is also a monotone function. For $f$, every $x\in\gftwo^4$ such
+  that $supp(x)\supseteq supp((1,0,1,0))$ implies $f(x)=1$. For $g$,
+  $supp(x)\supseteq supp( (0,1,1,0) )$ implies $g(x)=1$.
   \begin{verbatim}
   sage: B=BooleanPolynomialRing(4,'x')
   sage: x0,x1,x2,x3=B.gens()
@@ -68,6 +66,8 @@ functions.
   \end{verbatim}
 \end{example}
 
+
+
 \begin{theorem}
   All monomials are monotone Boolean functions.
 \end{theorem}
@@ -80,6 +80,8 @@ functions.
   Then, $I\subseteq supp(u) \subseteq supp(v)$. This implies $f(v)=1$. Thus,
   $f$ is a monotone Boolean function.
 \end{proof}
+
+
 
 %%%%%%%%%%%%%%
 \begin{comment}
