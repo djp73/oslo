@@ -1,21 +1,201 @@
 """
 Algebraic feedback shift register sequences,
-N-adic sequences and bent functions. Also, this includes
-some examples of usage of the sage.crypto.boolean_function
-module.
+N-adic sequences, Boolean monotone and bent functions. 
+Also, we include numerous examples of the 
+sage.crypto.boolean_function module.
 
 
 AUTHORS:
    David Joyner, wdjoyner@gmail.com
    Charles Celerier, charles.celerier@gmail.com
-   copyright 2011
+   copyright 2011-2012
 
 LICENSE:
    Modified BSD
 
-last modified 2012-02-06
+last modified 2012-04-10
+
+#####
+
+Sage implements in the module sage.crypto.boolean_function
+several classes and methods for boolean functions.
+
+We recall some background from [1].
+
+A function $f$ on $GF(2)^n$ can be uniquely represented by
+a polynomial on $GF(2)$ whose degree in each variable in each term is 
+at most $1$. Namely,
+
+\[
+f (x_1 ,\dots , x_n ) =
+\sum_{(a_1,\dots ,a_n)\in GF(2)^n}
+g(a_1 ,\dots , a_n )x^{a_1}\cdot \dots \cdot x^{a_n},
+\]
+where $g$ is also a function on $GF(2)^n$. This polynomial 
+representation of $f$ is called
+the {\it algebraic normal form} (ANF) of the function.
+The {\it algebraic degree} of $f$, denoted by $\deg(f )$,
+is defined as the number of variables in the longest term 
+of the ANF of $f$.
+
+
+A Boolean function $f$ is said to be {\it balanced} if 
+${\rm wt}(f ) = {\rm wt}(f + 1) = 2^{n-1}$. (Here $1$ denotes the 
+constant function $1$ on $GF(2)^n$.
+A {\it subfunction} of a Boolean function $f$ is a function $f$ 
+obtained by substituting some constants for some variables in $f$.
+
+The Boolean function $f$ is called 
+{\it correlation immune of order $m$} if 
+$[\rm wt}(f') = {\rm wt}(f )/2^m$ for any its subfunctions 
+$f'$ of $n - m$ variables. 
+
+
+
+If $\deg(f ) \leq 1$ then $f$ is called an {\it affine function}. 
+If $f$ is an affine function and $f(0) = 0$ then $f$ is called a 
+{\it linear function}.
+
+For two Boolean functions $f_1$ and $f_2$ on $GF(2)^n$, 
+we define the {\it distance} between $f_1$ and $f_2$ by 
+
+\[
+d(f_1 , f_2 ) = | \{x \in GF(2)^n \ |\ f_1 (x) \not= f_2 (x)\} |.
+\]
+(Here $|S|$ denotes the cardinality of a set $S$.)
+The {\it weight} of a Boolean function is the distance between it
+and the constant function $0$, denoted ${\rm wt}(f)$.
+It is easy to see that 
+
+\[
+d(f_1,f_2)={\rm wt}(f_1+f_2).
+\]
+The minimum distance between $f$ and the set of all affine functions 
+is called the {\it nonlinearity} of $f$ and denoted by 
+$[\rm nl}(f )$.
+
+
+
+The {\it Walsh transform} of a Boolean function $f$ is an integer-
+valued function over $GF(2)^n$ that can be defined as
+
+\[
+W_f(u) =
+\sum_{x in GF(2)^n}
+(-1)^{f(x)+ \langle u,x\rangle}.
+\]
+The Walsh coefficients satisfy {\it Parseval’s equation}
+
+\[
+\sum_{x in GF(2)^n}
+W_f(u)^2 = 2^{2n}.
+\]
+
+
+For any Boolean function $f$ on $GF(2)^n$, we have
+
+\[
+wt(f ) = 2^{n-1} - {\frac{1}{2}W_f(0),
+\]
+and
+\[
+{\rm nl}(f ) = 2^{n-1} - {\frac{1}{2}\max_{u \in GF(2)^n} |W_f (u)|.
+\]
+
+
+For each $u \in GF(2)^n$, the {\it autocorrelation coefficient} of the function 
+$f$ at the vector $u$ is defined 
+
+\[
+\Delta_f(u) =
+\sum_{x in GF(2)^n}
+(-1)^{f(x)+ f(x+u)}.
+\]
+
+The {\it absolute indicator} of $f$ is defined as
+
+\[
+\Delta_f = \max_{u \in GF(2)^n-\{0\}} |\Delta_f (u)|.
+\]
+
+
+If f is any Boolean function having the property
+that it is supported on vectors having even weight then 
+we say f is an {\it even} Boolean function.
+
+Conjecture: If f is a monotone even Boolean function then
+there is an x in GF(2)^n such that W(f)(x) = 0.
+
+For example, this has been checked for all the 168 monotone Boolean functions 
+of 4 variables.
+
+
+EXAMPLES:
+    sage: from sage.crypto.boolean_function import *
+    sage: P.<x0,x1,x2,x3> = BooleanPolynomialRing()
+    sage: b = x0*x1 + x2*x3
+    sage: f = BooleanFunction(b)
+    sage: [b(x[0],x[1],x[2],x[3]) for x in GF(2)^4]
+    [0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0]
+    sage: f.truth_table()
+    (False, False, False, True, False, False, False, True, False, False, 
+     False, True, True, True, True, False)
+    sage: WT = f.walsh_hadamard_transform(); WT
+    (-4, -4, -4, 4, -4, -4, -4, 4, -4, -4, -4, 4, 4, 4, 4, -4)
+    sage: f.absolute_walsh_spectrum()
+    {4: 16}
+    sage: f.nonlinearity()
+    6
+    sage: 2^(4-1) - (1/2)*max([abs(x) for x in WT])
+    6
+    sage: f.autocorrelation()
+    (16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+    sage: f.absolute_autocorrelation()
+    {16: 1, 0: 15}
+    sage: f.absolut_indicator() # this is a mis-spelling in Sage
+    0
+    sage: f.is_bent()
+    True
+    sage: f.is_balanced()
+    False
+    sage: f.is_symmetric()
+    False
+    sage: f.sum_of_square_indicator()
+    256
+    sage: f.correlation_immunity()
+    0
+
+
+REFERENCES:
+  [1] Yuriy Tarannikov, Peter Korolev, and Anton Botev, 
+      {\it Autocorrelation coefficients and correlation immunity of Boolean 
+      functions}, in {\bf Advances in Cryptology—ASIACRYPT 2001}. Available:
+      \newline
+      \url{http://www.iacr.org/cryptodb/data/paper.php?pubkey=515}
+
 """
-from sage.crypto.boolean_function import *
+
+######## utility functions #########################
+
+def binary2integer(v):
+    """
+    Returns the integer value of the vector v interpreted as a binary number
+
+    INPUT:
+        v - vector in GF(2)^n
+
+    EXAMPLES:
+        sage: V = GF(2)^2
+        sage: [binary2integer(v) for v in V]
+
+    """
+    S = 0
+    for i in range(len(v)):
+        S+=2^i*ZZ(v[i])
+    return S
+
+###################################################
+
 
 def connection_element(Qs, p):
     """
@@ -405,154 +585,6 @@ def rational_synthesis_xu(As, M, verbose = False):
 ###################################################
 
 
-"""
-Sage implements in the module sage.crypto.boolean_function
-several classes and methods for boolean functions.
-
-We recall some background from [1].
-
-A function $f$ on $GF(2)^n$ can be uniquely represented by
-a polynomial on $GF(2)$ whose degree in each variable in each term is 
-at most $1$. Namely,
-
-\[
-f (x_1 ,\dots , x_n ) =
-\sum_{(a_1,\dots ,a_n)\in GF(2)^n}
-g(a_1 ,\dots , a_n )x^{a_1}\cdot \dots \cdot x^{a_n},
-\]
-where $g$ is also a function on $GF(2)^n$. This polynomial 
-representation of $f$ is called
-the {\it algebraic normal form} (ANF) of the function.
-The {\it algebraic degree} of $f$, denoted by $\deg(f )$,
-is defined as the number of variables in the longest term 
-of the ANF of $f$.
-
-
-A Boolean function $f$ is said to be {\it balanced} if 
-${\rm wt}(f ) = {\rm wt}(f + 1) = 2^{n-1}$. (Here $1$ denotes the 
-constant function $1$ on $GF(2)^n$.
-A {\it subfunction} of a Boolean function $f$ is a function $f$ 
-obtained by substituting some constants for some variables in $f$.
-
-The Boolean function $f$ is called 
-{\it correlation immune of order $m$} if 
-$[\rm wt}(f') = {\rm wt}(f )/2^m$ for any its subfunctions 
-$f'$ of $n - m$ variables. 
-
-
-
-If $\deg(f ) \leq 1$ then $f$ is called an {\it affine function}. 
-If $f$ is an affine function and $f(0) = 0$ then $f$ is called a 
-{\it linear function}.
-
-For two Boolean functions $f_1$ and $f_2$ on $GF(2)^n$, 
-we define the {\it distance} between $f_1$ and $f_2$ by 
-
-\[
-d(f_1 , f_2 ) = | \{x \in GF(2)^n \ |\ f_1 (x) \not= f_2 (x)\} |.
-\]
-(Here $|S|$ denotes the cardinality of a set $S$.)
-The {\it weight} of a Boolean function is the distance between it
-and the constant function $0$, denoted ${\rm wt}(f)$.
-It is easy to see that 
-
-\[
-d(f_1,f_2)={\rm wt}(f_1+f_2).
-\]
-The minimum distance between $f$ and the set of all affine functions 
-is called the {\it nonlinearity} of $f$ and denoted by 
-$[\rm nl}(f )$.
-
-
-
-The {\it Walsh transform} of a Boolean function $f$ is an integer-
-valued function over $GF(2)^n$ that can be defined as
-
-\[
-W_f(u) =
-\sum_{x in GF(2)^n}
-(-1)^{f(x)+ \langle u,x\rangle}.
-\]
-The Walsh coefficients satisfy {\it Parseval’s equation}
-
-\[
-\sum_{x in GF(2)^n}
-W_f(u)^2 = 2^{2n}.
-\]
-
-
-For any Boolean function $f$ on $GF(2)^n$, we have
-
-\[
-wt(f ) = 2^{n-1} - {\frac{1}{2}W_f(0),
-\]
-and
-\[
-{\rm nl}(f ) = 2^{n-1} - {\frac{1}{2}\max_{u \in GF(2)^n} |W_f (u)|.
-\]
-
-
-For each $u \in GF(2)^n$, the {\it autocorrelation coefficient} of the function 
-$f$ at the vector $u$ is defined 
-
-\[
-\Delta_f(u) =
-\sum_{x in GF(2)^n}
-(-1)^{f(x)+ f(x+u)}.
-\]
-
-The {\it absolute indicator} of $f$ is defined as
-
-\[
-\Delta_f = \max_{u \in GF(2)^n-\{0\}} |\Delta_f (u)|.
-\]
-
-EXAMPLES:
-    sage: from sage.crypto.boolean_function import *
-    sage: P.<x0,x1,x2,x3> = BooleanPolynomialRing()
-    sage: b = x0*x1 + x2*x3
-    sage: f = BooleanFunction(b)
-    sage: [b(x[0],x[1],x[2],x[3]) for x in GF(2)^4]
-    [0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0]
-    sage: f.truth_table()
-    (False, False, False, True, False, False, False, True, False, False, 
-     False, True, True, True, True, False)
-    sage: WT = f.walsh_hadamard_transform(); WT
-    (-4, -4, -4, 4, -4, -4, -4, 4, -4, -4, -4, 4, 4, 4, 4, -4)
-    sage: f.absolute_walsh_spectrum()
-    {4: 16}
-    sage: f.nonlinearity()
-    6
-    sage: 2^(4-1) - (1/2)*max([abs(x) for x in WT])
-    6
-    sage: f.autocorrelation()
-    (16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
-    sage: f.absolute_autocorrelation()
-    {16: 1, 0: 15}
-    sage: f.absolut_indicator() # this is a mis-spelling in Sage
-    0
-    sage: f.is_bent()
-    True
-    sage: f.is_balanced()
-    False
-    sage: f.is_symmetric()
-    False
-    sage: f.sum_of_square_indicator()
-    256
-    sage: f.correlation_immunity()
-    0
-
-
-REFERENCES:
-  [1] Yuriy Tarannikov, Peter Korolev, and Anton Botev, 
-      {\it Autocorrelation coefficients and correlation immunity of Boolean 
-      functions}, in {\bf Advances in Cryptology—ASIACRYPT 2001}. Available:
-      \newline
-      \url{http://www.iacr.org/cryptodb/data/paper.php?pubkey=515}
-
-
-
-"""
 
 def walsh_transform_1d(s,k):
     """
@@ -615,6 +647,10 @@ def walsh_transform(f, a):
     terms = [(-1)^(f(x)+x.dot_product(a)) for x in F**n]
     return sum(terms)
 
+###################################################
+####### bent Boolean functions
+###################################################
+
 def bent_function_standard(x):
     """
     This function returns the value of a bent function at x.
@@ -643,7 +679,7 @@ def bent_function_standard(x):
     terms = [x[2*i]*x[2*i+1] for i in range(m)]
     return sum(terms)
     
-def bent_function_MM(x, M = identity_matrix(GF(2), int(len(x)/2)), g = lambda x: GF(2)(0) ):
+def bent_function_MM(x, M = 1, g = lambda x: GF(2)(0) ):
     """
     This function returns the value of a bent function at x.
     The bent function is constructed using the Maiorana-McFarland
@@ -685,6 +721,8 @@ def bent_function_MM(x, M = identity_matrix(GF(2), int(len(x)/2)), g = lambda x:
     if n<1 or n%2 <> 0:
         raise ValueError("%s must be a positive even integer"%n)
     m = int(n/2)
+    if M==1:
+        M = identity_matrix(GF(2), m)
     V = GF(2)^m
     v1 = V([x[i] for i in range(m)])
     v2 = V([x[i] for i in range(m,n)])
@@ -725,7 +763,6 @@ def bent_function_rothaus(x, g = lambda x: GF(2)(0)):
     M = identity_matrix(GF(2), m)
     return v1*M*v2+g(v1)
 
-
 ###################################################
 
 def boolean_fcn_synthesis(f, n, p):
@@ -757,167 +794,180 @@ def boolean_fcn_synthesis(f, n, p):
     V = GF(p)**n
     return (1-p**(p**n))**(-1)*sum([int(f(V[j]))*p**j for j in range(p**n)])
 
-###################################################
-
-def Bin(v):
-    """
-    Returns the integer value of the vector v interpreted as a binary number
-
-    INPUT:
-        v - vector in GF(2)^n
-
-    EXAMPLES:
-        sage: for x in V:             
-        ....:     Bin(x)
-        ....:     
-        0
-        1
-        2
-        3
-        4
-
-    """
-    S = 0
-    for i in range(len(v)):
-        S+=2^i*ZZ(v[i])
-    return S
 
 ###################################################
+####### monotone Boolean functions
+###################################################
 
-
-def is_monotone(f):
+def is_monotone(f, n = 0):
     """
-    Returns the value True or False based on whether the Boolean function is
-    monotone.
-
-    INPUT:
-        f - Boolean function
+    Returns True if x<y => f(x)<f(y), where f is a Boolean
+    function of n variables. The function f can be entered either
+    by assigning values, using lambda notation and specifying
+    the number of variables n explicitl, or as a BooleanFunction
+    instance, where n is determined from the function.
 
     EXAMPLES:
-        sage: B=BooleanPolynomialRing(5,'x')
-        sage: x0,x1,x2,x3,x4=B.gens()
-        sage: f=BooleanFunction(x0+x1)
+        sage: V = GF(2)^4
+        sage: Vlist = V.list()
+        sage: flist = [0,0,0,1,0,1,0,1,0,0,0,1,0,1,1,1]
+        sage: f = lambda x: GF(2)(flist[Vlist.index(x)])
+        sage: WT = [walsh_transform(f, a) for a in V]; WT
+        [2, 10, 6, -2, 6, -2, 2, -6, 2, 2, -2, -2, -2, -2, 2, 2]
+        sage: is_monotone(f, 4)
+        True
+        sage: V = GF(2)^8 
+        sage: Vlist = (GF(2)^3).list()    
+        sage: F = [v for v in V if is_monotone(lambda x: GF(2)(list(v)[Vlist.index(x)]), 3)==True]
+        sage: len(F)
+        20
+        sage: [(v, H*vector(QQ, [(-1)^x for x in list(v)])) for v in F]
+        [((0, 0, 0, 0, 0, 0, 0, 0), (8, 0, 0, 0, 0, 0, 0, 0)), 
+         ((0, 0, 0, 0, 0, 0, 0, 1), (6, 2, 2, -2, 2, -2, -2, 2)),
+         ((0, 0, 0, 1, 0, 0, 0, 1), (4, 4, 4, -4, 0, 0, 0, 0)),
+         ((0, 0, 0, 0, 0, 1, 0, 1), (4, 4, 0, 0, 4, -4, 0, 0)),
+         ((0, 0, 0, 1, 0, 1, 0, 1), (2, 6, 2, -2, 2, -2, 2, -2)),
+         ((0, 1, 0, 1, 0, 1, 0, 1), (0, 8, 0, 0, 0, 0, 0, 0)),
+         ((0, 0, 0, 0, 0, 0, 1, 1), (4, 0, 4, 0, 4, 0, -4, 0)),
+         ((0, 0, 0, 1, 0, 0, 1, 1), (2, 2, 6, -2, 2, 2, -2, -2)),
+         ((0, 0, 1, 1, 0, 0, 1, 1), (0, 0, 8, 0, 0, 0, 0, 0)),
+         ((0, 0, 0, 0, 0, 1, 1, 1), (2, 2, 2, 2, 6, -2, -2, -2)),
+         ((0, 0, 0, 1, 0, 1, 1, 1), (0, 4, 4, 0, 4, 0, 0, -4)),
+         ((0, 1, 0, 1, 0, 1, 1, 1), (-2, 6, 2, 2, 2, 2, -2, -2)),
+         ((0, 0, 1, 1, 0, 1, 1, 1), (-2, 2, 6, 2, 2, -2, 2, -2)),
+         ((0, 1, 1, 1, 0, 1, 1, 1), (-4, 4, 4, 4, 0, 0, 0, 0)),
+         ((0, 0, 0, 0, 1, 1, 1, 1), (0, 0, 0, 0, 8, 0, 0, 0)),
+         ((0, 0, 0, 1, 1, 1, 1, 1), (-2, 2, 2, -2, 6, 2, 2, -2)),
+         ((0, 1, 0, 1, 1, 1, 1, 1), (-4, 4, 0, 0, 4, 4, 0, 0)),
+         ((0, 0, 1, 1, 1, 1, 1, 1), (-4, 0, 4, 0, 4, 0, 4, 0)),
+         ((0, 1, 1, 1, 1, 1, 1, 1), (-6, 2, 2, 2, 2, 2, 2, 2)),
+         ((1, 1, 1, 1, 1, 1, 1, 1), (-8, 0, 0, 0, 0, 0, 0, 0))]
+        sage: B = BooleanPolynomialRing(5,'x')
+        sage: x0,x1,x2,x3,x4 = B.gens()
+        sage: f = BooleanFunction(x0 + x1)
         sage: f
         Boolean function with 5 variables
         sage: is_monotone(f)
         False
-        
         sage: g=BooleanFunction(x0)
         sage: is_monotone(g)
         True
-
         sage: h=BooleanFunction(x0+x1+x0*x1+x2+x3+x2*x3)
         sage: is_monotone(h)
         False
         sage: h=BooleanFunction(x0+x1+x2+x0*x1+x0*x2+x1*x2+x0*x1*x2)
         sage: is_monotone(h)
         True
-
         sage: f=BooleanFunction(x0*x2+x1+x0*x2*x1)
         sage: is_monotone(f)
         True
 
-
     """
-    n = f.nvariables()
-    V = GF(2)^n
-    ALL = V.list()
-    
-    t = True
-    i = 0
-    while (t and i<2^n):
-        if f(i):
-            for j in [Bin(v) for v in V if Set(v.support()).issuperset(Set((V.list()[i]).support()))]:
-                if f(j)==0:
-                    t = False
-        i+=1
-    return t
+    b2i = binary2integer
+    try:
+        V = GF(2)**n
+        for x in V:
+            sx = x.nonzero_positions()
+            for y in V:
+                sy = y.nonzero_positions()
+                if Set(sx).issubset(Set(sy)):
+                    if not(f(x)<=f(y)):
+                        return False, x, y
+        return True
+    except:
+            n = f.nvariables()
+            V = GF(2)^n
+            Vlist = V.list()
+            t = True
+            i = 0
+            while (t and i<2^n):
+                if f(i):
+                    J = [b2i(v) for v in V if Set(v.support()).issuperset(Set((Vlist[i]).support()))]
+                    for j in J:
+                        if f(j)==0:
+                            t = False
+                i+=1
+            return t
 
-###################################################
-
-def atom_monotone(v):
+def monotone_from_support(L):
     """
-    Returns an atomic monotone Boolean function f based on the vector v in
-    GF(2)^n
+    Returns a monotone Boolean function f whose set of least
+    vectors in in the list L of vectors in GF(2)^n
 
     INPUT:
-        v - list of element of GF(2)^n
+        L - list of elements of GF(2)^n
 
     OUTPUT:
-        f - Boolean function on n variables
+        f - monotone Boolean function on n variables
 
     EXAMPLES:
-        sage: V=GF(2)^4  
-        sage: W=GF(2)^(2^4)                                             
-        sage: A=matrix([W(atom_monotone([v]).truth_table()) for v in V])
-        sage: f=atom_monotone([V([1,0,0,0]),V([0,0,0,1])])              
-        sage: fvec=W(f.truth_table())                                   
-        sage: c_v=fvec*A^(-1)                                           
-        sage: c_v*A==fvec                                               
-        True
-
+        sage: V = GF(2)^4  
+        sage: f = monotone_from_support([V([1,0,0,0]),V([0,0,0,1])])              
+        sage: f.truth_table()                                 
+        (False, True, False, True, False, True, False, True, True, True, 
+         True, True, True, True, True, True)
 
     """
-
     F = GF(2)
-    n = v[0].degree()
+    n = L[0].degree()
     V = F^n
     W = F^(2^n)
-    L = seq(W(0))
-
-    for i in range(len(v)):
-        supp_v = Set(v[i].support())
+    L0 = seq(W(0))
+    for i in range(len(L)):
+        supp = Set(L[i].support())
         j=0
         for x in V:
-            if Set(x.support()).issuperset(supp_v):
-                L[j]=1
+            if Set(x.support()).issuperset(supp):
+                L0[j] = 1
             j+=1
-
-    f = BooleanFunction(seq(L))
-
+    f = BooleanFunction(seq(L0))
     return f
 
-######################################################
-def Hamming_weight(v):
-
-    """
-    Returns the Hamming weight of a vector in GF(2)^n as an integer
-
-    INPUT:
-        v - vector in GF(2)^n
-
-    OUTPUT:
-        w - integer
-
-    EXAMPLES:
-
-    """
-    n = v.degree()
-    w = 0
-    for i in range(n):
-        w += ZZ(v[i])
-    return w
-
-############################################
-
-def print_truth(f):
+def print_truth_table(f):
 
     """
     INPUT:
-        f - Boolean function
+        f - Boolean function 
 
     OUTPUT:
-        Prints the truth table of the function which is a linear combination of
-    the monotone Boolean functions.
+        Prints the truth table of f.
+
+    This provides a way to find how a Boolen function can be written
+    linear combination of the atomic monotone functions in a nice way.
 
     EXAMPLES:
-
-    """
+        sage: V = GF(2)^4  
+        sage: f = monotone_from_support([V([1,0,0,0]),V([0,0,0,1])])              
+        sage: f.truth_table()                                 
+        (False, True, False, True, False, True, False, True, True, True, 
+         True, True, True, True, True, True)
+        sage: print_truth_table(f)
+        (0, 0, 0, 0) 0 False
+        (1, 0, 0, 0) 1 True
+        (0, 1, 0, 0) 0 False
+        (1, 1, 0, 0) 0 True
+        (0, 0, 1, 0) 0 False
+        (1, 0, 1, 0) 0 True
+        (0, 1, 1, 0) 0 False
+        (1, 1, 1, 0) 0 True
+        (0, 0, 0, 1) 1 True
+        (1, 0, 0, 1) 1 True
+        (0, 1, 0, 1) 0 True
+        (1, 1, 0, 1) 0 True
+        (0, 0, 1, 1) 0 True
+        (1, 0, 1, 1) 0 True
+        (0, 1, 1, 1) 0 True
+        (1, 1, 1, 1) 0 True
+    """ 
+    b2i = binary2integer
     n = f.nvariables()
     V = GF(2)^(n)
     W = GF(2)^(2^n)
-    A=matrix([W(atom_monotone([x]).truth_table()) for x in V])
-    fvec=W(f.truth_table())
-    c_v=fvec*A^(-1)
+    A = matrix([W(monotone_from_support([x]).truth_table()) for x in V])
+    fvec = W(f.truth_table())
+    c_v = fvec*A^(-1)
     for x in V:
-        print str(x) + " " + str(c_v[Bin(x)]) + " " + str(f(Bin(x)))
+        print str(x) + " " + str(c_v[b2i(x)]) + " " + str(f(b2i(x)))
+
+
+
