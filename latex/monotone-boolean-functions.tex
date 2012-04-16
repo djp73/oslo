@@ -11,12 +11,32 @@ functions.
   Boolean function}.
 \end{definition}
 
-\par The simplest examples of monotone Boolean functions are the monomials.
+\par Each monotone function corresponds to a unique set of vectors which
+determine where the function begins mapping to 1s.
 
 \begin{definition}
-  Let $x_I\in\BF_n$ where $I=supp(v)$ for some $v\in\gftwo^n$ such that
-  $x_I=\prod_{i\in I}x_i$. Then $x_I$ is a \textit{monomial} in $\BF_n$.
+  Let $f$ be an $n$-variable monotone Boolean function. Every $x\in\gftwo^n$
+  where for all $x'\in\gftwo^n$ such that $x'<x$, and $f(x')=0$ and
+  $f(x)=1$ is called a \textit{least support} of $f$.
 \end{definition}
+
+\begin{definition}
+  If an $n$-variable monotone Boolean function $f$ has exactly one least
+  support, then $f$ is an \textit{atomic monotone Boolean function}.
+\end{definition}
+
+\begin{theorem}
+  All monomials are monotone Boolean functions.
+\end{theorem}
+
+\begin{proof}
+  Let $f(x)=\prod_{i\in I}x_i$ for $I\in\mathcal{P}(\{0,\cdots,n-1\})$ and
+  $y\in\gftwo^n$. Then $supp(y)\supseteq I$ if and only if $f(y)=1$ and
+  $supp(y) \not\supseteq I$ if and only if $f(y)=0$.
+  Let $u,v\in\gftwo^n$ such that $supp(u)\subseteq supp(v)$ and $f(u)=1$.
+  Then, $I\subseteq supp(u) \subseteq supp(v)$. This implies $f(v)=1$. Thus,
+  $f$ is a monotone Boolean function.
+\end{proof}
 
 \begin{example}
   In the following examples, the two functions $f=x_0x_x2$ and $g=x_1x_2$
@@ -68,18 +88,46 @@ functions.
   \end{verbatim}
 \end{example}
 
+\par Every monotone Boolean function can be written as a sum of monomials
+based on the least supports of the function. This is done by unioning in
+every way all of the least supports. If $\Gamma$ is the set of all the least
+supports of a monotone Boolean function, then this unioning is defined by
+the function $S$:
+\begin{align}
+  S:\ 2^\Gamma \rightarrow 2^\{0,\cdots,n-1\} \\
+  S(\alpha):=\bigcup_{v\in\alpha}supp(v)
+\end{align}
+
 \begin{theorem}
-  All monomials are monotone Boolean functions.
+  Let $f$ be an $n$-variable monotone Boolean function with least supports
+  $\Gamma$. Then
+  \begin{equation}
+    f(x)=\sum_{I\in S(2^\Gamma),\ I\not=\emptyset} x^I
+  \end{equation}
 \end{theorem}
 
 \begin{proof}
-  Let $f(x)=\prod_{i\in I}x_i$ for $I\in\mathcal{P}(\{0,\cdots,n-1\})$ and
-  $y\in\gftwo^n$. Then $supp(y)\supseteq I$ if and only if $f(y)=1$ and
-  $supp(y) \not\supseteq I$ if and only if $f(y)=0$.
-  Let $u,v\in\gftwo^n$ such that $supp(u)\subseteq supp(v)$ and $f(u)=1$.
-  Then, $I\subseteq supp(u) \subseteq supp(v)$. This implies $f(v)=1$. Thus,
-  $f$ is a monotone Boolean function.
+  \par Define $g(x)=\sum_{I\in S(2^\Gamma),\ I\not=\emptyset}x^I$.
+  Pick $y\in\gftwo^n$. Let $\alpha_y=\{v\in\Gamma|
+  supp(v)\subseteq supp(y)\}$. It follows that $\beta\subseteq\alpha_y$ and
+  $\beta\not=\emptyset$ if and only if $y^{S(\beta) \cup C}=1$,
+  $C\subseteq\{0,\cdots,n-1\}$. Let $\beta\subseteq\alpha$. Then
+  $\alpha\not=\emptyset$, therefore $|2^\alpha|$ is even. Thus, the number
+  of $\beta$'s is odd. In other words,
+  $\lvert\{\beta\subseteq\Gamma\text{: } y^{S(\beta)\cup C}=1
+  \text{ for }C\subseteq\{0,\cdots,n-1\}\text{ and }
+  C\not\in S(2^\Gamma)\}\rvert$ is odd.
+
+  \par Case 1: Suppose $supp(y)\in S(2^\Gamma)\cup C$. Then the number of
+  non-zero terms in $g(y)$ is odd, therfore $g(y)=1$.
+
+  \par Case 2: Suppose $supp(y)\not\in S(2^\Gamma)\cup C$. Then there do not
+  exist any non-zero terms in $g(y)$, therefore $g(y)=0$.
+
+  \par Then $g$ is 1 at precisely all of the palces $f$ is 1. Therefore
+  $g=f$.
 \end{proof}
+
 
 %%%%%%%%%%%%%%
 \begin{comment}
