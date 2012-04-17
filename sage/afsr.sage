@@ -970,4 +970,21 @@ def print_truth_table(f):
         print str(x) + " " + str(c_v[b2i(x)]) + " " + str(f(b2i(x)))
 
 
+def supp_compare(u,v):
+    """
+    INPUT:
+        u,v - vectors in GF(2)^n
 
+    OUTPUT:
+        Returns True is u<=v and False otherwise.
+
+    This function tests whether the support of u is a subset of the support
+    of v.
+    
+    EXAMPLES:
+
+    """ 
+    supp_u = Set(u.nonzero_positions())
+    supp_v = Set(v.nonzero_positions())
+
+    return supp_u.issubset(supp_v)
