@@ -220,7 +220,7 @@ one-to-one and onto function will be defined which maps every $f$ in
 $\BF_n$ to a vector in $\gftwo^{2^n}$. This will be the function
 $V:\BF_n\rightarrow\gftwo^{2^n}$ such that
 \begin{equation}\label{eqn:bool-vector}
-	V(f)(v_0,\dots,v_{2^n-1})
+	V(f)
     :=(f(v_0),\dots,f(v_{2^n-1}))\ {\rm where\ } v_i=B^{-1}(i).
 \end{equation}
 It is trivial to show that addition is homomorphic under $V$,
@@ -356,41 +356,44 @@ where $a_I\in\gftwo$ and defined by the given Boolean function.
   polynomial in the polynomial ring.
 \end{proof}
 
-\subsection{The Discrete Fourier Transform}
-\par The Fourier transform of a function has many applications in signals
+\subsection{The Walsh Transform}
+\par The Walsh Transform is analogous to the Discrete Fourier Transform.
+This transformation has many applications in signals
 analysis. The idea is to express a given signal as a function of frequency
-to reveal the dominant frequencies in the signal. Today, digital signals
-have taken over analog. This fact has made the discrete Fourier transform
-much more applicaple to modern communication systems.
+to reveal the dominant frequencies in the signal. For this paper, the Walsh
+Transform is considered over the Discrete Fourier Transform because this is
+the transformation used by Rothaus in his original definition of Bent
+functions.
 
-\par The discrete Fourier transforms (DFTs) of $n$-variable pseudo Boolean
-functions are studied here. The following discussion on DFTs will follow
-\cite{bk:t99}. To begin the discussion about DFTs, {\em characters} are
-defined.
+\par It is necessary to discuss \texit{characters} as a preliminary to Walsh
+Transforms. The definitions in this section follow \cite{bk:t99}.
 
-\begin{definition}\cite{bk:t99}
+\begin{definition}
   A {\em character} $\Chi$ of a finite abelian group $G$ is a group
-  homomorphism from $G$ into a multiplicative group of complex numbers.
+  homomorphism from $G$ into the multiplicative group of complex numbers.
 \end{definition}
 
 For the purposes of this paper, it should be clear that
 $\Chi_\lambda(x):=(-1)^{\lambda\cdot x}$ where $\lambda,x\in\gftwo^n$ is a
 {\em group\ character} of $\gftwo^n$. Define the {\em dual\ group}
-$\hat{\gftwo^n}$ to be the set of all characters of $G$. The group operation
+$\hat{\gftwo^n}$ to be the group of all characters of $G$. The group
+operation
 in $\hat{\gftwo^n}$ is pointwise multiplication of functions:
 \[
-\Chi\psi(x)=\Chi(x)\psi(x)
+(\Chi\cdot\psi)(x)=\Chi(x)\psi(x),\ x\in\gftwo^n.
 \]
-This operation is closed under multiplication. The isomorphism
-$\gftwo^n\cong\hat{\gftwo^n}$ is shown by constructing a one-to-one and onto
-mapping $\Upsilon:\gftwo^n\rightarrow\hat{\gftwo^n}$ where
-$\Upsilon(\lambda):=\Chi_\lambda$.
+This operation is closed under multiplication.
+
+\begin{lemma}
+  $\gftwo^n\cong\hat{\gftwo^n}$
+\end{lemma}
 
 \begin{proof}
+  \par Let $\Upsilon:\gftwo^n\rightarrow\hat{\gftwo^n}$ where
+  $\Upsilon(\lambda):=\Chi_\lambda$.
 	Every character in $\hat{\gftwo^n}$ corresponds to an element of
-  $\gftwo^n$. Thus, $\lvert\gftwo^n\rvert=\lvert\hat{\gftwo^n}\rvert$. If
-  $\Upsilon$ is one-to-one, then
-	it must be an isomorphism.\\
+  $\gftwo^n$. Thus, $\lvert\gftwo^n\rvert=\lvert\hat{\gftwo^n}\rvert$.
+  Therefore if $\Upsilon$ is one-to-one, then it must be an isomorphism.\\
 	Let $\Upsilon(\lambda_1)=\Upsilon(\lambda_2)$. Then $\forall x$
 	\begin{align*}
 		(-1)^{\lambda_1\cdot x}
@@ -403,7 +406,7 @@ $\Upsilon(\lambda):=\Chi_\lambda$.
 \end{proof}
 
 \par Addition in $\gftwo^n$ corresponds to multiplication in
-$\hat{\gftwo^n}$. Define
+$\hat{\gftwo^n}$. By definition
 $\Chi_{\lambda_1}\Chi_{\lambda_2}(x)=(-1)^{(\lambda_1+\lambda_2)\cdot x}$.
 Then,
 \[
@@ -413,27 +416,16 @@ Then,
   =\Chi_{\lambda_1}\Chi_{\lambda_2}(x).
 \]
 
-\par For discrete Fourier transforms, it is useful to consider {\em pseudo\ 
-Boolean\ functions} which have codomain $\{-1,1\}$. 
-
 \begin{definition}\label{def:pBF}
 	Any function $\hat{f}:\gftwo^n\rightarrow\{1,-1\}$ such that
-  $\hat{f}(x)=(-1)^{f(x)}$ for $f\in\BF$ is called a {\em pseudo Boolean
+  $\hat{f}(x)=(-1)^{f(x)}$ for $f\in\BF$ is called a \textit{pseudo-Boolean
   function}
 \end{definition}
 
-\begin{definition}\label{def:DFT}
-	The {\em discrete\ Fourier\ transform} or DFT of a Boolean function is
-  defined by
-	\begin{equation}\label{eqn:DFT}
-    \mathcal{F}f(\lambda)
-      =\sum_{x\in\gftwo^n}f(x)\Chi_\lambda(x)
-	\end{equation}
-\end{definition}
-
 \begin{lemma}
-  The characters of $\gftwo^n$ are functions in $\hat{\BF}_n
-  =\{\hat{f}:f\in\BF_n\}$ and form an orthonormal basis of that set.
+  The characters of $\gftwo^n$ belong to $\hat{\BF}_n
+  =\{\hat{f}:f\in\BF_n\}$ and form an orthonormal basis of
+  $\hat{\BF}_n\otimes\mathbb{R}$.
 \end{lemma}
 \begin{proof}
   The dimension of $\hat{\BF_n}$ is $2^n$, and there are $2^n$ characters of
@@ -448,31 +440,51 @@ Boolean\ functions} which have codomain $\{-1,1\}$.
     \end{cases}
   \end{align*}
   Therefore, the characters of $\gftwo^n$ form an orthonormal basis of
-  $\hat{\BF}_n$.
+  $\hat{\BF}_n\otimes\mathbb{R}$.
 \end{proof}
 
-\par Every pseudo Boolean function can be written as a linear combination of
+%\begin{definition}\label{def:DFT}
+%	The {\em discrete\ Fourier\ transform} or DFT of a Boolean function is
+%  defined by
+%	\begin{equation}\label{eqn:DFT}
+%    \mathcal{F}f(\lambda)
+%      =\sum_{x\in\gftwo^n}f(x)\Chi_\lambda(x)
+%	\end{equation}
+%\end{definition}
+
+\begin{definition}\label{def:walsh}
+  Let $f\in\BF_n$ and $\lambda\in\gftwo^n$. Then the {\em Walsh transform}
+  of $f$ is defined by:
+  \begin{equation}\label{eqn:walsh}
+    \mathcal{W}_f(\lambda)=\sum_{x\in\gftwo^n}\hat{f}(x)\Chi_\lambda(x).
+  \end{equation}
+\end{definition}
+
+\par Every pseudo-Boolean function can be written as a linear combination of
 the characters of $\gftwo^n$. The coefficients in these linear combinations
-reveal important properties of the functions. Rothaus rewrote the pseudo
-Boolean function as a linear combination as follows \cite{art:r76}. 
+reveal important properties of the functions. Rothaus rewrote the
+pseudo-Boolean function as a linear combination of characters
+as follows \cite{art:r76}. 
 
 \begin{lemma}
+  For $\hat{f}\in\hat{\BF}_n$,
 \begin{equation}\label{eqn:rewrite-pseudo}
 	\hat{f}(x)
     =\frac{1}{2^{n/2}}
       \sum_{\lambda\in\gftwo^n}c(\lambda)\Chi_\lambda(x)
 \end{equation}
-	where $c(\lambda)$, the {\em Fourier\ coefficients} of $\hat{f}(x)$ are
-  given by
+	where $c(\lambda)$ are given by
   \begin{equation}\label{eqn:clambda}
-    c(\lambda)=\frac{1}{2^{n/2}}\mathcal{F}\hat{f}(\lambda).
-      %=\frac{1}{2^{n/2}}\sum_{x\in\gftwo^n}(-1)^{f(x)+\lambda\cdot x}.
+    c(\lambda)=\frac{1}{2^{n/2}}\mathcal{W}_f(\lambda)
+    %\mathcal{F}\hat{f}(\lambda).
+    %=\frac{1}{2^{n/2}}\sum_{x\in\gftwo^n}(-1)^{f(x)+\lambda\cdot x}.
   \end{equation}
 \end{lemma}
 
-\par As observed by Rothaus \cite{art:r76}, $2^{n/2}c(\lambda)$ is the
+\par Each $c(\lambda)$ is called a \textit{Fourier coefficient} of $f$.
+As observed by Rothaus \cite{art:r76}, $2^{n/2}c(\lambda)$ is the
 number of zeros minus the number of ones of the function
-$f(x)+\lambda\cdot x$. The Hamming weight of f is easily determined using
+$f(x)+\lambda\cdot x$. The Hamming weight of $f$ is easily determined using
 the zero Fourier coefficient $c(0)$:
 \begin{align*}
 	c(0)&=\frac{1}{2^{n/2}}\sum_{x\in\gftwo^n}(-1)^{f(x)}\\
@@ -481,14 +493,6 @@ the zero Fourier coefficient $c(0)$:
 \begin{equation}
   \Rightarrow wt(f)=2^{n-1}-2^{n/2-1}c(0).
 \end{equation}
-
-\begin{definition}\label{def:walsh}
-  Let $f\in\BF_n$ and $\lambda\in\gftwo^n$. Then the {\em Walsh transform}
-  of $f$ is defined by:
-  \begin{equation}\label{eqn:walsh}
-    \mathcal{W}_f(\lambda)=\mathcal{F}\hat{f}(\lambda).
-  \end{equation}
-\end{definition}
 
 \par Clearly $\mathcal{W}_f(\lambda)=\frac{1}{2^{n/2}}c(\lambda)$. For large
 $|\mathcal{W}_f(\lambda)|$, $f$ is close to an affine function in $\BF_n$.
