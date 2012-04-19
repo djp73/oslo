@@ -38,28 +38,26 @@ urlcolor=black
 \def\Chi{\raisebox{2pt}{$\chi$}}
 % \def\qed{$\Box}
 % \newcounter{padic}
-\newcounter{examples}
+%\newcounter{examples}
 \theoremstyle{plain}
-\newtheorem{theorem}{Theorem}[section]
-\newtheorem{corollary}{Corollary}[section]
-\newtheorem{lemma}{Lemma}[section]
-\newtheorem{proposition}{Proposition}[section]
+\newtheorem{theorem}{Theorem}[subsection]
+\newtheorem{corollary}[theorem]{Corollary}%[section]
+\newtheorem{lemma}[theorem]{Lemma}%[section]
+\newtheorem{proposition}[theorem]{Proposition}%[section]
 
 \theoremstyle{definition}
-\newtheorem{definition}{Definition}[section]
-\newtheorem{example}[examples]{Example}
+\newtheorem{definition}[theorem]{Definition}%[section]
+\newtheorem{example}[theorem]{Example}
 
 \theoremstyle{remark}
-\newtheorem{remark}{Remark}[section]
+\newtheorem{remark}{Remark}%[section]
 
 \begin{document}
 \input{title}
 \input{abstract}
 \input{introduction}
 \input{boolean-functions}
-\input{monotone-boolean-functions}
 \input{n-adic-ring}
-\input{constructing-sequences}
 \input{boolean-sequences}
 \input{finite-state-machines}
 \input{fcsr}

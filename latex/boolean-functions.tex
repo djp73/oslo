@@ -357,16 +357,17 @@ where $a_I\in\gftwo$ and defined by the given Boolean function.
 \end{proof}
 
 \subsection{The Walsh Transform}
-\par The Walsh Transform is analogous to the Discrete Fourier Transform.
+\par The Walsh Transform is similar to the Discrete Fourier Transform.
 This transformation has many applications in signals
 analysis. The idea is to express a given signal as a function of frequency
 to reveal the dominant frequencies in the signal. For this paper, the Walsh
 Transform is considered over the Discrete Fourier Transform because this is
 the transformation used by Rothaus in his original definition of Bent
-functions.
+functions published in the Journal of Combinatorial Theory in 1976
+\cite{art:r76}. 
 
-\par It is necessary to discuss \texit{characters} as a preliminary to Walsh
-Transforms. The definitions in this section follow \cite{bk:t99}.
+\par It is necessary to discuss \textit{characters} as a preliminary to Walsh
+Transforms. The definitions in this section follow \cite{bk:lsy11}
 
 \begin{definition}
   A {\em character} $\Chi$ of a finite abelian group $G$ is a group
@@ -508,30 +509,27 @@ $|\mathcal{W}_f(\lambda)|$, $f$ is close to an affine function in $\BF_n$.
 \end{example}
 
 \subsection{Bent Functions}
-\par Bent functions were originally defined in a paper by Rothaus in the
-Journal of Combinatorial Theory in 1976 \cite{art:r76}. These functions are
-useful for cryptographic applications because they are {\em perfectly\ 
+\par These functions are
+useful for cryptographic applications because they are \textit{perfectly
 nonlinear} which makes them resistant to differential
-attacks. The original defintion of the {\em bent\ function} is based on the
-Fourier coefficients.
+attacks. As mentioned before, these were defined by Rothaus in 1976.
 
 \begin{definition}\label{def:bent-function}
   If all of the Fourier coefficients of $\hat{f}$ are $\pm1$ then
-  $f$ is a {\em bent\ function}.
+  $f$ is a \textit{bent function}.
 \end{definition}
 
-\par Here is Rothaus's first theorem about bent functions.
-
-\begin{theorem}\label{thm:deg-of-bent-function}
-	If $f$ is a bent function on $\gftwo^n$, then $n$ is even, $n=2k$;
+\begin{theorem}{\rm \cite{art:r76}}\label{thm:deg-of-bent-function}
+	If $f$ is a bent function on $\gftwo^n$, then $n$ is even, $n=2k$.
+  Moreover,
 	the degree of $f$ is at most $k$, except in the case $k=1$.
 \end{theorem}
 \begin{proof}
   \par $c(\lambda)=\pm1$. This implies $2^{n/2}c(\lambda)$ is an
   integer. Therefore $n$ must be even.
   \par Let $n=2k$ with $k>1$, and let $r>k$. Consider the polynomial
-  $f(x_1,x_2,\allowbreak\dots,\allowbreak x_r,\allowbreak 0,0,\dots,0)=
-  \allowbreak g(x_1,x_2,\dots,x_r)$ (up to this point all numbering has
+  $f(x,\allowbreak 0,0,\dots,0)=\allowbreak g(x)$ where $x=(x_1,x_2,\dots,x_r)$
+  (up to this point all indexing has
   started at 0; it is more convenient in this proof to begin numbering at
   1). Then by Equation (\ref{eqn:rewrite-pseudo}),
   \[
@@ -581,11 +579,11 @@ Fourier coefficients.
 \par A simple bent function construction is accomplished by the Boolean
 functions in the {\em Maiorana-McFarland\ class}. This is the the set
 $\mathcal{M}$ which contains all Boolean function on
-$\gftwo^n=\{(x,y):x,y\in\gftwo^{n/2}\}$, of the form:
+$\gftwo^n=\{(x,y):x,y\in\gftwo^{n/2}\}$, of the form
   \[
   f(x,y)=x\cdot\pi(y)\oplus g(y)
   \]
-where $\pi$ is any permutation on $\gftwo^{n/2}$ and $g$ any Boolean
+where $\pi$ is any permutation on $\gftwo^{n/2}$ and $g$ is any Boolean
 function on $\gftwo^{n/2}$.
 
 \par All functions in the Maiorana-McFarland class of Boolean functions are
@@ -598,20 +596,24 @@ shown as a sum of atomic Boolean functions. This section will show how it is
 possible to construct every Boolean function from monotone Boolean
 functions.
 
-\subsection{Boolean Monomials}
-\begin{definition}
-  Let $f\in\BF_n$ such that if $supp(x)\subseteq supp(y)$ for
-  $x,y\in\gftwo^n$ then $f(x)=1$ implies $f(y)=1$. $f$ is a \textit{monotone
-  Boolean function}.
-\end{definition}
+\par Define a partial order $\leq $ on $\gftwo^n$ as follows:
+for each $v,w\in \gftwo^n$,
+\[
+v\leq w
+\]
+whenever $supp(v)\subseteq supp(w)$.
+(This partial order is not to be confused with the lexicographical order.)
+A Boolean function is called {\it monotone} if whenever we have $v\leq w$
+then we also have $f(v) \leq f(w)$. In the case $supp(v)\subset supp(w)$,
+$v<w$ may be written.
 
 \par Each monotone function corresponds to a unique set of vectors which
 determine where the function begins mapping to 1s.
 
 \begin{definition}
   Let $f$ be an $n$-variable monotone Boolean function. Every $x\in\gftwo^n$
-  where for all $x'\in\gftwo^n$ such that $x'<x$, and $f(x')=0$ and
-  $f(x)=1$ is called a \textit{least support} of $f$.
+  where for all $x'\in\gftwo^n$ such that $x'<x$, $f(x')<f(x)$ is called a
+  \textit{least support} of $f$.
 \end{definition}
 
 \begin{definition}
@@ -624,7 +626,7 @@ determine where the function begins mapping to 1s.
 \end{theorem}
 
 \begin{proof}
-  Let $f(x)=\prod_{i\in I}x_i$ for $I\in\mathcal{P}(\{0,\cdots,n-1\})$ and
+  Let $f(x)=\prod_{i\in I}x_i$ for $I\in2^{\{0,\cdots,n-1\}}$ and
   $y\in\gftwo^n$. Then $supp(y)\supseteq I$ if and only if $f(y)=1$ and
   $supp(y) \not\supseteq I$ if and only if $f(y)=0$.
   Let $u,v\in\gftwo^n$ such that $supp(u)\subseteq supp(v)$ and $f(u)=1$.
@@ -633,7 +635,7 @@ determine where the function begins mapping to 1s.
 \end{proof}
 
 \begin{example}
-  In the following examples, the two functions $f=x_0x_x2$ and $g=x_1x_2$
+  In the following examples, the two functions $f=x_0x_2$ and $g=x_1x_2$
   are monomials. Each function is also a monotone function. For $f$, every
   $x\in\gftwo^4$ such that $supp(x)\supseteq supp((1,0,1,0))$ implies
   $f(x)=1$. For $g$, $supp(x)\supseteq supp( (0,1,1,0) )$ implies $g(x)=1$.
@@ -688,7 +690,7 @@ every way all of the least supports. If $\Gamma$ is the set of all the least
 supports of a monotone Boolean function, then this unioning is defined by
 the function $S$:
 \begin{align}
-  S:\ 2^\Gamma \rightarrow 2^\{0,\cdots,n-1\} \\
+  S:\ 2^\Gamma \rightarrow 2^{\{0,\cdots,n-1\}} \\
   S(\alpha):=\bigcup_{v\in\alpha}supp(v)
 \end{align}
 
