@@ -50,7 +50,7 @@ urlcolor=black
 \newtheorem{example}[theorem]{Example}
 
 \theoremstyle{remark}
-\newtheorem{remark}{Remark}%[section]
+\newtheorem*{remark}{Remark}%[section]
 
 \begin{document}
 \input{title}
@@ -58,10 +58,9 @@ urlcolor=black
 \input{introduction}
 \input{boolean-functions}
 \input{n-adic-ring}
-\input{boolean-sequences}
 \input{finite-state-machines}
-\input{fcsr}
-\input{xu}
+\input{register-synthesis}
+\input{boolean-sequences}
 
 \nocite{*}
 \bibliography{refs}{}

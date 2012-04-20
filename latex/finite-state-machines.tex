@@ -1,18 +1,32 @@
-\section{Finite State Machines}
-\par It is interesting to consider FCSRs in the context of general finite
-state machines. In 1967, Solomon W. Golomb's {\em Shift Register Sequences}
-\cite{bk:g67} established a definition of finite state machines and shift
-registers used in much of the literature today. This section will begin by
-defining the finite state machine according to Golomb and move toward the
-definition of generalized shift registers. In the next section, FCSRs will
-be defined with Golomb's style in mind.
+\section{Shift Registers}
+\par The {\it Feedback with Carry Shift Register} (or FCSR) is a type of
+shift register used in stream ciphers. Though there exist attacks against
+this type of shift register by itself, it is possible to combine FCSRs
+together in ways that no known attacks are useful. This however does not
+guarantee security because the combining of the FCSRs greatly increases the
+complexity of the cryptanalysis on the stream cipher. Despite the security
+challenges, the speed of an FCSR implementation is very attractive for
+engineers of hardware based cryptosystems.
+
+\subsection{Finite State Machines}
+\par It is appropriate to preface the discussion about FCSRs with general finite
+state machines. Solomon W. Golomb's book {\em Shift Register Sequences}
+\cite{bk:g82}, written in 1967 and revised in 1982, established a definition of
+finite state machines and shift
+registers used in much of the literature today.
+
+%This section will begin by
+%defining the finite state machine according to Golomb and move toward the
+%definition of generalized shift registers. In the next section, FCSRs will
+%be defined with Golomb's style in mind.
 
 \begin{definition}\label{finite-state-machine}
   A {\em finite state machine} consists of a finite collection of {\em states}
-  $K$, sequentially accepts a sequence of {\em inputs} from a finite set
+  $K$, which sequentially accepts a sequence of {\em inputs} from a finite set
   $A$, and produces a sequence of {\em outputs} from a finite set
   $B$. Moreover, there is an {\em output function} $\mu$ which computes
-  the present output as a fixed function of present input and present state, and a
+  the present output as a fixed function of present input and present state,
+  and a
   {\em next state function} $\delta$ which computes the next states as a fixed
   function of present input and present state. In a more mathematical manner,
   $\mu$ and $\delta$ are defined such that
@@ -24,37 +38,16 @@ be defined with Golomb's style in mind.
 
 % insert table example of a finite state machine
 
-\par Golomb presents two important theorems about these machines. Both deal with
-the periodicity of any finite state machine, which include FCSRs. The theorems
-and proofs are presented here.
-
-%\begin{theorem}\label{thm:golomb-1}
-%  If the input to a finite state machine is eventually constant, then the output
-%  is eventually periodic.
-%\end{theorem}
-%\begin{proof}
-%  Let $t$ be the time when the input becomes constant, so $a_t=a_{t+1}=\dots$.
-%  Because $K$ is a finite collection of states, there exists times $r>s>t$ such
-%  that $k_r=k_s$. Then, by induction, $\forall i>0$,
-%  \[
-%  k_{r+i+1}=\delta(k_{r+i},a_{r+i})=\delta(k_{s+i},a_{s+i})=k_{s+i+1}
-%  \]
-%  Therefore,
-%  \[
-%  b_{r+i+1}=\mu(k_{r+i+1},a_{r+i+1})=\delta(k_{s+i+1},a_{s+i+1})=b_{s+i+1}
-%  \]
-%  Thus, the eventual period of this machine is $r-s$.
-%\end{proof}
+\par The most fundamental observation by Golomb is the following theorem.
 
 \begin{theorem}\label{thm:golomb-2}
-  If the input sequence to a finite state machine is eventually periodic, then the
-  output sequence is eventually periodic.
+  If the input sequence to a finite state machine is eventually periodic, then
+  the output sequence is eventually periodic.
 \end{theorem}
 \begin{proof}
-  Let $p$ be the period of the inputs once the machine becomes periodic at time $t$.
-  Then, for $h>0$ and $c>t$, $a_c=a_{c+hp}$. Similar to the proof of Theorem
-  \ref{thm:golomb-1}, using the fact that $K$ is finite, there must be
-  $r>s>t$ such that, for some $h>0$,
+  Let $p$ be the period of the inputs once the machine becomes periodic at time
+  $t$. Then, for $h>0$ and $c>t$, $a_c=a_{c+hp}$. Since $K$ is finite, there
+  must be $r>s>t$ such that, for some $h>0$ such that,
   \[
   k_{r+1}=\delta(k_r,a_r)=\delta(k_s,a_{r+hp})=k_{s+1}.
   \]
@@ -67,11 +60,11 @@ and proofs are presented here.
   machine is $r-s$.
 \end{proof}
 
-\par The next object defined is called an $N$-ary $n$-stage machine. It can be used
-to represent any finite state machine. It is also a natural generalization of
-shift registers, so thinking of finite state machines in the context of $N$-ary
-$n$-state machines will make the transition to talking about shift registers much
-smoother.
+\par The next object defined is called an $N$-ary $n$-stage machine. It can be
+used to represent any finite state machine. It is also a natural generalization
+of shift registers, so thinking of finite state machines in the context of
+$N$-ary $n$-state machines will make the transition to talking about shift
+registers much smoother.
 
 \begin{definition}\label{N-ary-n-stage-machine}
   Choose $n,m,r\in\nnn$. An {\em $N$-ary $n$-stage machine} consists of the
@@ -96,4 +89,39 @@ smoother.
     x_i^*=f_i(x_0,\dots,x_n,y_0,\dots,y_m) \quad 0\le i<n \\
     z_i=g_i(x_0,\dots,x_n,y_0,\dots,y_m) \quad 0\le i<r
   \end{eqnarray}
+\end{definition}
+
+\par For $N=2$, $f_i$ and $g_i$ are Boolean functions on $n+m$ variables.
+A binary $n$-stage machine can be defined by $n+r$ Boolean functions each
+on $n+m$ variables.
+
+
+\subsection{Feedback with Carry Shift Registers}
+
+\par A {\em feedback with carry shift register} is an autonomous shift register
+which uses a linear combination of each state plus some value from memory to
+move to each state. The definition of this type of register follows the
+one given in Andrew Klapper's book \cite{bk:gk12}.
+
+\begin{definition}\label{afsr}
+  Let $q_0,q_1,\dots,q_m\in\zzz/(p)$ for $p\in\zzz$ and assume that
+  $q_0\not\equiv0\pmod p$.
+  An {\em algebraic feedback shift register} (or {\em AFSR}) over
+  ($\zzz$,$p$,$S$) of length m with {\em multipliers} or {\em taps}
+  $q_0,q_1,\dots,q_m$ is a discrete state machine whose states are  collections
+  \[
+	(a_0,a_1,\dots,a_{m-1};z) \ {\rm where} \ a_i\in S \ {\rm and} \ z \in \zzz
+  \]
+  consisting of cell contents $a_i$ and memory $z$. The state changes according
+  to the following rules:
+  \begin{enumerate}[1.]
+    \item Compute
+      \[
+      \sigma = \sum^m_{i=1}q_ia_{m-i}+z.
+      \]
+    \item Find $a_m\in S$ such that $-q_0a_m\equiv\sigma\pmod p$. That is
+      $a_m\equiv-q_{0}^{-1}\sigma\pmod p$.
+    \item Replace $(a_0,\dots,a_{m-1})$ by $(a_1,\dots,a_m)$ and replace $z$ by
+      $\sigma({\rm div} p) = (\sigma+q_0a_m)/p$.
+  \end{enumerate}
 \end{definition}

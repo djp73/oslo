@@ -53,13 +53,13 @@ the one-to-one binary representation function $B$:
 
 \par This definition of $B$ has created the convention where the
 {\em least significant bit} appears on the left and the 
-{\em most significant bit} appears on the right. There are two important
-functions which are used extensively when comparing vectors in $\gftwo^n$.
-These functions count the number of 1s in a vector, locate where the 1s
-occur in a vector, and count the number of differences between two vectors.
+{\em most significant bit} appears on the right. The {\it Hamming weight}
+and {\it Hamming distance} functions are used to count the number of 1s in a
+vector and count the number of differences between two vectors in
+$\gftwo^n$. These are fundmental functions in coding theory and are useful
+when talking about Boolean functions.
 
-\begin{definition}
-\label{def:Hamming}
+\begin{definition}\label{def:Hamming}
 	Let $x,y\in\gftwo^n$. Then $wt:\gftwo^n\rightarrow\nnn\cup\{0\}$
   is defined by
 	\[
@@ -67,7 +67,7 @@ occur in a vector, and count the number of differences between two vectors.
 	\]
 	and $d:\gftwo^n\times\gftwo^n\rightarrow\nnn\cup\{0\}$ is defined by
 	\[
-	  d(x,y):=w(x+y).
+	  d(x,y):=wt(x+y).
 	\]
 	Then $wt(x)$ is the {\em Hamming\ weight} of $x$ and $d(x,y)$ is the
 	{\em Hamming\ distance} between $x$ and $y$.
@@ -227,7 +227,7 @@ It is trivial to show that addition is homomorphic under $V$,
 \[
 V(f_1\oplus f_2)=V(f_1)\oplus V(f_2).
 \]
-Then the standard basis of $\gftwo^{2^n}$ can be used to pull back an
+Then the standard basis of $\gftwo^{2^n}$ can be used to pull back to an
 equivalent basis of $\BF_n$. Let $e_i\in\gftwo^{2^n}$ be defined so that
 \begin{align*}
 	e_0&=(1,0,\dots)\\
@@ -335,18 +335,18 @@ each Boolean function and the size of the polynomial ring.
 \begin{theorem}
 Each $n$-variable Boolean function is uniquely represeneted as a polynomial
 in the polynomial ring $\gftwo[x_0,\cdots,x_{n-1}]/ (x_0^2\oplus x_0,\cdots,
-x_{n-1}^2 \oplus x_{n-1})$.
+x_{n-1}^2 \oplus x_{n-1})$. Let $f\in\BF_n$. Then there exists a unique set
+of $a_I\in\gftwo$ such that
 \begin{equation}\label{eqn:ANF}
-  f(x)=\sum_{I\in\mathcal{P}(\nnn\cup\{0\})}a_I\bigg(\prod_{i\in I}x_i\bigg)
+  f(x)=\sum_{I\in2^{\{0,\dots,n-1\}}}a_I\bigg(\prod_{i\in I}x_i\bigg)
 \end{equation}
-where $a_I\in\gftwo$ and defined by the given Boolean function.
 \end{theorem}
 
 \begin{proof}
   \begin{align*}
   \lvert\BF_n\rvert
     &= \lvert \gftwo^{2^n} \rvert \\
-    &= \lvert \{(a_{\{\}},\ldots,a_I,\ldots):a_I\in\gftwo\} \rvert \\
+    &= \lvert \{(a_{\emptyset},\ldots,a_I,\ldots):a_I\in\gftwo\} \rvert \\
     &= \lvert \gftwo[x_0,\cdots,x_{n-1}]/ (x_0^2\oplus x_0,\cdots,
     x_{n-1}^2 \oplus x_{n-1})\rvert
   \end{align*}
@@ -408,19 +408,17 @@ This operation is closed under multiplication.
 
 \par Addition in $\gftwo^n$ corresponds to multiplication in
 $\hat{\gftwo^n}$. By definition
-$\Chi_{\lambda_1}\Chi_{\lambda_2}(x)=(-1)^{(\lambda_1+\lambda_2)\cdot x}$.
-Then,
 \[
-\Chi_{\lambda_1}(x)\Chi_{\lambda_2}(x)
+(\Chi_{\lambda_1}\cdot\Chi_{\lambda_2})(x)
+  =\Chi_{\lambda_1}(x)\Chi_{\lambda_2}(x)
   =(-1)^{\lambda_1\cdot x}(-1)^{\lambda_2\cdot x}
   =(-1)^{(\lambda_1+\lambda_2)\cdot x}
-  =\Chi_{\lambda_1}\Chi_{\lambda_2}(x).
+  =\Chi_{\lambda_1+\lambda_2}(x).
 \]
 
 \begin{definition}\label{def:pBF}
-	Any function $\hat{f}:\gftwo^n\rightarrow\{1,-1\}$ such that
-  $\hat{f}(x)=(-1)^{f(x)}$ for $f\in\BF$ is called a \textit{pseudo-Boolean
-  function}
+  Let $f\in\BF_n$. Then $\hat{f}:\gftwo^n\rightarrow\{1,-1\}$ such that
+  $\hat{f}(x)=(-1)^{f(x)}$ is a \textit{pseudo-Boolean function}
 \end{definition}
 
 \begin{lemma}
@@ -496,7 +494,8 @@ the zero Fourier coefficient $c(0)$:
 \end{equation}
 
 \par Clearly $\mathcal{W}_f(\lambda)=\frac{1}{2^{n/2}}c(\lambda)$. For large
-$|\mathcal{W}_f(\lambda)|$, $f$ is close to an affine function in $\BF_n$.
+$|\mathcal{W}_f(\lambda)|$, the Hamming distance between $f$ and an affine
+function in $\BF_n$ is small.
 
 \begin{example}
   There are a two cases that should be clear to the reader.
@@ -575,9 +574,9 @@ attacks. As mentioned before, these were defined by Rothaus in 1976.
 % directional derivatives
 % equivalent definition of a bent function
 
-\subsection{Constructions of Bent Functions}
+\subsection{Constructions of Bent Functions}\label{subsec:bent-constructions}
 \par A simple bent function construction is accomplished by the Boolean
-functions in the {\em Maiorana-McFarland\ class}. This is the the set
+functions in the {\em Maiorana-McFarland\ class}. This is the set
 $\mathcal{M}$ which contains all Boolean function on
 $\gftwo^n=\{(x,y):x,y\in\gftwo^{n/2}\}$, of the form
   \[
