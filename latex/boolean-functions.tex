@@ -8,7 +8,7 @@ notations will follow those found in \cite{bk:cs09}.
 \par The two element field $(\gftwo,\oplus,\cdot)$ is the set $\{0,1\}$
 with defined binary operations $\oplus$ and $\cdot$, also commonly referred
 to as the {\em XOR} and {\em AND} operators, respectively.
-\begin{table}[h!]\label{tab:GF(2)}
+\begin{table}[h!]
 	\centering
 	\begin{tabular}{|c|c|}
 		\hline
@@ -21,6 +21,7 @@ to as the {\em XOR} and {\em AND} operators, respectively.
 		\hline
 	\end{tabular}
 	\caption{Binary Operations for $\gftwo$}
+  \label{tab:GF(2)}
 \end{table}
 \par It should be clear that $(\gftwo,\oplus,\cdot)$ is a commutative ring
 with an identity. Additionally, the only non-zero element $1$ is it's own
@@ -184,7 +185,6 @@ that $f$ has when evaluated at every point in the $\gftwo^n$:
 wt(f)=\lvert\{u\in\gftwo^n:f(u)=1\}\rvert.
 \]
 \begin{table}
-\label{tab:truth-table}
 	\centering
   \begin{tabular}{|c|c|c|c||c|}
     \hline
@@ -209,6 +209,7 @@ wt(f)=\lvert\{u\in\gftwo^n:f(u)=1\}\rvert.
   	\hline
 	\end{tabular}
 	\caption{Truth Table of $f$}
+  \label{tab:truth-table}
 \end{table}
 
 \subsection{Boolean Polynomials}
@@ -252,7 +253,7 @@ as a linear combination of the atomic Boolean functions in $\BF_4$. Since
 the coefficients in the linear combinations are either 0 or 1, it is true
 that every Boolean function can be written as the sum of $wt(f)$ atomic
 Boolean functions.
-\begin{table}[h!]\label{tab:atomic-f}
+\begin{table}[h!]
   \centering
   \begin{tabular}{|c|c|c|c||c|c|c|c|c|c|c|c|}
     \hline
@@ -278,6 +279,7 @@ Boolean functions.
     \hline
   \end{tabular}
   \caption{$f$ broken into atomic Boolean function in $\BF_4$}
+  \label{tab:atomic-f}
 \end{table}
 \par The equation $f=f_1+f_2+f_4+f_6+f_{10}+f_{14}+f_{15}$ should be clear
 from Table \ref{tab:atomic-f}. Knowing how to write the atomic Boolean

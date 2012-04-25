@@ -1,5 +1,5 @@
 \section{Shift Registers}
-\par The {\it Feedback with Carry Shift Register} (or FCSR) is a type of
+\par The {\it feedback with carry shift register} (or FCSR) is a type of
 shift register used in stream ciphers. Though there exist attacks against
 this type of shift register by itself, it is possible to combine FCSRs
 together in ways that no known attacks are useful. This however does not
@@ -7,6 +7,12 @@ guarantee security because the combining of the FCSRs greatly increases the
 complexity of the cryptanalysis on the stream cipher. Despite the security
 challenges, the speed of an FCSR implementation is very attractive for
 engineers of hardware based cryptosystems.
+
+\par This section will be used as an introduction to finite state machines
+and feedback with carry shift registers. The FCSR will be considered in the
+binary case and analyzed using $\zzz_2$. This analysis is then extended to
+the case when FCSRs produce bent sequences, the theme of Section
+\ref{sec:Boolean Sequences}
 
 \subsection{Finite State Machines}
 \par It is appropriate to preface the discussion about FCSRs with general finite
@@ -67,8 +73,8 @@ $N$-ary $n$-state machines will make the transition to talking about shift
 registers much smoother.
 
 \begin{definition}\label{N-ary-n-stage-machine}
-  Choose $n,m,r\in\nnn$. An {\em $N$-ary $n$-stage machine} consists of the
-  following:
+  Choose $n,m,r\in\nnn$. Then define a finite state machine with the
+  following sets:
   \begin{enumerate}[1.]
     \item $D=\{0,\dots,N-1\}$. This set contains the {\em $N$-ary digits} of the
       machine.
@@ -86,28 +92,55 @@ registers much smoother.
   The next state and output are determined from the current state and input by the
   following equations:
   \begin{eqnarray}
-    x_i^*=f_i(x_0,\dots,x_n,y_0,\dots,y_m) \quad 0\le i<n \\
-    z_i=g_i(x_0,\dots,x_n,y_0,\dots,y_m) \quad 0\le i<r
+    x_i^*=f_i(x_0,\dots,x_{n-1},y_0,\dots,y_{m-1}) \quad 0\le i<n \\
+    z_i=g_i(x_0,\dots,x_{n-1},y_0,\dots,y_{m-1}) \quad 0\le i<r
   \end{eqnarray}
+  This finite state machine is called an {\em $N$-ary $n$-stage machine} and
+  will be denoted by $\mathcal{M}(N,n,m,r)$.
 \end{definition}
 
-\par For $N=2$, $f_i$ and $g_i$ are Boolean functions on $n+m$ variables.
+\par By making the state the input to the machine as well, this machine
+becomes autonomous in the sense that it no longer needs outside input. Then
+each new state and output is based on the previous state of the machine. For
+$N=2$, $f_i$ and $g_i$ are Boolean functions on $n+m$ variables.
 A binary $n$-stage machine can be defined by $n+r$ Boolean functions each
 on $n+m$ variables.
 
-
 \subsection{Feedback with Carry Shift Registers}
 
+\par In the set of autonomous finite state machine is a type of machine
+called a {\it shift register}. The variables making up the state of a shift
+register pass their values directly to the next variable in the state until
+the value is pushed out of the register as the output.
+
+\begin{definition}\label{def:shift-register}
+  Let $\mathcal{M}(2,n,-1,0)$ be an binary $n$-stage machine with no input
+  and exactly 1 output value. Also, let $g,f_i\in\BF_n$ where the states
+  $(x_0,\cdots,x_{n-1})$ are the domain of $g$ and $f_i$, $f_i(x)=x_{i+1}$ for
+  $0\leq i \leq n-2$, and $g(x)=x_0$. This type of machine will be called an {\it
+  $n$-stage binary shift register} denoted by $\mathcal{SR}(2,n)$.
+\end{definition}
+
+\par When the function $f_{n-1}\in\BF_n$ is linear, then $\mathcal{SR}(2,n)$ is
+called a {\it linear feedback shift register}. An LFSR is drawn in Figure
+\ref{fig:LFSR}. This is the case where $f_{n-1}=\sum_{i=1}^nq_ix_{n-i}$ where
+each $x_i,q_i \in \gftwo$. The $q_i$'s are called {\it taps}. In computer
+science terms, to move forward in the sequence of states, each bit in the state
+of the register shifts to the right one spot and then the newest bit enters
+on the left end of the register and is the value given when each bit from
+the previous state is AND'ed with its corresponding tap and then XOR'ed with
+all the other AND'ed bit and taps.
+
 \setlength{\unitlength}{1mm}
-\begin{figure}[h!]\label{fig:FCSR}
+\begin{figure}[h!]
   \centering
-  \begin{picture}(90,35)(-55,-25)
+  \begin{picture}(90,40)(-25,-25)
     %% State of the register
-    \put(0,0){\framebox(10,10){$a_{m-1}$}}
-    \put(10,0){\framebox(10,10){$a_{m-2}$}}
+    \put(0,0){\framebox(10,10){$x_{n-1}$}}
+    \put(10,0){\framebox(10,10){$x_{n-2}$}}
     \put(20,0){\framebox(10,10){$\dots$}}
-    \put(30,0){\framebox(10,10){$a_{1}$}}
-    \put(40,0){\framebox(10,10){$a_{0}$}}
+    \put(30,0){\framebox(10,10){$x_{1}$}}
+    \put(40,0){\framebox(10,10){$x_{0}$}}
     \put(50,5){\vector(4,0){10}}
     %% Taps
     \put(0,-13){\makebox(10,10){$q_1$}}
@@ -115,9 +148,73 @@ on $n+m$ variables.
     \put(10,-13){\makebox(10,10){$q_2$}}
     \put(15,-8.5){\circle{9}}
     \put(20,-13){\makebox(10,10){$\dots$}}
-    \put(30,-13){\makebox(10,10){$q_{m-1}$}}
+    \put(30,-13){\makebox(10,10){$q_{n-1}$}}
     \put(35,-8.5){\circle{9}}
-    \put(40,-13){\makebox(10,10){$q_m$}}
+    \put(40,-13){\makebox(10,10){$q_n$}}
+    \put(45,-8.5){\circle{9}}
+    %% Lines connecting Taps and the State of the Register
+    \multiput(5,-0.2)(10,0){2}{\line(0,-6){4}}
+    \multiput(35,-0.2)(10,0){2}{\line(0,-6){4}}
+    %% Summer
+    \put(-20,-25){\framebox(10,10){\Large $\sum$}}
+    %% Lines from Taps to Summer
+    \put(5,-12.8){\line(0,-6){3.5}}
+    \put(15,-12.8){\line(0,-6){5.5}}
+    \put(35,-12.8){\line(0,-6){8.5}}
+    \put(45,-12.8){\line(0,-6){10.5}}
+    \put(5,-16.3){\vector(-4,0){15}}
+    \put(15,-18.3){\vector(-4,0){25}}
+    \put(35,-21.3){\vector(-4,0){45}}
+    \put(45,-23.3){\vector(-4,0){55}}
+    %% Lines from Summer
+    \put(-13,-15){\line(0,0){20}}
+    \put(-13,5){\vector(4,0){13}}
+    %% mod N
+    \put(-13,5){\makebox(13,5){mod 2}}
+  \end{picture}
+  \caption{Linear Feedback Shift Register}
+  \label{fig:LFSR}
+\end{figure}
+
+\par Linear feedback shift registers are well-studied in \cite{bk:g82}. By
+using the Berlekamp-Massey algorithm it is possible to recover the state of
+a given LFSR based on the output sequence. In fact given an LFSR output sequence
+with period $2^n-1$, the Berlekamp-Massey algorithm will find a unique
+minimal-length LFSR which generates this output after the first $2n$ digits have
+been processed \cite{art:m69}. This algorithm is studied in more detail in
+\cite{art:b06}.
+
+\par In Figure \ref{fig:FCSR}, there is a memory cell attached to the linear
+feedback shift register which adds some complexity to the register. In the
+modified shift register shown in Figure \ref{fig:FCSR}, in each cycle, the
+whole number quotient of $\sum_{i=1}^nq_ix_{n-i}$ is kept in the memory cell
+$z$. The memory cell from the previous state of the modified shift register
+is used to determined the sum modulo 2 for the newest bit in the state of
+the register. A shift register modified in this way is known as a {\it
+binary feedback with carry shift register}, or FCSR. For this paper, FCSRs
+will only be considered in the binary case. Many of the theorems do
+generalize the $N$-ary case, though sometimes it is necessar that $N$ be
+prime.
+
+\begin{figure}[h!]
+  \centering
+  \begin{picture}(90,40)(-40,-25)
+    %% State of the register
+    \put(0,0){\framebox(10,10){$x_{n-1}$}}
+    \put(10,0){\framebox(10,10){$x_{n-2}$}}
+    \put(20,0){\framebox(10,10){$\dots$}}
+    \put(30,0){\framebox(10,10){$x_{1}$}}
+    \put(40,0){\framebox(10,10){$x_{0}$}}
+    \put(50,5){\vector(4,0){10}}
+    %% Taps
+    \put(0,-13){\makebox(10,10){$q_1$}}
+    \put(5,-8.5){\circle{9}}
+    \put(10,-13){\makebox(10,10){$q_2$}}
+    \put(15,-8.5){\circle{9}}
+    \put(20,-13){\makebox(10,10){$\dots$}}
+    \put(30,-13){\makebox(10,10){$q_{n-1}$}}
+    \put(35,-8.5){\circle{9}}
+    \put(40,-13){\makebox(10,10){$q_n$}}
     \put(45,-8.5){\circle{9}}
     %% Lines connecting Taps and the State of the Register
     \multiput(5,-0.2)(10,0){2}{\line(0,-6){4}}
@@ -143,37 +240,40 @@ on $n+m$ variables.
     %% Lines from memory cell to summer
     \put(-35,0){\line(0,-6){20}}
     \put(-35,-20){\vector(4,0){15}}
-    %% div N mod N
-    \put(-13,5){\makebox(13,5){mod $N$}}
-    \put(-29.5,5){\makebox(13,5){div $N$}}
+    %% div 2 mod 2
+    \put(-13,5){\makebox(13,5){mod $2$}}
+    \put(-29.5,5){\makebox(13,5){div $2$}}
   \end{picture}
-  \caption{Feedback with Carry Shift Register} 
+  \caption{Binary Feedback with Carry Shift Register} 
+  \label{fig:FCSR}
 \end{figure}
 
-\par A {\em feedback with carry shift register} is an autonomous shift register
-which uses a linear combination of each state plus some value from memory to
-move to each state. The definition of this type of register follows the
-one given in Andrew Klapper's book \cite{bk:gk12}.
-
 \begin{definition}\label{afsr}
-  Let $q_0,q_1,\dots,q_m\in\zzz/(p)$ for $p\in\zzz$ and assume that
-  $q_0\not\equiv0\pmod p$.
-  An {\em algebraic feedback shift register} (or {\em AFSR}) over
-  ($\zzz$,$p$,$S$) of length m with {\em multipliers} or {\em taps}
-  $q_0,q_1,\dots,q_m$ is a discrete state machine whose states are  collections
+  Let $q_0,q_1,\dots,q_n\in\zzz/2$. A {\em binary feedback with carry shift register} 
+  of length n with {\em taps} $q_1,\dots,q_n$ is a modified shift register
+  whose states are collections
   \[
-	(a_0,a_1,\dots,a_{m-1};z) \ {\rm where} \ a_i\in S \ {\rm and} \ z \in \zzz
+	(x_0,x_1,\dots,x_{n-1};z) \text{ where } x_i\in\gftwo \text{ and } z \in \zzz
   \]
-  consisting of cell contents $a_i$ and memory $z$. The state changes according
+  where $z$ is called the {\it memory cell}. The state changes according
   to the following rules:
   \begin{enumerate}[1.]
     \item Compute
       \[
-      \sigma = \sum^m_{i=1}q_ia_{m-i}+z.
+      \sigma = \sum^n_{i=1}q_ia_{n-i}+z.
       \]
-    \item Find $a_m\in S$ such that $-q_0a_m\equiv\sigma\pmod p$. That is
-      $a_m\equiv-q_{0}^{-1}\sigma\pmod p$.
-    \item Replace $(a_0,\dots,a_{m-1})$ by $(a_1,\dots,a_m)$ and replace $z$ by
-      $\sigma({\rm div} p) = (\sigma+q_0a_m)/p$.
+    \item The output is $x_0$.
+    \item Then the new state $(x_0,x_1,\dots,x_{n-1};z)
+      =(x_1,\dots,x_{n-1},\sigma\pmod2);\sigma(\text{div }2)$.
   \end{enumerate}
 \end{definition}
+
+\begin{lemma}
+\par If the sequence $\alpha=(a_0,a_1,\cdots)$ where $a_i\in\{0,1\}$ and
+$a_i\equiv x_i\pmod2$, and $\zeta=(z_{n-1},z_n,z_{n+1},\cdots)$ where each
+$z_i$ is the value of the memory cell for the corresponding $x_i$, then
+these two sequences are related by the following linear recurrence
+\begin{equation}\label{eqn:lin-rec}
+  a_k+2z_k=q_1a_{k-1}+\cdots+q_na_{k-n}+z_{k-1} \text{ for } k\geq n.
+\end{equation}
+\end{lemma}
