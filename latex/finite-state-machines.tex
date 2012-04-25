@@ -98,6 +98,58 @@ on $n+m$ variables.
 
 \subsection{Feedback with Carry Shift Registers}
 
+\setlength{\unitlength}{1mm}
+\begin{figure}[h!]\label{fig:FCSR}
+  \centering
+  \begin{picture}(90,35)(-55,-25)
+    %% State of the register
+    \put(0,0){\framebox(10,10){$a_{m-1}$}}
+    \put(10,0){\framebox(10,10){$a_{m-2}$}}
+    \put(20,0){\framebox(10,10){$\dots$}}
+    \put(30,0){\framebox(10,10){$a_{1}$}}
+    \put(40,0){\framebox(10,10){$a_{0}$}}
+    \put(50,5){\vector(4,0){10}}
+    %% Taps
+    \put(0,-13){\makebox(10,10){$q_1$}}
+    \put(5,-8.5){\circle{9}}
+    \put(10,-13){\makebox(10,10){$q_2$}}
+    \put(15,-8.5){\circle{9}}
+    \put(20,-13){\makebox(10,10){$\dots$}}
+    \put(30,-13){\makebox(10,10){$q_{m-1}$}}
+    \put(35,-8.5){\circle{9}}
+    \put(40,-13){\makebox(10,10){$q_m$}}
+    \put(45,-8.5){\circle{9}}
+    %% Lines connecting Taps and the State of the Register
+    \multiput(5,-0.2)(10,0){2}{\line(0,-6){4}}
+    \multiput(35,-0.2)(10,0){2}{\line(0,-6){4}}
+    %% Summer
+    \put(-20,-25){\framebox(10,10){\Large $\sum$}}
+    %% Lines from Taps to Summer
+    \put(5,-12.8){\line(0,-6){3.5}}
+    \put(15,-12.8){\line(0,-6){5.5}}
+    \put(35,-12.8){\line(0,-6){8.5}}
+    \put(45,-12.8){\line(0,-6){10.5}}
+    \put(5,-16.3){\vector(-4,0){15}}
+    \put(15,-18.3){\vector(-4,0){25}}
+    \put(35,-21.3){\vector(-4,0){45}}
+    \put(45,-23.3){\vector(-4,0){55}}
+    %% Lines from Summer
+    \put(-13,-15){\line(0,0){20}}
+    \put(-13,5){\vector(4,0){13}}
+    \put(-17,-15){\line(0,0){20}}
+    \put(-17,5){\vector(-4,0){13}}
+    %% Memory cell z
+    \put(-40,0){\framebox(10,10){$z$}}
+    %% Lines from memory cell to summer
+    \put(-35,0){\line(0,-6){20}}
+    \put(-35,-20){\vector(4,0){15}}
+    %% div N mod N
+    \put(-13,5){\makebox(13,5){mod $N$}}
+    \put(-29.5,5){\makebox(13,5){div $N$}}
+  \end{picture}
+  \caption{Feedback with Carry Shift Register} 
+\end{figure}
+
 \par A {\em feedback with carry shift register} is an autonomous shift register
 which uses a linear combination of each state plus some value from memory to
 move to each state. The definition of this type of register follows the
@@ -125,7 +177,3 @@ one given in Andrew Klapper's book \cite{bk:gk12}.
       $\sigma({\rm div} p) = (\sigma+q_0a_m)/p$.
   \end{enumerate}
 \end{definition}
-
-\begin{pspicture}(0,0)(10,4)\showgrid
-  \rput(0.5,3.5){\rnode{z}{\psframe{$z$}}}
-\end{pspicture}
