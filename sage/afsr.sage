@@ -889,6 +889,31 @@ def is_monotone(f, n = 0):
                 i+=1
             return t
 
+def boolean_monomial(u):
+    """
+    Returns the monomials x^u.
+
+    INPUT:
+        u - element of GF(2)^n
+
+    OUTPUT:
+        f - Boolean monomial
+
+    EXAMPLES:
+
+    """
+    from sage.crypto.boolean_function import BooleanPolynomial
+    n = len(u)
+    F = GF(2)
+    V = F^n
+    B = BooleanPolynomialRing(n,'x')
+    B.inject_variables()
+    f = B(0); f=f+1;
+    for i in range(n):
+      if u[i]==1:
+        f=f*(B.gens())[i]
+    return f
+
 def monotone_from_support(L):
     """
     Returns a monotone Boolean function f whose set of least
@@ -908,20 +933,16 @@ def monotone_from_support(L):
          True, True, True, True, True, True)
 
     """
+    from sage.crypto.boolean_function import BooleanPolynomial,BooleanFunction
     F = GF(2)
     n = L[0].degree()
     V = F^n
-    W = F^(2^n)
-    L0 = seq(W(0))
-    for i in range(len(L)):
-        supp = Set(L[i].support())
-        j=0
-        for x in V:
-            if Set(x.support()).issuperset(supp):
-                L0[j] = 1
-            j+=1
-    f = BooleanFunction(seq(L0))
-    return f
+    B = BooleanPolynomialRing(n,'x')
+    B.inject_variables()
+    f = B(0); f = f+1;
+    for u in L:
+      f=f*(boolean_monomial(u)+1)
+    return BooleanFunction(f+1)
 
 def print_truth_table(f):
 
