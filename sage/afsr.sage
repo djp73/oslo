@@ -891,7 +891,7 @@ def is_monotone(f, n = 0):
 
 def boolean_monomial(u):
     """
-    Returns the monomials x^u.
+    Returns the monomial x^u.
 
     INPUT:
         u - element of GF(2)^n
@@ -900,7 +900,18 @@ def boolean_monomial(u):
         f - Boolean monomial
 
     EXAMPLES:
-
+        sage: F=GF(2)
+        sage: V=F^4
+        sage: u=V([1,0,1,1])
+        sage: boolean
+        boolean_fcn_synthesis  boolean_monomial       
+        sage: boolean_monomial(u)
+        Defining x0, x1, x2, x3
+        x0*x2*x3
+        sage: g0=boolean_monomial(u)
+        Defining x0, x1, x2, x3
+        sage: g0
+        x0*x2*x3
     """
     from sage.crypto.boolean_function import BooleanPolynomial
     n = len(u)
