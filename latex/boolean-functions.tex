@@ -577,9 +577,69 @@ definition of a bent function is presented here.
 % equivalent definition of a bent function
 
 \subsection{Constructions of Bent Functions}\label{subsec:bent-constructions}
-\par A simple bent function construction is accomplished by the Boolean
-functions in the {\em Maiorana-McFarland\ class}. This is the set
-$\mathcal{M}$ which contains all Boolean function on
+\subsubsection{Maiorana-McFarland Class}
+\par The Maiorana-McFarland class (or M-M class) of Boolean functions uses a
+permutation function $\pi$ on half of the input variables to each function.
+\begin{definition}
+  Let $\pi:\gftwo^k\rightarrow\gftwo^k$ represented by the matrix
+  $\pi\in\gftwo^k\times\gftwo^k$ such that the
+  matrix $\pi$ has exactly $k$ non-zero entries arranged so that every row
+  and column has exactly one non-zero entry. Then $\pi$ is a
+  {\it permuation matrix}. The $i$th row of $\pi$ will be denoted
+  $\pi_i$ for $0\leq i\leq k-1$.
+\end{definition}
+\par There is no distinction between the matrix $\pi$ and the function $\pi$
+because the two are equivalent. The term $\pi(x)$ interpreted as matrix
+multiplication or $x$ being mapped by $\pi$ mean the same thing.
+\begin{example}
+  Let $\pi_0=\begin{bmatrix}
+               0&0&1\\
+               1&0&0\\
+               0&1&0\\
+           \end{bmatrix}$, $x=(0,1,1)$, and $y=(1,0,0)$.
+           \begin{align*}
+             \pi_0(x)=\begin{bmatrix}
+                 0&0&1\\
+                 1&0&0\\
+                 0&1&0\\
+               \end{bmatrix}\begin{bmatrix}0\\1\\1\end{bmatrix}=(1,0,1)\\
+             \pi_0(y)=\begin{bmatrix}
+                 0&0&1\\
+                 1&0&0\\
+                 0&1&0\\
+               \end{bmatrix}\begin{bmatrix}1\\0\\0\end{bmatrix}=(0,1,0)
+           \end{align*}
+\end{example}
+
+\par For every permutation function $\pi$ on $\gftwo^k$ the {\it component permutation
+function} $\bar{\pi}$ can defined such that for $0 \leq i \leq k-1$,
+\[
+\bar{\pi}(i)=j \text{ where } \pi(e_i)=e_j \text{ for basis vectors } e_i,
+e_j\in\gftwo^k.
+\]
+\begin{example}
+For the previously defined $\pi_0=
+           \begin{bmatrix}
+               0&0&1\\
+               1&0&0\\
+               0&1&0\\
+           \end{bmatrix}$.\\
+  \begin{center}
+    \begin{tabular}{|c|c|}
+      \hline
+      $i$&$\bar{\pi}_0(i)$\\
+      \hline
+      0&1\\
+      1&2\\
+      2&0\\
+      \hline
+    \end{tabular}
+  \end{center}
+\end{example}
+\par A simple bent function construction is accomplished by using permutations
+like the ones defined here. These Boolean functions belong to the {\it
+Maiorana-McFarland original class}. This is the set
+$\mathcal{M}$ which contains all Boolean functions on
 $\gftwo^n=\{(x,y):x,y\in\gftwo^{n/2}\}$, of the form
   \[
   f(x,y)=x\cdot\pi(y)\oplus g(y)
@@ -587,9 +647,14 @@ $\gftwo^n=\{(x,y):x,y\in\gftwo^{n/2}\}$, of the form
 where $\pi$ is any permutation on $\gftwo^{n/2}$ and $g$ is any Boolean
 function on $\gftwo^{n/2}$.
 
+\begin{proposition}\cite{col:c06}
 \par All functions in the Maiorana-McFarland class of Boolean functions are
 bent.
+\end{proposition}
 
+\begin{proof}
+
+\end{proof}
 
 \subsection{Monotone Boolean Functions}
 \par In the introduction to Boolean functions, each Boolean function was
