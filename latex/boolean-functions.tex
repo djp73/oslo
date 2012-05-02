@@ -359,17 +359,17 @@ of $a_I\in\gftwo$ such that
 \end{proof}
 
 \subsection{The Walsh Transform}
-\par The Walsh Transform is similar to the Discrete Fourier Transform.
+\par The Walsh transform is similar to the discrete Fourier transform.
 This transformation has many applications in signals
 analysis. The idea is to express a given signal as a function of frequency
 to reveal the dominant frequencies in the signal. For this paper, the Walsh
-Transform is considered over the Discrete Fourier Transform because this is
-the transformation used by Rothaus in his original definition of Bent
+transform is considered over the discrete Fourier transform because this is
+the transformation used by Rothaus in his original definition of bent
 functions published in the Journal of Combinatorial Theory in 1976
 \cite{art:r76}. 
 
 \par It is necessary to discuss \textit{characters} as a preliminary to Walsh
-Transforms. The definitions in this section follow \cite{bk:lsy11}.
+transforms. The definitions in this section follow \cite{bk:lsy11}.
 
 \begin{definition}
   A {\em character} $\Chi$ of a finite abelian group $G$ is a group
@@ -387,7 +387,7 @@ in $\hat{\gftwo^n}$ is pointwise multiplication of functions:
 \]
 This operation is closed under multiplication.
 
-\begin{lemma}
+\begin{lemma}\label{lem:dual}
   $\gftwo^n\cong\hat{\gftwo^n}$
 \end{lemma}
 
@@ -397,7 +397,7 @@ This operation is closed under multiplication.
 	Every character in $\hat{\gftwo^n}$ corresponds to an element of
   $\gftwo^n$. Thus, $\lvert\gftwo^n\rvert=\lvert\hat{\gftwo^n}\rvert$.
   Therefore if $\Upsilon$ is one-to-one, then it must be an isomorphism.\\
-	Let $\Upsilon(\lambda_1)=\Upsilon(\lambda_2)$. Then $\forall x$
+	Let $\Upsilon(\lambda_1)=\Upsilon(\lambda_2)$. Then for all $x$
 	\begin{align*}
 		(-1)^{\lambda_1\cdot x}
       &=(-1)^{\lambda_2\cdot x}\\
@@ -418,19 +418,26 @@ $\hat{\gftwo^n}$. By definition
   =\Chi_{\lambda_1+\lambda_2}(x).
 \]
 
+\par It is clear from the proof of Lemma \ref{lem:dual} that all the characters
+of $\gftwo^n$ correspond to all of the linear functions in $\BF_n$.
+
 \begin{definition}\label{def:pBF}
-  Let $f\in\BF_n$. Then $\hat{f}:\gftwo^n\rightarrow\{1,-1\}$ such that
-  $\hat{f}(x)=(-1)^{f(x)}$ is a \textit{pseudo-Boolean function}
+  Let $f\in\BF_n$. Then $\hat{f}:\gftwo^n\rightarrow\rrr$ such that
+  $\hat{f}(x)=(-1)^{f(x)}$ is a \textit{pseudo-Boolean function}. The set of all
+	pseudo Boolean functions is denoted $\hat{\BF}_n=\{\hat{f}:f\in\BF_n\}$.
 \end{definition}
 
+\par Clearly, every character $\Chi_\lambda$ belongs to $\hat{\BF_n}$.
 \begin{lemma}
-  The characters of $\gftwo^n$ belong to $\hat{\BF}_n
-  =\{\hat{f}:f\in\BF_n\}$ and form an orthonormal basis of
-  $\hat{\BF}_n\otimes\mathbb{R}$.
+  If \[W={\rm span}_\rrr(\hat{\BF}_n)=\left\{\sum_{i\in I}a_i\hat{f}_i:
+  \hat{f}_i\in\hat{\BF}_n{\rm ,\ }a_i\in\rrr{\rm ,\ and\ }|I|<\infty\right\},\]
+  then the set $\hat{\gftwo^n}$ forms an orthonormal basis of $W$.
 \end{lemma}
 \begin{proof}
-  The dimension of $\hat{\BF_n}$ is $2^n$, and there are $2^n$ characters of
-  $\gftwo^n$.
+	The dimension of $\hat{\BF_n}$ is at most $2^n$. This is easily seen because
+	the atomic Boolean functions obviously form an orthonormal basis of $W$.
+	There are $2^n$ characters of $\gftwo^n$ which are all elements of
+	$\hat{\BF}_n$.
   \begin{align*}
     \sum_{x\in\gftwo^n}{\Chi_{\lambda_i}(x)\cdot\Chi_{\lambda_j}(x)}
     &=\sum_{x\in\gftwo^n}
@@ -440,8 +447,9 @@ $\hat{\gftwo^n}$. By definition
       2^n & \text{if } i=j.
     \end{cases}
   \end{align*}
-  Therefore, the characters of $\gftwo^n$ form an orthonormal basis of
-  $\hat{\BF}_n\otimes\mathbb{R}$.
+  Therefore, the characters of $\gftwo^n$ are orthonormal in $W$. Since the
+	dimension of $W$ is at most $2^n$ and there are $2^n$ characters,
+	$\hat{\gftwo^n}$ forms an orthonormal basis of $W$.
 \end{proof}
 
 %\begin{definition}\label{def:DFT}
@@ -577,20 +585,27 @@ definition of a bent function is presented here.
 % equivalent definition of a bent function
 
 \subsection{Constructions of Bent Functions}\label{subsec:bent-constructions}
+\par The set of all bent functions is not known. There however are a few basic
+constructions which are known. The \dots and Maiorana-McFarland Class of Boolean
+functions are presented here as two of the known constructions for bent
+functions.
+\subsubsection{Other Construction}
 \subsubsection{Maiorana-McFarland Class}
 \par The Maiorana-McFarland class (or M-M class) of Boolean functions uses a
 permutation function $\pi$ on half of the input variables to each function.
+
 \begin{definition}
-  Let $\pi:\gftwo^k\rightarrow\gftwo^k$ represented by the matrix
-  $\pi\in\gftwo^k\times\gftwo^k$ such that the
+  Let $\pi:\gftwo^k\rightarrow\gftwo^k$ be the linear transformation on
+	$\gftwo^n$ represented by the matrix $\pi\in M_{k\times k}(\gftwo)$ such that the
   matrix $\pi$ has exactly $k$ non-zero entries arranged so that every row
   and column has exactly one non-zero entry. Then $\pi$ is a
-  {\it permuation matrix}. The $i$th row of $\pi$ will be denoted
-  $\pi_i$ for $0\leq i\leq k-1$.
+  {\it permutation matrix}.
 \end{definition}
+
 \par There is no distinction between the matrix $\pi$ and the function $\pi$
 because the two are equivalent. The term $\pi(x)$ interpreted as matrix
 multiplication or $x$ being mapped by $\pi$ mean the same thing.
+
 \begin{example}
   Let $\pi_0=\begin{bmatrix}
                0&0&1\\
@@ -602,12 +617,14 @@ multiplication or $x$ being mapped by $\pi$ mean the same thing.
                  0&0&1\\
                  1&0&0\\
                  0&1&0\\
-               \end{bmatrix}\begin{bmatrix}0\\1\\1\end{bmatrix}=(1,0,1)\\
+               \end{bmatrix}\begin{bmatrix}0\\1\\1\end{bmatrix}
+								 =\begin{bmatrix}1\\0\\1\end{bmatrix}\\
              \pi_0(y)=\begin{bmatrix}
                  0&0&1\\
                  1&0&0\\
                  0&1&0\\
-               \end{bmatrix}\begin{bmatrix}1\\0\\0\end{bmatrix}=(0,1,0)
+               \end{bmatrix}\begin{bmatrix}1\\0\\0\end{bmatrix}
+								 =\begin{bmatrix}0\\1\\0\end{bmatrix}\\
            \end{align*}
 \end{example}
 
@@ -617,24 +634,19 @@ function} $\bar{\pi}$ can defined such that for $0 \leq i \leq k-1$,
 \bar{\pi}(i)=j \text{ where } \pi(e_i)=e_j \text{ for basis vectors } e_i,
 e_j\in\gftwo^k.
 \]
+
 \begin{example}
-For the previously defined $\pi_0=
-           \begin{bmatrix}
+  If $\pi_0=\begin{bmatrix}
                0&0&1\\
                1&0&0\\
                0&1&0\\
-           \end{bmatrix}$.\\
-  \begin{center}
-    \begin{tabular}{|c|c|}
-      \hline
-      $i$&$\bar{\pi}_0(i)$\\
-      \hline
-      0&1\\
-      1&2\\
-      2&0\\
-      \hline
-    \end{tabular}
-  \end{center}
+						 \end{bmatrix}$ and $\pi_1=
+             \begin{bmatrix}
+               0&1&0\\
+               1&0&0\\
+               0&0&1\\
+					   \end{bmatrix}$, then $\bar{\pi}_0$ is the permutation cycle $(012)$
+						 and $\bar{\pi}_1$ is the permutation cycle $(01)(2)$.
 \end{example}
 \par A simple bent function construction is accomplished by using permutations
 like the ones defined here. These Boolean functions belong to the {\it
@@ -647,7 +659,7 @@ $\gftwo^n=\{(x,y):x,y\in\gftwo^{n/2}\}$, of the form
 where $\pi$ is any permutation on $\gftwo^{n/2}$ and $g$ is any Boolean
 function on $\gftwo^{n/2}$.
 
-\begin{proposition}\cite{col:c06}
+\begin{proposition}{\rm\cite{col:c06}}
 \par All functions in the Maiorana-McFarland class of Boolean functions are
 bent.
 \end{proposition}
@@ -656,189 +668,189 @@ bent.
 
 \end{proof}
 
-\subsection{Monotone Boolean Functions}
-\par In the introduction to Boolean functions, each Boolean function was
-shown as a sum of atomic Boolean functions. This section will show how it is
-possible to construct every Boolean function from monotone Boolean
-functions.
-
-\par Define a partial order $\leq $ on $\gftwo^n$ as follows:
-for each $v,w\in \gftwo^n$,
-\[
-v\leq w
-\]
-whenever $supp(v)\subseteq supp(w)$.
-(This partial order is not to be confused with the lexicographical order.)
-A Boolean function is called {\it monotone} if whenever we have $v\leq w$
-then we also have $f(v) \leq f(w)$. In the case $supp(v)\subset supp(w)$,
-$v<w$ may be written.
-
-\par Each monotone function corresponds to a unique set of vectors which
-determine where the function begins mapping to 1s.
-
-\begin{definition}
-  Let $f$ be an $n$-variable monotone Boolean function. Every $x\in\gftwo^n$
-  where for all $x'\in\gftwo^n$ such that $x'<x$, $f(x')<f(x)$ is called a
-  \textit{least support} of $f$.
-\end{definition}
-
-\begin{definition}
-  If an $n$-variable monotone Boolean function $f$ has exactly one least
-  support, then $f$ is an \textit{atomic monotone Boolean function}.
-\end{definition}
-
-\begin{theorem}
-  All monomials are monotone Boolean functions.
-\end{theorem}
-
-\begin{proof}
-  Let $f(x)=\prod_{i\in I}x_i$ for $I\in2^{\{0,\cdots,n-1\}}$ and
-  $y\in\gftwo^n$. Then $supp(y)\supseteq I$ if and only if $f(y)=1$ and
-  $supp(y) \not\supseteq I$ if and only if $f(y)=0$.
-  Let $u,v\in\gftwo^n$ such that $supp(u)\subseteq supp(v)$ and $f(u)=1$.
-  Then, $I\subseteq supp(u) \subseteq supp(v)$. This implies $f(v)=1$. Thus,
-  $f$ is a monotone Boolean function.
-\end{proof}
-
-\begin{example}
-  In the following examples, the two functions $f=x_0x_2$ and $g=x_1x_2$
-  are monomials. Each function is also a monotone function. For $f$, every
-  $x\in\gftwo^4$ such that $supp(x)\supseteq supp((1,0,1,0))$ implies
-  $f(x)=1$. For $g$, $supp(x)\supseteq supp( (0,1,1,0) )$ implies $g(x)=1$.
-  \begin{verbatim}
-  sage: B=BooleanPolynomialRing(4,'x')
-  sage: x0,x1,x2,x3=B.gens()
-  sage: f=BooleanFunction(x0*x2)
-  sage: print_truth(f)
-  (0, 0, 0, 0) 0 False
-  (1, 0, 0, 0) 0 False
-  (0, 1, 0, 0) 0 False
-  (1, 1, 0, 0) 0 False
-  (0, 0, 1, 0) 0 False
-  (1, 0, 1, 0) 1 True
-  (0, 1, 1, 0) 0 False
-  (1, 1, 1, 0) 0 True
-  (0, 0, 0, 1) 0 False
-  (1, 0, 0, 1) 0 False
-  (0, 1, 0, 1) 0 False
-  (1, 1, 0, 1) 0 False
-  (0, 0, 1, 1) 0 False
-  (1, 0, 1, 1) 0 True
-  (0, 1, 1, 1) 0 False
-  (1, 1, 1, 1) 0 True
-  \end{verbatim}
-
-  \begin{verbatim}
-  sage: g=BooleanFunction(x1*x2)
-  sage: print_truth(g)
-  (0, 0, 0, 0) 0 False
-  (1, 0, 0, 0) 0 False
-  (0, 1, 0, 0) 0 False
-  (1, 1, 0, 0) 0 False
-  (0, 0, 1, 0) 0 False
-  (1, 0, 1, 0) 0 False
-  (0, 1, 1, 0) 1 True
-  (1, 1, 1, 0) 0 True
-  (0, 0, 0, 1) 0 False
-  (1, 0, 0, 1) 0 False
-  (0, 1, 0, 1) 0 False
-  (1, 1, 0, 1) 0 False
-  (0, 0, 1, 1) 0 False
-  (1, 0, 1, 1) 0 False
-  (0, 1, 1, 1) 0 True
-  (1, 1, 1, 1) 0 True
-  \end{verbatim}
-\end{example}
-
-\par Every monotone Boolean function can be written as a sum of monomials
-based on the least supports of the function. This is done by unioning in
-every way all of the least supports. If $\Gamma$ is the set of all the least
-supports of a monotone Boolean function, then this unioning is defined by
-the function $S$:
-\begin{align}
-  S:\ 2^\Gamma \rightarrow 2^{\{0,\cdots,n-1\}} \\
-  S(\alpha):=\bigcup_{v\in\alpha}supp(v)
-\end{align}
-
-\begin{theorem}
-  Let $f$ be an $n$-variable monotone Boolean function with least supports
-  $\Gamma$. Then
-  \begin{equation}
-    f(x)=\sum_{I\in S(2^\Gamma),\ I\not=\emptyset} x^I
-  \end{equation}
-\end{theorem}
-
-\begin{proof}
-  \par Define $g(x)=\sum_{I\in S(2^\Gamma),\ I\not=\emptyset}x^I$.
-  Pick $y\in\gftwo^n$. Let $\alpha_y=\{v\in\Gamma|
-  supp(v)\subseteq supp(y)\}$. It follows that $\beta\subseteq\alpha_y$ and
-  $\beta\not=\emptyset$ if and only if $y^{S(\beta) \cup C}=1$,
-  $C\subseteq\{0,\cdots,n-1\}$. Let $\beta\subseteq\alpha$. Then
-  $\alpha\not=\emptyset$, therefore $|2^\alpha|$ is even. Thus, the number
-  of $\beta$'s is odd. In other words,
-  $\lvert\{\beta\subseteq\Gamma\text{: } y^{S(\beta)\cup C}=1
-  \text{ for }C\subseteq\{0,\cdots,n-1\}\text{ and }
-  C\not\in S(2^\Gamma)\}\rvert$ is odd.
-
-  \par Case 1: Suppose $supp(y)\in S(2^\Gamma)\cup C$. Then the number of
-  non-zero terms in $g(y)$ is odd, therfore $g(y)=1$.
-
-  \par Case 2: Suppose $supp(y)\not\in S(2^\Gamma)\cup C$. Then there do not
-  exist any non-zero terms in $g(y)$, therefore $g(y)=0$.
-
-  \par Then $g$ is 1 at precisely all of the palces $f$ is 1. Therefore
-  $g=f$.
-\end{proof}
-
-
-%\begin{definition}\label{def:mono-bool}
-%  Let $f\in\BF_n$ and $r,r'\in\gftwo^n$ such that $r_i=1 \Rightarrow r'_i=1$
-%  for $0\leq i\leq n-1$. If $f(r)=1 \Rightarrow f(r')=1$, then $f$ is a
-%  monotone function.
+%\subsection{Monotone Boolean Functions}
+%\par In the introduction to Boolean functions, each Boolean function was
+%shown as a sum of atomic Boolean functions. This section will show how it is
+%possible to construct every Boolean function from monotone Boolean
+%functions.
+%
+%\par Define a partial order $\leq $ on $\gftwo^n$ as follows:
+%for each $v,w\in \gftwo^n$,
+%\[
+%v\leq w
+%\]
+%whenever $supp(v)\subseteq supp(w)$.
+%(This partial order is not to be confused with the lexicographical order.)
+%A Boolean function is called {\it monotone} if whenever we have $v\leq w$
+%then we also have $f(v) \leq f(w)$. In the case $supp(v)\subset supp(w)$,
+%$v<w$ may be written.
+%
+%\par Each monotone function corresponds to a unique set of vectors which
+%determine where the function begins mapping to 1s.
+%
+%\begin{definition}
+%  Let $f$ be an $n$-variable monotone Boolean function. Every $x\in\gftwo^n$
+%  where for all $x'\in\gftwo^n$ such that $x'<x$, $f(x')<f(x)$ is called a
+%  \textit{least support} of $f$.
 %\end{definition}
 %
-%\begin{theorem}[NOT CORRECT]
-%  Let $f\in\BF_n$ be monotone and $x\in\gftwo^n$ such that
-%  $f(x)=1$ and $\nexists y\in\gftwo^n$ such that $supp(y)\subsetneq
-%  supp(x)$ where $f(y)=1$. Then, $f$ is not bent.
+%\begin{definition}
+%  If an $n$-variable monotone Boolean function $f$ has exactly one least
+%  support, then $f$ is an \textit{atomic monotone Boolean function}.
+%\end{definition}
+%
+%\begin{theorem}
+%  All monomials are monotone Boolean functions.
 %\end{theorem}
+%
 %\begin{proof}
-%  Define $\lambda\in\gftwo^n$ such that $supp(x)\subsetneq supp(\lambda)$
-%  and $wt(\lambda)=wt(x)+1$. Also, define $x_I\in\gftwo^n$ such that
-%  $supp(x_I)=I$. Then by Equation (\ref{eqn:clambda}), 
-%  \begin{align*}
-%    c(\lambda)&=\frac{1}{2^{n/2}}\sum_{u\in\gftwo^n}
-%        (-1)^{f(u)+u\cdot\lambda}\\
-%      &=\frac{1}{2^{n/2}}\left(\sum_{x_I:I\supseteq supp(x)}
-%        {(-1)^{f(x_I)+x_I\cdot\lambda}}+\sum_{x_J:J\nsupseteq supp(x)}
-%        {(-1)^{f(x_J)+x_J\cdot\lambda}}\right)\\
-%      &=\frac{1}{2^{n/2}}\left(\sum_{x_I:I\supseteq supp(x)}
-%        {(-1)^{1+x_I\cdot\lambda}}+\sum_{x_J:J\nsupseteq supp(x)}
-%        {(-1)^{f(x_J)+x_J\cdot\lambda}}\right)\\
-%  \end{align*}
-%  $f(x_I)=1$ because $f$ is monotone. And $x_I\cdot\lambda$ turns out so
-%  that 
-%  \[
-%  x_I\cdot\lambda =
-%    \begin{cases}
-%      |supp(\lambda)| & \text{for } \lambda\subseteq x_I \\
-%      |supp(\lambda)|+1 & \text{for } x_I = x.
-%    \end{cases}
-%  \] 
-%  So the first sum equals $\pm2^{n-|supp(x)|-1}\mp1$,\ldots
-%%   $2wt(f)-2^{n-|supp(x)|+1}-2^n$. 
-%%   \begin{align*}
-%%      c(\lambda)&=
-%%      \begin{cases}
-%%        \frac{1}{2^{n/2}}
-%%          \left(2^{n-|supp(x)|+1}-1+2wt(f)-2^{n-|supp(x)|+1}-2^n\right)
-%%          & \text{for } |supp(x)|\ even \\
-%%        \frac{1}{2^{n/2}}
-%%          \left(-2^{n-|supp(x)|+1}+1+2wt(f)-2^{n-|supp(x)|+1}-2^n\right)
-%%          & \text{for } |supp(x)|\ odd\\
-%%      \end{cases}
-%%      &=
-%%  \end{align*}
-%%  \par It follows that $c(\lambda)$ cannot be an integer. For a Bent
-%%  function, $c(\lambda)=\pm1\in\zzz$. Therefore, $f$ is not bent.
+%  Let $f(x)=\prod_{i\in I}x_i$ for $I\in2^{\{0,\cdots,n-1\}}$ and
+%  $y\in\gftwo^n$. Then $supp(y)\supseteq I$ if and only if $f(y)=1$ and
+%  $supp(y) \not\supseteq I$ if and only if $f(y)=0$.
+%  Let $u,v\in\gftwo^n$ such that $supp(u)\subseteq supp(v)$ and $f(u)=1$.
+%  Then, $I\subseteq supp(u) \subseteq supp(v)$. This implies $f(v)=1$. Thus,
+%  $f$ is a monotone Boolean function.
 %\end{proof}
+%
+%\begin{example}
+%  In the following examples, the two functions $f=x_0x_2$ and $g=x_1x_2$
+%  are monomials. Each function is also a monotone function. For $f$, every
+%  $x\in\gftwo^4$ such that $supp(x)\supseteq supp((1,0,1,0))$ implies
+%  $f(x)=1$. For $g$, $supp(x)\supseteq supp( (0,1,1,0) )$ implies $g(x)=1$.
+%  \begin{verbatim}
+%  sage: B=BooleanPolynomialRing(4,'x')
+%  sage: x0,x1,x2,x3=B.gens()
+%  sage: f=BooleanFunction(x0*x2)
+%  sage: print_truth(f)
+%  (0, 0, 0, 0) 0 False
+%  (1, 0, 0, 0) 0 False
+%  (0, 1, 0, 0) 0 False
+%  (1, 1, 0, 0) 0 False
+%  (0, 0, 1, 0) 0 False
+%  (1, 0, 1, 0) 1 True
+%  (0, 1, 1, 0) 0 False
+%  (1, 1, 1, 0) 0 True
+%  (0, 0, 0, 1) 0 False
+%  (1, 0, 0, 1) 0 False
+%  (0, 1, 0, 1) 0 False
+%  (1, 1, 0, 1) 0 False
+%  (0, 0, 1, 1) 0 False
+%  (1, 0, 1, 1) 0 True
+%  (0, 1, 1, 1) 0 False
+%  (1, 1, 1, 1) 0 True
+%  \end{verbatim}
+%
+%  \begin{verbatim}
+%  sage: g=BooleanFunction(x1*x2)
+%  sage: print_truth(g)
+%  (0, 0, 0, 0) 0 False
+%  (1, 0, 0, 0) 0 False
+%  (0, 1, 0, 0) 0 False
+%  (1, 1, 0, 0) 0 False
+%  (0, 0, 1, 0) 0 False
+%  (1, 0, 1, 0) 0 False
+%  (0, 1, 1, 0) 1 True
+%  (1, 1, 1, 0) 0 True
+%  (0, 0, 0, 1) 0 False
+%  (1, 0, 0, 1) 0 False
+%  (0, 1, 0, 1) 0 False
+%  (1, 1, 0, 1) 0 False
+%  (0, 0, 1, 1) 0 False
+%  (1, 0, 1, 1) 0 False
+%  (0, 1, 1, 1) 0 True
+%  (1, 1, 1, 1) 0 True
+%  \end{verbatim}
+%\end{example}
+%
+%\par Every monotone Boolean function can be written as a sum of monomials
+%based on the least supports of the function. This is done by unioning in
+%every way all of the least supports. If $\Gamma$ is the set of all the least
+%supports of a monotone Boolean function, then this unioning is defined by
+%the function $S$:
+%\begin{align}
+%  S:\ 2^\Gamma \rightarrow 2^{\{0,\cdots,n-1\}} \\
+%  S(\alpha):=\bigcup_{v\in\alpha}supp(v)
+%\end{align}
+%
+%\begin{theorem}
+%  Let $f$ be an $n$-variable monotone Boolean function with least supports
+%  $\Gamma$. Then
+%  \begin{equation}
+%    f(x)=\sum_{I\in S(2^\Gamma),\ I\not=\emptyset} x^I
+%  \end{equation}
+%\end{theorem}
+%
+%\begin{proof}
+%  \par Define $g(x)=\sum_{I\in S(2^\Gamma),\ I\not=\emptyset}x^I$.
+%  Pick $y\in\gftwo^n$. Let $\alpha_y=\{v\in\Gamma|
+%  supp(v)\subseteq supp(y)\}$. It follows that $\beta\subseteq\alpha_y$ and
+%  $\beta\not=\emptyset$ if and only if $y^{S(\beta) \cup C}=1$,
+%  $C\subseteq\{0,\cdots,n-1\}$. Let $\beta\subseteq\alpha$. Then
+%  $\alpha\not=\emptyset$, therefore $|2^\alpha|$ is even. Thus, the number
+%  of $\beta$'s is odd. In other words,
+%  $\lvert\{\beta\subseteq\Gamma\text{: } y^{S(\beta)\cup C}=1
+%  \text{ for }C\subseteq\{0,\cdots,n-1\}\text{ and }
+%  C\not\in S(2^\Gamma)\}\rvert$ is odd.
+%
+%  \par Case 1: Suppose $supp(y)\in S(2^\Gamma)\cup C$. Then the number of
+%  non-zero terms in $g(y)$ is odd, therfore $g(y)=1$.
+%
+%  \par Case 2: Suppose $supp(y)\not\in S(2^\Gamma)\cup C$. Then there do not
+%  exist any non-zero terms in $g(y)$, therefore $g(y)=0$.
+%
+%  \par Then $g$ is 1 at precisely all of the palces $f$ is 1. Therefore
+%  $g=f$.
+%\end{proof}
+%
+%
+%%\begin{definition}\label{def:mono-bool}
+%%  Let $f\in\BF_n$ and $r,r'\in\gftwo^n$ such that $r_i=1 \Rightarrow r'_i=1$
+%%  for $0\leq i\leq n-1$. If $f(r)=1 \Rightarrow f(r')=1$, then $f$ is a
+%%  monotone function.
+%%\end{definition}
+%%
+%%\begin{theorem}[NOT CORRECT]
+%%  Let $f\in\BF_n$ be monotone and $x\in\gftwo^n$ such that
+%%  $f(x)=1$ and $\nexists y\in\gftwo^n$ such that $supp(y)\subsetneq
+%%  supp(x)$ where $f(y)=1$. Then, $f$ is not bent.
+%%\end{theorem}
+%%\begin{proof}
+%%  Define $\lambda\in\gftwo^n$ such that $supp(x)\subsetneq supp(\lambda)$
+%%  and $wt(\lambda)=wt(x)+1$. Also, define $x_I\in\gftwo^n$ such that
+%%  $supp(x_I)=I$. Then by Equation (\ref{eqn:clambda}), 
+%%  \begin{align*}
+%%    c(\lambda)&=\frac{1}{2^{n/2}}\sum_{u\in\gftwo^n}
+%%        (-1)^{f(u)+u\cdot\lambda}\\
+%%      &=\frac{1}{2^{n/2}}\left(\sum_{x_I:I\supseteq supp(x)}
+%%        {(-1)^{f(x_I)+x_I\cdot\lambda}}+\sum_{x_J:J\nsupseteq supp(x)}
+%%        {(-1)^{f(x_J)+x_J\cdot\lambda}}\right)\\
+%%      &=\frac{1}{2^{n/2}}\left(\sum_{x_I:I\supseteq supp(x)}
+%%        {(-1)^{1+x_I\cdot\lambda}}+\sum_{x_J:J\nsupseteq supp(x)}
+%%        {(-1)^{f(x_J)+x_J\cdot\lambda}}\right)\\
+%%  \end{align*}
+%%  $f(x_I)=1$ because $f$ is monotone. And $x_I\cdot\lambda$ turns out so
+%%  that 
+%%  \[
+%%  x_I\cdot\lambda =
+%%    \begin{cases}
+%%      |supp(\lambda)| & \text{for } \lambda\subseteq x_I \\
+%%      |supp(\lambda)|+1 & \text{for } x_I = x.
+%%    \end{cases}
+%%  \] 
+%%  So the first sum equals $\pm2^{n-|supp(x)|-1}\mp1$,\ldots
+%%%   $2wt(f)-2^{n-|supp(x)|+1}-2^n$. 
+%%%   \begin{align*}
+%%%      c(\lambda)&=
+%%%      \begin{cases}
+%%%        \frac{1}{2^{n/2}}
+%%%          \left(2^{n-|supp(x)|+1}-1+2wt(f)-2^{n-|supp(x)|+1}-2^n\right)
+%%%          & \text{for } |supp(x)|\ even \\
+%%%        \frac{1}{2^{n/2}}
+%%%          \left(-2^{n-|supp(x)|+1}+1+2wt(f)-2^{n-|supp(x)|+1}-2^n\right)
+%%%          & \text{for } |supp(x)|\ odd\\
+%%%      \end{cases}
+%%%      &=
+%%%  \end{align*}
+%%%  \par It follows that $c(\lambda)$ cannot be an integer. For a Bent
+%%%  function, $c(\lambda)=\pm1\in\zzz$. Therefore, $f$ is not bent.
+%%\end{proof}
