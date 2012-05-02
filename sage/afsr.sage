@@ -1009,3 +1009,198 @@ def supp_compare(u,v):
     supp_v = Set(v.nonzero_positions())
 
     return supp_u.issubset(supp_v)
+
+###################################################
+####### Cayley graph for Boolean functions
+###################################################
+
+"""
+Some routines for computing with the Cayley graph associated with a
+Boolean function.
+
+
+Let f be a Boolean function on GF(2)^n. The Cayley graph 
+of f is defined to be the graph
+
+             Gamma_f = (GF(2)^n, E_f ), 
+
+whose vertex set is GF(2)^n and the set of edges is defined by 
+
+            E_f ={(u,v) in GF(2)^n | f(u+v)=1}.
+
+The adjacency matrix A_f is the matrix whose entries are 
+
+        A_{i,j} = f(b(i) + b(j)), 
+
+where b(k) is the binary representation of the integer k.
+Note Gamma_f is a regular graph of degree wt(f), where wt denotes
+the Hamming weight of f when regarded as a vector of values
+(of length 2^n).
+
+Recall that, given a graph Gamma and its adjacency matrix A, the spectrum 
+Spec(Gamma) is the multi-set of eigenvalues of A. It turns out that the
+spectrum of Gamma_f is equal to the Walsh-Hadamard transform of
+f when regarded as a vector of (integer) 0,1-values (of length 2^n).
+(This nice fact seems to have first appeared in [2], [3].)
+
+A graph is regular of degree r (or r-regular) if every vertex 
+has degree r (number of edges incident to it).	We say that
+an r-regular graph Gamma is a strongly regular graph (srg) 
+with parameters (v, r, d, e)  (for nonnegative integers e, d) 
+provided, for all vertices u, v the number of vertices adjacent 
+to both u, v is equal to
+              
+          e, if u, v are adjacent,
+          d, if u, v are nonadjacent.
+
+It turns out tht f is bent iff Gamma_f is strongly regular and
+e = d (see [3] and [4]).
+
+
+Theorem (Stanica) 
+Let f be a Boolean function, and let G_f be 
+the associated Cayley graph with g being the multiplicity of its 
+lowest eigenvalue lambda_v. Assume that the eigenvalues of G_f are ordered as 
+lambda_1 \leq lambda_2\leq \dots \leq lambda_v.	Then, 
+min{ g + 1, 1 - lambda_v/lambda_2} \leq chi(Gf ) \leq |Omega_f | 
+(provided lambda_2 != 0).
+
+
+The following Sage computations illustrate these and other theorems 
+in [1], [2], [3], [4].
+
+EXAMPLES:
+    sage: V = GF(2)^4
+    sage: f = lambda x: x[0]*x[1]+x[2]*x[3]
+    sage: Gamma = boolean_cayley_graph(f, 4)
+    sage: Gamma.spectrum()
+    [6, 2, 2, 2, 2, 2, 2, -2, -2, -2, -2, -2, -2, -2, -2, -2]
+    sage: [walsh_transform(f, a) for a in V]
+    [4, 4, 4, -4, 4, 4, 4, -4, 4, 4, 4, -4, -4, -4, -4, 4]
+    sage: Omega_f = [v for v in V if f(v)==1] 
+    sage: len(Omega_f)
+    6
+    sage: Gamma.is_bipartite()
+    False
+    sage: Gamma.is_hamiltonian()
+    True
+    sage: Gamma.is_planar()     
+    False
+    sage: Gamma.is_regular()
+    True
+    sage: Gamma.is_eulerian()
+    True
+    sage: Gamma.is_connected()
+    True
+    sage: Gamma.is_triangle_free()
+    False
+    sage: Gamma.diameter()
+    2
+    sage: Gamma.degree_sequence()
+    [6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6]
+    sage: H = matrix(QQ, 16, 16, [(-1)^(Vlist[x[0]]).dot_product(Vlist[x[1]]) for x in C])
+    sage: flist = vector(QQ, [int(f(v)) for v in V])
+    sage: H*flist  
+    (6, -2, -2, 2, -2, -2, -2, 2, -2, -2, -2, 2, 2, 2, 2, -2)
+    sage: A = matrix(QQ, 16, 16, [f(Vlist[x[0]]+Vlist[x[1]]) for x in C])
+    sage: A.eigenvalues()
+    [6, 2, 2, 2, 2, 2, 2, -2, -2, -2, -2, -2, -2, -2, -2, -2]
+
+
+
+##### another example
+
+
+    sage: V = GF(2)^3
+    sage: f = lambda x: x[0]*x[1]+x[2]
+    sage: Omega_f = [v for v in V if f(v)==1] 
+    sage: len(Omega_f)
+    4
+    sage: Gamma = boolean_cayley_graph(f, 4)
+    sage: # not strongly regular
+    sage: Gamma.spectrum()
+    [4, 2, 0, 0, 0, -2, -2, -2]
+    sage: 
+    sage: Gamma.is_bipartite()
+    False
+    sage: Gamma.is_hamiltonian()
+    True
+    sage: Gamma.is_planar()     
+    False
+    sage: Gamma.is_regular()
+    True
+    sage: Gamma.is_eulerian()
+    True
+    sage: Gamma.is_connected()
+    True
+    sage: Gamma.is_triangle_free()
+    False
+    sage: Gamma.diameter()
+    2
+    sage: Gamma.degree_sequence()
+    [4, 4, 4, 4, 4, 4, 4, 4]
+    sage: H = matrix(QQ, 8, 8, [(-1)^(Vlist[x[0]]).dot_product(Vlist[x[1]]) for x in C])
+    sage: A = matrix(QQ, 8, 8, [f(Vlist[x[0]]+Vlist[x[1]]) for x in C])
+    sage: A.eigenvalues()
+    [4, 2, 0, 0, 0, -2, -2, -2]
+    sage: V = GF(2)^3
+    sage: C = CartesianProduct(range(8), range(8))
+    sage: f = lambda x: x[0]*x[1]+x[2]
+    sage: # not bent
+    sage: Omega_f = [f(x) for x in Vlist]
+    sage: Omega_f
+    [0, 0, 0, 1, 1, 1, 1, 0]
+    sage: Gamma = boolean_cayley_graph(f, 3)
+    sage: Gamma = Graph(E)
+    sage: Gamma.vertices()
+    [0, 1, 2, 3, 4, 5, 6, 7]
+    sage: Gamma.spectrum()
+    [4, 2, 0, 0, 0, -2, -2, -2]
+    sage: Gamma.coloring()
+    [[5, 2], [6, 7], [0, 1], [3, 4]]
+
+
+REFERENCES:
+ [1] Pantelimon Stanica, Graph eigenvalues and Walsh spectrum 
+     of Boolean functions, INTEGERS 7(2) (2007), #A32.
+
+ [2] Anna Bernasconi, Mathematical techniques for the analysis 
+     of Boolean functions, Ph. D. dissertation TD-2/98, 
+     Universit di Pisa-Udine, 1998.
+
+ [3] Anna Bernasconi and Bruno Codenotti, Spectral Analysis 
+     of Boolean Functions as a Graph Eigenvalue Problem,
+     IEEE TRANSACTIONS ON COMPUTERS, VOL. 48, NO. 3, MARCH 1999.
+
+ [4] A. Bernasconi, B. Codenotti, J.M. VanderKam. A Characterization 
+     of Bent Functions in terms of Strongly Regular Graphs, 
+     IEEE Transactions on Computers, 50:9 (2001), 984-985. 
+
+ [5] Michel Mitton, Minimal polynomial of Cayley graph
+     adjacency matrix for Boolean functions, preprint, 2007.
+
+ [6] ------, On the Walsh-Fourier analysis of Boolean
+     functions, preprint, 2006.
+
+"""
+
+def boolean_cayley_graph(f, n):
+    """
+
+    EXAMPLES:
+        sage: V = GF(2)^4
+        sage: Vlist = V.list()
+        sage: flist = [0,0,0,1,0,1,0,1,0,0,0,1,0,1,1,1]
+        sage: f = lambda x: GF(2)(flist[Vlist.index(x)])
+        sage: boolean_cayley_graph(f, 4)
+        Graph on 16 vertices
+
+    """
+    V = GF(2)**n
+    C = CartesianProduct(range(2**n), range(2**n))
+    Vlist = V.list()                  
+    E = [(x[0],x[1]) for x in C if f(Vlist[x[0]]+Vlist[x[1]])==1]
+    E = Set([Set(s) for s in E])
+    E = [tuple(s) for s in E] 
+    Gamma = Graph(E)
+    return Gamma
