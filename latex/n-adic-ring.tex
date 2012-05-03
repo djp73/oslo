@@ -75,26 +75,24 @@ when writing $N$-adic integers as sequences.
 	written adjacent to one another. Another equivalent representation of $\alpha$
   is the {\it power series representation} where $\alpha=\sum_{i=0}^\infty
 	a_iN^i$ where the $a_i$'s are from the digit representation of $\alpha$.
-	\par
 \end{definition}
 
-% Insert example of a p-adic integer written in canonical form
 \begin{example} \label{ex:canon}
   In Example \ref{ex:equiv-seq}, the sequence $\xn$ was a canonical
   sequence that determined the $N$-adic integer $\alpha$. A few more examples
   of canonical sequences determining 7-adic integers are given here:\\
   \\
- $\beta = 3164\dots$, then the canonical sequence $(b_n) \rightarrow \beta$ is
+ $\beta = 3164\dots = 3+1\cdot7+6\cdot7^2+4\cdot7^3+\cdots$, then the canonical sequence $(b_n) \rightarrow \beta$ is
   \begin{align*}
     (b_n) &= (3, \ 3+1\cdot7, \ 3+1\cdot7+6\cdot7^2, \ 3+1\cdot7+6\cdot7^2+4\cdot7^3, \ \dots)\\
             &= (3,10,304,1676,\dots)
   \end{align*}
-  $\gamma = 0164\dots$, then the canonical sequence $(c_n) \rightarrow \gamma$ is
+  $\gamma = 0164\dots = 0+1\cdot7+6\cdot7^2+4\cdot7^3+\cdots$, then the canonical sequence $(c_n) \rightarrow \gamma$ is
   \begin{align*}
     (c_n) &= (0, \ 1\cdot7, \ 1\cdot7+6\cdot7^2, \ 1\cdot7+6\cdot7^2+4\cdot7^3, \ \dots)\\
             &= (0,7,301,1673,\dots)
   \end{align*}
-  $\delta = 5031\dots$, then the canonical sequence $(d_n) \rightarrow \delta$ is
+  $\delta = 5031\dots = 5+0\cdot7+3\cdot7^2+1\cdot7^3+\cdots$, then the canonical sequence $(d_n) \rightarrow \delta$ is
   \begin{align*}
     (d_n) &= (5, \ 5, 5+3\cdot7^2, \ 5+3\cdot7^2+1\cdot7^3, \ \dots)\\
             &= (5,5,152,495,\dots).
@@ -109,7 +107,8 @@ when writing $N$-adic integers as sequences.
     \xn\cdot\yn &:= (x_0 \cdot y_0, x_1 \cdot y_1, \dots) \rightarrow \alpha \cdot \beta\\ 
   \end{align*}
 
-  Define $(0,0,0,\dots) \rightarrow 0 \in \zzzn$ and $(1,1,1,\dots) \rightarrow 1 \in \zzzn$ \end{definition}
+  Define $(0,0,0,\dots) \rightarrow 0 \in \zzzn$ and $(1,1,1,\dots) \rightarrow 1 \in \zzzn$
+\end{definition}
 
 \begin{lemma}\label{lem:identity}
   For $\alpha \in \zzzn$, $\alpha+0=0+\alpha=\alpha$ and $1\cdot\alpha=\alpha\cdot1=\alpha$.
@@ -252,6 +251,41 @@ when writing $N$-adic integers as sequences.
       Properties 1 through 8 from Definition~\ref{def:ring} are satisfied,
       so $\zzzn$ is a commutative ring with an identity.
   \end{enumerate}
+\end{proof}
+
+\par So that the power series representations of N-adic numbers make sense in
+the discussion of FCSRs in Section \ref{sec:shift-registers} equivalence is
+shown between the defined $N$-adic addition and multiplication and the usual
+addition and multiplication of power series representations of $N$-adic
+integers.
+
+\begin{lemma}
+	Addition and multiplication of canonical sequences of $\alpha$ and $\beta$ are
+	equivalent to the usual addition and multiplication of the power series
+	representations for $\alpha$ and $\beta$.
+\end{lemma}
+\begin{proof}
+	Let $\alpha=(a_0,a_0+a_1N,\cdots,a_0+a_1N+\cdots+a_kN^k,\cdots)$
+	and $\beta=(b_0,b_0+b_1N,\cdots,b_0+b_1N+\cdots+b_kN^k,\cdots)$. Then the power series representations are
+	\[
+		\alpha=\sum_{i=0}^\infty a_iN^i{\rm \ and\ } \beta=\sum_{i=0}^\infty b_iN^i.
+	\]
+	Rewrite $\alpha=(\sum_{i=0}^ia_i,\cdots,\sum_{i=0}^ka_i2^i,\cdots)$ and
+	$\beta=(\sum_{i=0}^ib_i,\cdots,\sum_{i=0}^kb_i2^i,\cdots)$. By the defined
+	$N$-adic addition,
+	\begin{align*}
+		\alpha+\beta&=(\sum_{i=0}^0a_i+b_i,\cdots,\sum_{i=0}^k(a_i+b_i)2^i,\cdots)\\
+		            &=\sum_{i=0}^\infty(a_i+b_i)2^i\\
+								&=\sum_{i=0}^\infty a_iN^i + \sum_{i=0}^\infty b_iN^i.
+  \end{align*}
+	Clearly addition is equivalent. By the defined $N$-adic multiplication,
+	\begin{align*}
+		\alpha\cdot\beta&=(\sum_{i=0}^0a_i\cdot b_i,\cdots,\sum_{i=0}^k\sum_{j=0}^k(a_ib_j)2^{i+j},\cdots)\\
+		                &=(a_0\cdot b_0,\cdots,\sum_{i+j\leq k}(a_ib_j)2^{i+j},\cdots)\\
+										&=\sum_{k=0}^\infty\left(\sum_{i+j=k}a_ib_j2^k\right)\\
+										&=\left(\sum_{i=0}^\infty a_i2^i\right)\left(\sum_{j=0}^\infty b_j2^j\right).
+	\end{align*}
+	Therfore, multiplication is equivalent as well.
 \end{proof}
 
 \begin{theorem}\label{thm:units}

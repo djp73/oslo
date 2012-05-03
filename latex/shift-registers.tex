@@ -1,4 +1,4 @@
-\section{Shift Registers}
+\section{Shift Registers}\label{sec:shift-registers}
 \par The {\it feedback with carry shift register} (or FCSR) is a type of
 shift register used in stream ciphers. Though there exist attacks against
 this type of shift register by itself, it is possible to combine FCSRs
@@ -288,7 +288,7 @@ the initial state and the taps of the register.
 		p=\left(\sum_{i=0}^{r-1}\sum_{j=0}^iq_ja_{i-j}2^i\right)-m_{r-1}2^r.
 	\end{equation}
 	Then the output sequence ${\bf a}$ of this FCSR is the digit representation of
-	the 2-adic integer $\alpha=p/q$.
+	the 2-adic integer $\alpha=\sum_{i=0}^\infty a_i2^i=p/q$.
 \end{proposition}
 \begin{proof}
 	Consider the transition from one state of the FCSR to the next. Suppose that,
@@ -308,7 +308,11 @@ the initial state and the taps of the register.
 	\begin{equation}
 		a_n=\sum_{i=1}^rq_ia_{n-i}+(m_{n-1}-2m_n),
 	\end{equation}
-	for $n\geq r$. Now, writing $\alpha$ 
+	for $n\geq r$. Now, by substituting Equation write
+	\begin{align*}
+		\alpha&=a_0+a_1 2+\cdots+a_{r-1}2^{r-1}+\sum_{n=r}^\infty a_n2^n\\
+		&=x+\sum_{n=r}^\infty\left( \sum_{i=1}^r q_ia_{n-i} \right)2^n+
+  \end{align*}
 
 	incomplete
 
