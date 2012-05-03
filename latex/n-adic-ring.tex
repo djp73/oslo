@@ -254,7 +254,7 @@ when writing $N$-adic integers as sequences.
 \end{proof}
 
 \par So that the power series representations of N-adic numbers make sense in
-the discussion of FCSRs in Section \ref{sec:shift-registers} equivalence is
+the discussion of FCSRs in Section \ref{sec:shift-registers}, equivalence is
 shown between the defined $N$-adic addition and multiplication and the usual
 addition and multiplication of power series representations of $N$-adic
 integers.
@@ -266,9 +266,10 @@ integers.
 \end{lemma}
 \begin{proof}
 	Let $\alpha=(a_0,a_0+a_1N,\cdots,a_0+a_1N+\cdots+a_kN^k,\cdots)$
-	and $\beta=(b_0,b_0+b_1N,\cdots,b_0+b_1N+\cdots+b_kN^k,\cdots)$. Then the power series representations are
+	and $\beta=(b_0,b_0+b_1N,\cdots,b_0+b_1N+\cdots+b_kN^k,\cdots)$. And $\alpha'$
+	and $\beta'$ be represented by power series so that
 	\[
-		\alpha=\sum_{i=0}^\infty a_iN^i{\rm \ and\ } \beta=\sum_{i=0}^\infty b_iN^i.
+		\alpha'=\sum_{i=0}^\infty a_iN^i{\rm \ and\ } \beta'=\sum_{i=0}^\infty b_iN^i.
 	\]
 	Rewrite $\alpha=(\sum_{i=0}^ia_i,\cdots,\sum_{i=0}^ka_i2^i,\cdots)$ and
 	$\beta=(\sum_{i=0}^ib_i,\cdots,\sum_{i=0}^kb_i2^i,\cdots)$. By the defined
@@ -276,14 +277,16 @@ integers.
 	\begin{align*}
 		\alpha+\beta&=(\sum_{i=0}^0a_i+b_i,\cdots,\sum_{i=0}^k(a_i+b_i)2^i,\cdots)\\
 		            &=\sum_{i=0}^\infty(a_i+b_i)2^i\\
-								&=\sum_{i=0}^\infty a_iN^i + \sum_{i=0}^\infty b_iN^i.
+								&=\sum_{i=0}^\infty a_iN^i + \sum_{i=0}^\infty b_iN^i\\
+								&=\alpha'+\beta'.
   \end{align*}
 	Clearly addition is equivalent. By the defined $N$-adic multiplication,
 	\begin{align*}
 		\alpha\cdot\beta&=(\sum_{i=0}^0a_i\cdot b_i,\cdots,\sum_{i=0}^k\sum_{j=0}^k(a_ib_j)2^{i+j},\cdots)\\
 		                &=(a_0\cdot b_0,\cdots,\sum_{i+j\leq k}(a_ib_j)2^{i+j},\cdots)\\
 										&=\sum_{k=0}^\infty\left(\sum_{i+j=k}a_ib_j2^k\right)\\
-										&=\left(\sum_{i=0}^\infty a_i2^i\right)\left(\sum_{j=0}^\infty b_j2^j\right).
+										&=\left(\sum_{i=0}^\infty a_i2^i\right)\left(\sum_{j=0}^\infty b_j2^j\right)\\
+										&=\alpha'\cdot\beta'.
 	\end{align*}
 	Therfore, multiplication is equivalent as well.
 \end{proof}

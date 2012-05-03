@@ -426,18 +426,22 @@ of $\gftwo^n$ correspond to all of the linear functions in $\BF_n$.
   $\hat{f}(x)=(-1)^{f(x)}$ is a \textit{pseudo-Boolean function}. The set of all
 	pseudo Boolean functions is denoted $\hat{\BF}_n=\{\hat{f}:f\in\BF_n\}$.
 \end{definition}
-
+\begin{lemma}
 \par Clearly, every character $\Chi_\lambda$ belongs to $\hat{\BF_n}$.
+\end{lemma}
+\begin{proof}
+	\par This is trivially true.
+\end{proof}
 \begin{lemma}
   If \[W={\rm span}_\rrr(\hat{\BF}_n)=\left\{\sum_{i\in I}a_i\hat{f}_i:
   \hat{f}_i\in\hat{\BF}_n{\rm ,\ }a_i\in\rrr{\rm ,\ and\ }|I|<\infty\right\},\]
-  then the set $\hat{\gftwo^n}$ forms an orthonormal basis of $W$.
+  then the $\hat{\gftwo^n}$ forms an orthonormal basis of $W$.
 \end{lemma}
 \begin{proof}
-	The dimension of $\hat{\BF_n}$ is at most $2^n$. This is easily seen because
-	the atomic Boolean functions obviously form an orthonormal basis of $W$.
-	There are $2^n$ characters of $\gftwo^n$ which are all elements of
-	$\hat{\BF}_n$.
+	The atomic Boolean functions correspond to a trivial basis of $W$,
+	$\{(-1)^{f(x)}:f \text{ is an atomic Boolean function}\}$. Thus, the dimension
+	of $\hat{\BF_n}$ is at most $2^n$. There are $2^n$ characters of $\gftwo^n$
+	which are all elements of $\hat{\BF}_n$.
   \begin{align*}
     \sum_{x\in\gftwo^n}{\Chi_{\lambda_i}(x)\cdot\Chi_{\lambda_j}(x)}
     &=\sum_{x\in\gftwo^n}

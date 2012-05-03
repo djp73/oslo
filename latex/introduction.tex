@@ -1,5 +1,4 @@
-\section{Introduction}
-
+\section{Introduction}\label{sec:intro}
 \par Bytes of data, or short sequences of 1s and 0s, are exchanged between
 computer systems each day on public channels. Because gentlemen do read each
 other's mail, it is necessary to secure the communication of private data
@@ -22,11 +21,35 @@ to the encryption of the message, and obtain the plaintext message. A visual
 of this scenario is presented in \ref{fig:basic-scenario}.
 
 \begin{figure}[h!]\label{fig:basic-scenario}
-  \centering
-  \includegraphics[width=120mm]{figs/basic-scenario.png}
-  \caption{The Basic Comunication Scenario for Cryptography
-    \cite{bk:tw06}}
+	\centering
+  %% The Basic Communication Scenario for Cryptography
+  \setlength{\unitlength}{1mm}
+  \begin{picture}(100,38)(-50,-19)
+    \put(-50,-1.3){\framebox{Alice}}
+    \put(0,0){\circle*{2}}
+    \put(-39.9,0){\vector(4,0){15}}
+    \put(-24.9,-1){\framebox{Encrypt}}
+    \put(-10,0){\line(4,0){9}}
+    \put(-38.4,2){\makebox{\footnotesize plaintext}}
+    \put(-17.45,15){\vector(0,-4){12.2}}
+    \put(-24,20){\makebox{\footnotesize encryption}}
+    \put(-19.5,16.5){\makebox{\footnotesize key}}
+    \put(-6.5,2){\makebox{\footnotesize ciphertext}}
+    \put(1,0){\vector(4,0){9}}
+    \put(0,-1){\vector(0,-4){12.2}}
+    \put(-4.2,-17){\framebox{Eve}}
+    \put(0,-13.2){\vector(0,4){12.2}}
+    \put(10,-1){\framebox{Decrypt}}
+    \put(24.9,0){\vector(4,0){15}}
+    \put(26.1,2){\footnotesize plaintext}
+    \put(39.9,-1.3){\framebox{Bob}}
+    \put(17.45,15){\vector(0,-4){12.2}}
+    \put(11,20){\makebox{\footnotesize decryption}}
+    \put(15.5,16.5){\makebox{\footnotesize key}}
+  \end{picture}
 \end{figure}
+
+
 
 \par This scenario is the standard example found in many different
 introductory cryptography references. Cryptographers have created numerous
