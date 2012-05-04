@@ -46,6 +46,7 @@ lexicographic Boolean sequence of $f$ in Table \ref{tab:truth-table} is
   $(\lambda,1)=\allowbreak(\lambda_0,\cdots,\allowbreak \lambda_{n-2},1)$.
   Suppose $f\in\BF_n$ and $seq(f)$ has a period $T=2^j<2^n$. Then,
   $f(x,0)=f(x,1)$.
+  {\allowdisplaybreaks
   \begin{align*}
     c(\lambda,1)&=\frac{1}{2^{n/2}}
       \left(\sum_{x\in\gftwo^{n-1}}
@@ -65,6 +66,7 @@ lexicographic Boolean sequence of $f$ in Table \ref{tab:truth-table} is
       \left(\sum_{x\in\gftwo^{n-1}}{(-1)^{f(x,0)}\cdot0}\right)\\
     &=0.
   \end{align*}
+  }
   One of the Fourier coefficients of $f$ must equal zero. Thus, $f$ cannot
   be a Bent function. Clearly, every lexicographical Boolean sequence has a
   minimal period at most $2^n$. Therefore, if $g$ is a Bent function, then

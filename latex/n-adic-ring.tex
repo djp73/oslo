@@ -1,7 +1,8 @@
 \section{$N$-adic Integers}\label{sec:n-adic-ring}
-\par The goal of this section is to introduce the reader to the $N$-adic
-integer ring and define the {\em N-adic valuation}. The 2-adic valuation
-will be used to analyze bent sequences.
+\par This section introduces the $N$-adic integer ring and defines the
+{\em 2-adic valuation} which is critical to the main result of the paper. The
+2-adic integers are very closely connected with the binary sequences generated
+by FCSRs which are discussed in Section \ref{sec:shift-registers}.
 
 \subsection{$N$-adic Integer Ring}
 \par The notation used in the definition of the $N$-adic numbers will follow
@@ -474,9 +475,11 @@ analysis of different FCSRs.
 % add sage code demonstrating this in the 2-adic case.
 
 \subsection{2-adic Integers}
-\par Now, the transition is made to discussing the 2-adic integers whose digit
-sequences are infinite sequences of 0s and 1s. The following definitions and
-propositions will be used in the discussion of FCSRs and the main result.
+\par Now the transition is made to discussing the 2-adic integers whose digit
+sequences are infinite sequences of 0s and 1s. This brings the discussion closer
+the previous sections which dealt with vectors and functions defined on
+$\gftwo^n$. The 2-adic integers will act as a bridge between the results on
+Boolean functions and the FCSRs which are defined in the next section.
 
 \begin{proposition}{\rm \cite{art:kg97}}\label{prop:rational-periodic}
   There is a one-to-one correspondence between rational numbers
@@ -512,7 +515,7 @@ propositions will be used in the discussion of FCSRs and the main result.
               =\sum_{i=0}^\infty a_i2^i - \sum_{i=T}^\infty a_i2^i
               =\sum_{i=0}^{T-1}a_i2^i
   \]
-  Thus $\alpha=sp/(2^T-1)=-(\sum_{i=0}^{T-1}a_i2^i)/(2^T-1)$. It directly
+  Thus $\alpha=s\cdot p/(2^T-1)=-(\sum_{i=0}^{T-1}a_i2^i)/(2^T-1)$. It directly
   follows that $\alpha=2^T\alpha+\sum_{i=0}^{T-1}a_i2^i$, implying that the
   digits sequence ${\bf a}$ of $\alpha$ is strictly periodic.
   \par Now suppose that $\alpha=p/q$ is an arbitrary rational number. Let
@@ -524,9 +527,9 @@ propositions will be used in the discussion of FCSRs and the main result.
   periodic.
   \par On the other hand, an eventually periodic sequence ${\bf
   a}=(a_0,a_1,\cdots)$ corresponds to a rational number $\alpha={\bf a}$ because
-  it is given by a finite transient term $\sum_{i=0}^{K-1}a_i2^i$ (for some
-  nonnegative integer $K$) plus a periodic term, $\sum_{i=K}^\infty
-  a_i2^i=2^K\sum_{i=0}^\infty a_{j+K}2^j$, both of which are rational numbers.
+  it is given by a finite transient term $\sum_{i=0}^{k-1}a_i2^i$ (for some
+  nonnegative integer $k$) plus a periodic term, $\sum_{i=k}^\infty
+  a_i2^i=2^k\sum_{i=0}^\infty a_{j+k}2^j$, both of which are rational numbers.
 \end{proof}
 
 

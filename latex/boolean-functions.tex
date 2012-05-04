@@ -402,14 +402,14 @@ of $a_I\in\gftwo$ such that
 \end{proof}
 
 \subsection{The Walsh Transform}
-\par The Walsh transform is similar to the discrete Fourier transform.
-This transformation has many applications in signals
-analysis. The idea is to express a given signal as a function of frequency
-to reveal the dominant frequencies in the signal. For this paper, the Walsh
-transform is considered over the discrete Fourier transform because this is
-the transformation used by Rothaus in his original definition of bent
-functions published in the Journal of Combinatorial Theory in 1976
-\cite{art:r76}. 
+\par The Walsh transform measures the non-linearity of a Boolean function by
+determining the distance between a given Boolean function $f(x)$ and a linear
+function $\lambda\cdot x$. The Walsh transform is similar to the discrete
+Fourier transform and is in fact used to obtain the Fourier coefficients for a
+Boolean function. For this paper, the Walsh transform is considered over the
+discrete Fourier transform because this is the transformation used by Rothaus
+in his original definition of bent functions published in the {\it Journal of
+Combinatorial Theory} in 1976 \cite{art:r76}. 
 
 \par It is necessary to discuss \textit{characters} as a preliminary to Walsh
 transforms. The definitions in this section follow \cite{bk:lsy11}.
@@ -514,8 +514,44 @@ of $\gftwo^n$ correspond to all of the linear functions in $\BF_n$.
   \begin{equation}\label{eqn:walsh}
     \mathcal{W}_f(\lambda)=\sum_{x\in\gftwo^n}\hat{f}(x)\Chi_\lambda(x).
   \end{equation}
+  Let
+  \[
+    \mathcal{W}(f)=(\mathcal{W}_f(\lambda_0),\cdots,\mathcal{W}_f(\lambda_{2^n-1})),
+  \]
+  where $\lambda_i=B^{-1}(i)$, be the {\it Walsh spectrum} of $f$.
 \end{definition}
 
+\begin{example}
+\par Here are some examples of the Walsh spectrums of different Boolean
+functions:
+  \begin{lstlisting}
+    sage: f0=BooleanFunction([0,1,1,0,1,0,1,0,0,0,1,0,0,0,1,1])
+    sage: f0.walsh_hadamard_transform()
+    (-2, 6, -6, -6, -2, -2, 2, -6, 2, 2, 6, -2, 2, -6, -2, -2)
+    sage: f0.algebraic_normal_form( )
+    x0*x1*x2*x3 + x0*x1*x3 + x0*x3 + x0 + x1*x2*x3 + x1*x2 + x1 + x2*x3 + x2
+    sage:
+    sage: f1=BooleanFunction([1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0])
+    sage: f1.walsh_hadamard_transform()
+    (0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+    sage: f1.algebraic_normal_form()
+    x0 + 1
+    sage:
+    sage: f2=BooleanFunction([1,0,0,1,1,0,0,1,1,0,0,1,1,0,0,1])
+    sage: f2.walsh_hadamard_transform()
+    (0, 0, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+    sage: f2.algebraic_normal_form()
+    x0 + x1 + 1
+    sage:
+    sage: f3=BooleanFunction([1,0,0,1,1,0,0,1,1,0,0,1,1,0,1,1])
+    sage: f3.walsh_hadamard_transform()
+    (2, 2, -2, 14, -2, -2, 2, 2, -2, -2, 2, 2, 2, 2, -2, -2)
+    sage: f3.algebraic_normal_form( )
+    x0*x1*x2*x3 + x0 + x1*x2*x3 + x1 + 1
+  \end{lstlisting}
+\end{example}
+
+\par 
 \par Every pseudo-Boolean function can be written as a linear combination of
 the characters of $\gftwo^n$. The coefficients in these linear combinations
 reveal important properties of the functions. Rothaus rewrote the
@@ -550,12 +586,8 @@ the zero Fourier coefficient $c(0)$:
   \Rightarrow {\rm wt}(f)=2^{n-1}-2^{n/2-1}c(0).
 \end{equation}
 
-\par Clearly $\mathcal{W}_f(\lambda)=\frac{1}{2^{n/2}}c(\lambda)$. For large
-$|\mathcal{W}_f(\lambda)|$, the Hamming distance between $f$ and an affine
-function in $\BF_n$ is small.
-
 \begin{example}
-  There are a two cases that should be clear to the reader.
+  There are two cases that should be clear to the reader.
   \begin{enumerate}[1.]
     \item Let $f(x)=\lambda\cdot x$. Then $\mathcal{W}_f(\lambda)=2^n$.
     \item Let $f(x)\not=\lambda\cdot x \ \ \forall x$. Then $f(x)=
@@ -564,22 +596,27 @@ function in $\BF_n$ is small.
   In both cases, $f$ is an affine function.
 \end{example}
 
+\par For large $|\mathcal{W}_f(\lambda)|$, the Hamming distance between $f$ and
+an affine function in $\BF_n$ is small.
+
 \subsection{Bent Functions}
 \par These functions are useful in cryptographic applications because they
 add resistance to differential attacks as a result of being \textit{perfectly
-nonlinear}. As mentioned before, these were defined by Rothaus in 1976. Then
-definition of a bent function is presented here.
+nonlinear}. As mentioned before, these were defined by Rothaus in 1976. The main
+result in Section \ref{sec:boolean-sequences} is given on bent functions because
+of their important cryptographic property of being as far away as possible from
+every affine function in $\BF_n$.
 
-\begin{definition}\label{def:bent-function}
+\begin{definition}
   If all of the Fourier coefficients of $\hat{f}$ are $\pm1$ then
   $f$ is a \textit{bent function}.
 \end{definition}
 
-\begin{theorem}{\rm \cite{art:r76}}\label{thm:deg-of-bent-function}
+\begin{proposition}{\rm \cite{art:r76}}
   If $f$ is a bent function on $\gftwo^n$, then $n$ is even, $n=2k$.
   Moreover,
   the degree of $f$ is at most $k$, except in the case $k=1$.
-\end{theorem}
+\end{proposition}
 \begin{proof}
   \par $c(\lambda)=\pm1$. This implies $2^{n/2}c(\lambda)$ is an
   integer. Therefore $n$ must be even.
@@ -633,10 +670,44 @@ definition of a bent function is presented here.
 
 \subsection{Constructions of Bent Functions}\label{subsec:bent-constructions}
 \par The set of all bent functions is not known. There however are a few basic
-constructions which are known. The \dots and Maiorana-McFarland Class of Boolean
+constructions which are known. The Rothaus construction and Maiorana-McFarland class of Boolean
 functions are presented here as two of the known constructions for bent
 functions.
-\subsubsection{Other Construction}
+\subsubsection{Rothaus Construction}
+\par In one of the first papers written about bent functions, Rothaus identified
+two large general classes of bent function on $\BF_n$, $n=2k$. The simpler of
+the two is presented here:
+\begin{proposition}
+  Let $n$ be even, $x_1,y_1,\cdots,x_k,y_k$ be independent variables, and
+  $P(x)\in\BF_{n/2}$ (so $P(x)$ is a function $n/2$ variables). Then the polynomial
+  $Q(x,y)\in\BF_{n}$ given by
+  \begin{equation}
+    Q(x,y)=x_1y_1+x_2y_2+\cdots+x_ky_k+P(x)
+  \end{equation}
+  is bent.
+\end{proposition}
+\begin{proof}
+
+\end{proof}
+
+\begin{example}
+  \ 
+  \begin{lstlisting}
+    sage: B=BooleanPolynomialRing(6,'x')
+    sage: B.inject_variables(verbose=false)
+    sage: f=BooleanFunction(x0*x2+x1*x3+x4*x5+x0*x1*x4)
+    sage: f.truth_table(format='int')
+    (0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0)
+    sage: f.is_bent( )
+    True
+    sage: 
+    sage: g=BooleanFunction(x0*x1+x2*x3+x4*x5+x0*x2+x4)
+    sage: g.truth_table(format='int')
+    (0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1)
+    sage: g.is_bent( )
+    True
+  \end{lstlisting}
+\end{example}
 \subsubsection{Maiorana-McFarland Class}
 \par The Maiorana-McFarland class (or M-M class) of Boolean functions uses a
 permutation function $\pi$ on half of the input variables to each function.
