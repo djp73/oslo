@@ -18,7 +18,7 @@ if it is intercepted by Eve, will be too difficult to interpret and will
 conceal the plaintext message. Upon receipt of the ciphertext, Bob will
 {\em decrypt} the message, usually involving a {\em decryption key}, similar
 to the encryption of the message, and obtain the plaintext message. A visual
-of this scenario is presented in \ref{fig:basic-scenario}.
+of this scenario is presented in Figure \ref{fig:basic-scenario}.
 
 \begin{figure}[h!]\label{fig:basic-scenario}
 	\centering
@@ -47,9 +47,8 @@ of this scenario is presented in \ref{fig:basic-scenario}.
     \put(11,20){\makebox{\footnotesize decryption}}
     \put(15.5,16.5){\makebox{\footnotesize key}}
   \end{picture}
+	\caption{The basic communication scenario for cryptography}
 \end{figure}
-
-
 
 \par This scenario is the standard example found in many different
 introductory cryptography references. Cryptographers have created numerous
@@ -59,42 +58,68 @@ because of the amount of work that goes into the study of breaking
 cryptosystems, called {\em cryptanalysis}. A constant battle exists between
 the designers and breakers of cryptosystems, strengthening designs and
 attacks every day. In fact, designing a strong cryptosystem typically
-requires knowledge of cryptography and cryptanalysis.
+requires knowledge of cryptography and cryptanalysis. When designing a
+cryptosystem, every cryptographer assumes {\em Kerckhoffs' principle}
+\cite{bk:tw06}: ``In assessing the security of a cryptosystem, one should always
+assume the enemy knows the method being used.'' The security of a cryptosystem
+cannot be based on the concealment of the encryption and decryption algorithms.
+In practice, the enemy can obtain the algorithms in many ways, including the
+defection or capture of people. The security must be based solely on the key.
 
-\par Before diving into the topic of this paper, there is an important
-assumption that must be presented. When designing a cryptosystem, every
-cryptographer assumes {\em Kerckhoffs' principle} \cite{bk:tw06}: ``In
-assessing the security of a cryptosystem, one should always assume the enemy
-knows the method being used.'' The security of a cryptosystem cannot be
-based on the concealment of the encryption and decryption algorithms. In
-practice, the enemy can obtain the algorithms in many ways, including the
-defection or capture of people. The security must be based solely on the
-key.
-
-\par Imagine that Alice's message to Bob is a sequence of 1s and 0s, as it
-would be in the real world. Consider a cryptosystem which encrypts each bit
-in the sequence separately. This would be done by what is called a
-{\em stream cipher}, which, according to Rueppel, divides bit sequences into
-individual bits and enciphers each bit with a time-varying function whose
-time-dependency is governed by the internal state of the stream cipher
-\cite{bk:r86}. The stream cipher can also be thought of in terms of a
+\par This paper will explore bent sequences for their potential strength in
+{\it stream ciphers}. According to Rueppel in \cite{bk:r86}, a {\em stream cipher}
+divides bit sequences into individual bits and enciphers each bit with a
+time-varying function whose time-dependency is governed by the internal state
+of the stream cipher.  The stream cipher can also be thought of in terms of a
 {\em keystream} which is a sequence of 1s and 0s the same length of the
 message that is added to the message using addition in $\gftwo$ (also known
 as XOR). If the keystream was perfectly random, then the cryptosystem would
 be unbreakable, or {\em perfectly secret}, as discovered by Claude Shannon
-in his famous paper ``Communication Theory of Secrecy Systems,'' written in
-1945 and published in 1949. This cryptosystem is known as the {\em one-time
-pad}. Though it is perfectly secret, it can be difficult to implement
-because of the inability to produce perfectly random keystreams.
+in his famous paper ``Communication Theory of Secrecy Systems,'' written
+secretly in 1945 and published in 1949. This cryptosystem is known as the
+{\em one-time pad}. Though it is perfectly secret, it can be difficult to
+implement because of the inability to produce perfectly random keystreams.
 Constructing a method to produce perfectly random sequences is a
 contradiction in itself.
 
-\par Though it is impossible to create perfectly random sequences, it is
-possible to get close. This type of sequence is called a {\em pseudorandom
-sequence}. These sequences have extremely long periods but are statistically
-indistinguishable from random sequences. This paper will discuss the
-construction of pseudorandom sequences using a particular finite state
-machine called the {\em feedback with carry shift register}. It will also
-investigate the possibility of incorporating {\em Bent functions}, or
-perfectly non-linear Boolean functions, into the construction of
-psuedorandom sequences in an attempt to resist synthesizing algorithms. 
+\par Though it is difficult to create perfectly random sequences, it is feasible
+to get close. A sequence which is close to being random is called a
+{\em pseudorandom sequence}. In \cite{bk:g82}, Golomb lists three randomness
+postulates on periodic binary sequences:
+\begin{enumerate}[R-1.]
+	\item In every period, the number of 0s is nearly equal to the number of 1s.
+	\item In every period, half the runs have length one, one-fourth have length
+		two, one-eighth have length three, etc., as long as the number of runs so
+		indicated exceeds 1. Moreover, for each of these lengths, there are equally
+		many runs of 0s and of 1s.
+	\item The auto-correlation function $C(\tau)$ is two-valued. Explicitly
+		\begin{align*}
+			pC(\tau)=\sum_{n=1}^pa_na_{n+\tau}=
+			\begin{cases}
+				p \text{if } \tau=0,\\
+				K \text{if } 0<\tau<p.
+			\end{cases}
+		\end{align*}
+\end{enumerate}
+These postulates today have become a measure of how close a sequence is to being
+considered pseudorandom. The claim is that binary sequences with extremely long
+periods would be nearly indistinguishable from perfectly random binary
+sequences.
+\par In the case of this paper, the {\it lexicographical Boolean sequence} defined
+in Section \ref{sec:boolean-sequences} is considered in the context of
+pseudorandom sequences and FCSRs. The main result is the calculated 2-adic
+valuation of lexicographical bent sequences generated by the Maiorana-McFarland
+class of Boolean functions.
+\par In Section \ref{sec:boolean-functions}, Boolean
+functions are first introduced, and the section concludes with the definition of
+the Walsh transform and bent functions. In Section \ref{sec:n-adic-ring}, the
+$N$-adic ring is defined and a few properties of $2$-adic sequences are
+discussed. The $2$-adic valuation defined in this section is critical to
+understanding the main result in Section \ref{sec:boolean-sequences}. Section
+\ref{sec:shift-registers} defines the FCSR following a fundamental discussion on
+finite state machines and $n$-state shift registers. Two shift register
+synthesis algorithms are shown to demonstrate the necessity of adding a
+non-linear component to an FCSR before using it as a stream cipher. Finally,
+Section \ref{sec:boolean-sequences} defines what this paper calls {\it
+lexicographical Boolean sequences} and proves the main result on the $2$-adic
+valuation of bent sequences generated by Maiorana-McFarland class Boolean functions.
