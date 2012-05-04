@@ -1,46 +1,57 @@
 \section{Boolean Functions}\label{sec:boolean-functions}
 \par This section will establish the definition of a {\em Boolean function}
-and how to write these functions as polynomials. First, the finite field
-with two elements, denoted $\gftwo$, is defined. The definitions and
+and how to write these functions as polynomials. The goal is to introduce the
+Walsh transform, and important tools used in cryptography. The Walsh transform
+measures the non-linearity of a Boolean function. This section concludes with
+the definition of bent functions which in terms of the Walsh transform are
+perfectly non-linear Boolean functions. The definitions and
 notations will follow those found in \cite{bk:cs09}.
 
 \subsection{Review of Boolean Functions}
 \par The two element field $(\gftwo,\oplus,\cdot)$ is the set $\{0,1\}$
 with defined binary operations $\oplus$ and $\cdot$, also commonly referred
-to as the {\em XOR} and {\em AND} operators, respectively.
+to as the logical {\em XOR} and {\em AND} operators respectively.
 \begin{table}[h!]
-	\centering
-	\begin{tabular}{|c|c|}
-		\hline
-		XOR&AND\\
-		\hline
-		$0\oplus0:=0$&$0\cdot0:=0$\\
-		$0\oplus1:=1$&$0\cdot1:=0$\\
-		$1\oplus0:=1$&$1\cdot0:=0$\\
-		$1\oplus1:=0$&$1\cdot1:=1$\\
-		\hline
-	\end{tabular}
-	\caption{Binary Operations for $\gftwo$}
+  \centering
+  \begin{tabular}{|c|c|}
+    \hline
+    XOR&AND\\
+    \hline
+    $0\oplus0:=0$&$0\cdot0:=0$\\
+    $0\oplus1:=1$&$0\cdot1:=0$\\
+    $1\oplus0:=1$&$1\cdot0:=0$\\
+    $1\oplus1:=0$&$1\cdot1:=1$\\
+    \hline
+  \end{tabular}
+  \caption{Binary Operations for $\gftwo$}
   \label{tab:GF(2)}
 \end{table}
 \par It should be clear that $(\gftwo,\oplus,\cdot)$ is a commutative ring
-with an identity. Additionally, the only non-zero element $1$ is it's own
+with an identity. Additionally, the only non-zero element $1$ is its own
 inverse. Therefore $(\gftwo,\oplus,\cdot)$ is a finite field, which will now
 be denoted by $\gftwo$. The $n$-dimensional vector space over $\gftwo$ will
-be denoted by $\gftwo^n$, with the usual inner product. Components of these
-vectors, the individual 1s and 0s, will be known as {\em bits}. When a bit
-is {\em flipped} this means it changed from a 1 to a 0, or vice versa.
+be denoted by $\gftwo^n$, with the usual inner product. Components of vectors in
+$\gftwo^n$ will be known as {\em bits}.
 For two vectors $x,y\in\gftwo^n$ where $x=(x_0,\cdots,x_{n-1})$ and
 $y=(y_0,\cdots,y_{n-1})$, the inner product in $\gftwo^n$ will be defined
 as $x\cdot y:=\allowbreak x_0\cdot y_0 \oplus\allowbreak
 \cdots \oplus\allowbreak x_{n-1}\cdot y_{n-1}$.
 
 \begin{example}
-	Let $a,b\in\gftwo^3$ such that $a=(1,0,1)$ and $b=(0,1,1)$ then
-	\begin{align*}
-		a+b      &=(1\oplus0,0\oplus1,1\oplus1)=(1,1,0) \\
-		a\cdot b &=1\cdot0\oplus0\cdot1\oplus1\cdot1=1
-	\end{align*}
+  \ 
+  \begin{lstlisting}
+    sage: V=GF(2)^3
+    sage: a=V([1,0,1]); b=V([0,1,1]);
+    sage: a+b
+    (1, 1, 0)
+    sage: a.dot_product(b)
+    1
+  \end{lstlisting}
+%  Let $a,b\in\gftwo^3$ such that $a=(1,0,1)$ and $b=(0,1,1)$ then
+%  \begin{align*}
+%    a+b      &=(1\oplus0,0\oplus1,1\oplus1)=(1,1,0) \\
+%    a\cdot b &=1\cdot0\oplus0\cdot1\oplus1\cdot1=1
+%  \end{align*}
 \end{example}
 
 \par Each vector in $\gftwo^n$ can be uniquely represented by an integer
@@ -48,9 +59,25 @@ between $0$ and $2^n-1$. To do this, the components of each vector in
 $\gftwo^n$ are trivially mapped to the integers 0 and 1, and then used in
 the one-to-one binary representation function $B$:
 \begin{equation}
-	B:\gftwo^n\rightarrow\nnn\cup\{0\}\ \allowbreak
+  B:\gftwo^n\rightarrow\nnn\cup\{0\}\ \allowbreak
   {\rm such\ that }\ \allowbreak B(u) := \sum_{i=0}^{n-1}u_i\cdot2^i.
 \end{equation}
+
+\par If we define the vectors $v_i\in\gftwo^n$ such that $v_i=B^{-1}(i)$
+for $0\leq i\leq2^{n-1}$, then the sequence $(v_0,v_1,\allowbreak \dots,
+\allowbreak v_{2^n-1})$ is said to be in {\em lexicographical order}. This
+ordering is the standard ordering used by Sage to list vectors in $\gftwo^n$.
+
+\begin{example}
+  \ 
+  \begin{lstlisting}
+    sage: V=GF(2)^3
+    sage: V.list()
+    [(0, 0, 0), (1, 0, 0), (0, 1, 0), (1, 1, 0), (0, 0, 1), (1, 0, 1), (0, 1, 1), (1, 1, 1)]
+    sage: [GFn_to_integer(v) for v in V]
+    [0, 1, 2, 3, 4, 5, 6, 7]
+  \end{lstlisting}
+\end{example}
 
 \par This definition of $B$ has created the convention where the
 {\em least significant bit} appears on the left and the 
@@ -61,73 +88,75 @@ $\gftwo^n$. These are fundmental functions in coding theory and are useful
 when talking about Boolean functions.
 
 \begin{definition}\label{def:Hamming}
-	Let $x,y\in\gftwo^n$. Then $wt:\gftwo^n\rightarrow\nnn\cup\{0\}$
+  Let $x,y\in\gftwo^n$. Then $wt:\gftwo^n\rightarrow\nnn\cup\{0\}$
   is defined by
-	\[
-	  wt(x):=\sum_{i=0}^{n-1}x_i
-	\]
-	and $d:\gftwo^n\times\gftwo^n\rightarrow\nnn\cup\{0\}$ is defined by
-	\[
-	  d(x,y):=wt(x+y).
-	\]
-	Then $wt(x)$ is the {\em Hamming\ weight} of $x$ and $d(x,y)$ is the
-	{\em Hamming\ distance} between $x$ and $y$.
+  \[
+    {\rm wt}(x):=\sum_{i=0}^{n-1}x_i
+  \]
+  and $d:\gftwo^n\times\gftwo^n\rightarrow\nnn\cup\{0\}$ is defined by
+  \[
+    d(x,y):={\rm wt}(x+y).
+  \]
+  Then ${\rm wt}(x)$ is the {\em Hamming\ weight} of $x$ and $d(x,y)$ is the
+  {\em Hamming\ distance} between $x$ and $y$.
 \end{definition}
-
-\begin{remark}
-	The Hamming weight of a vector $x\in\gftwo^n$ is the number of 1s in the
-  vector, and the Hamming distance between two vectors $x,y\in\gftwo^n$ is
-  the number of bit differences between the two vectors.
-\end{remark}
 
 \begin{definition}
 \label{def:support}
-	Let $x\in\gftwo^n$. Then $supp:\gftwo^n\rightarrow\allowbreak
+  Let $x\in\gftwo^n$. Then $supp:\gftwo^n\rightarrow\allowbreak
   \mathcal{P}(\nnn\cup\{0\})$ is defined by
-	\[
-		supp(x):=\{i\in\nnn\cup\{0\}:x_i=1\}
-	\]
+  \[
+    {\rm supp}(x):=\{i\in\nnn\cup\{0\}:x_i=1\}
+  \]
 \end{definition}
 
 \begin{example}
-	Let $a,b,c\in\gftwo^5$ such that
-	\[
-	a=(0,1,1,0,1),\ b=(1,1,1,0,0),\ {\rm and}\ c=(0,0,1,1,0).
-	\]
-	Then,
-	\begin{center}
-		\begin{tabular}{c c c}
-			$wt(a)=3$&$supp(a)=\{1,2,4\}$&$d(a,b)=2$\\
-			$wt(b)=3$&$supp(b)=\{0,1,2\}$&$d(a,c)=3$\\
-			$wt(c)=2$&$ supp(c)=\{2,3\}$ &$d(b,c)=3$.\\
-		\end{tabular}
-	\end{center}
-\end{example}
+  \ 
+  \begin{lstlisting}
+    sage: V=GF(2)^5
+    sage: a=V([0,1,1,0,1]); b=V([0,0,1,1,0])
+    sage: Hamming_weight(a)
+    3
+    sage: Hamming_weight(b)
+    2
+    sage: a.support()
+    [1, 2, 4]
+    sage: b.support()
+    [2, 3]
+    sage: Hamming_weight(a+b)
+    3
+  \end{lstlisting}
 
-\par If we define the vectors $v_i\in\gftwo^n$ such that $v_i=B^{-1}(i)$
-for $0\leq i\leq2^{n-1}$, then the sequence $(v_0,v_1,\allowbreak \dots,
-\allowbreak v_{2^n-1})$ is said to be in {\em lexicographical order}.
-Using the convention of lexicographical ordering and the inner product in
-$\gftwo^n$, a $2^n\times 2^n$ matrix can be written which captures all of
-the possible inner products of two vectors in $\gftwo^n$. This is a matrix
-where $x_i\cdot x_j$ appears in the $i$th row and $j$th column. This
-particular matrix turns out to be a {\em Hadamard matrix} which will be
-studied later.
+%  Let $a,b,c\in\gftwo^5$ such that
+%  \[
+%  a=(0,1,1,0,1),\ b=(1,1,1,0,0),\ {\rm and}\ c=(0,0,1,1,0).
+%  \]
+%  Then,
+%  \begin{center}
+%    \begin{tabular}{c c c}
+%      ${\rm wt}(a)=3$&${\rm supp}(a)=\{1,2,4\}$&$d(a,b)=2$\\
+%      ${\rm wt}(b)=3$&${\rm supp}(b)=\{0,1,2\}$&$d(a,c)=3$\\
+%      ${\rm wt}(c)=2$&$ {\rm supp}(c)=\{2,3\}$ &$d(b,c)=3$.\\
+%    \end{tabular}
+%  \end{center}
+\end{example}
 
 \par There is an interesting orthogonality property in the vector space
 $\gftwo^n$ known as the {\em orthogonality principle} that every non-zero
 vector in $\gftwo^n$ is orthogonal to exactly half of the vectors in the
 vectorspace.
 
-\begin{theorem}
-\label{thm:orthogonality-principle}
+\begin{proposition}
+\label{prop:orthogonality-principle}
   Let $x\in\gftwo^n$. Then
-  \begin{align*}
-    \sum_{y\in\gftwo^n}(-1)^{x\cdot y}
-      &= 2^n {\rm \ for\ } x=0 \\
-      &= 0 {\rm \ otherwise.}
-  \end{align*}
-\end{theorem}
+  \begin{equation*}
+    \sum_{y\in\gftwo^n}(-1)^{x\cdot y}=
+    \begin{cases}
+      2^n \text{ \rm for } x=0, \\
+      0 \text{ \rm otherwise.}
+    \end{cases}
+  \end{equation*}
+\end{proposition}
 
 \begin{proof}
   Let $x=0\in\gftwo^n$. Then $\forall y\in\gftwo^n$, $x\cdot y=0$, so
@@ -137,7 +166,7 @@ vectorspace.
   Let $x\in\gftwo^n$ where $x\not=0$. Assume the $i$th bit of $x$ is
   non-zero and define $e_i\in\gftwo^n$ as a vector with all zero bits
   except for the $i$th bit which is $1$. Then
-	\begin{align*}
+  \begin{align*}
     \sum_{y\in\gftwo^n}(-1)^{x\cdot y}
       &= \sum_{y\in\gftwo^n}(-1)^{x\cdot (y+e_i)} \\
       &= \sum_{y\in\gftwo^n}(-1)^{x\cdot y}(-1)^{x\cdot e_i} \\
@@ -148,11 +177,19 @@ vectorspace.
   $\sum_{y\in\gftwo^n}(-1)^{x\cdot y}=0$.
 \end{proof}
 
-\par When introduced to a new vector space, it is natural to begin looking
-at functions in that field. The particular function of interest here will
-be what is known as a {\em Boolean function}.
+\begin{example}
+  \ 
+  \begin{lstlisting}
+    sage: V=GF(2)^6
+    sage: [sum([(-1)^(x.dot_product(y)) for y in V]) for x in V]
+    [64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  \end{lstlisting}
+\end{example}
 
-% Definition of a Boolean Function
+\par When introduced to a new vector space, it is natural to begin looking
+at functions in that field. The particular functions of interest here will
+be what are known as {\em Boolean functions}.
+
 \begin{definition}
 \label{def:boolean-function}
   Any function $f$ defined such that 
@@ -182,10 +219,10 @@ cryptosystem.}
 Table \ref{tab:truth-table}. The Hamming weight of $f$ is the number of 1s
 that $f$ has when evaluated at every point in the $\gftwo^n$: 
 \[
-wt(f)=\lvert\{u\in\gftwo^n:f(u)=1\}\rvert.
+{\rm wt}(f)=\lvert\{u\in\gftwo^n:f(u)=1\}\rvert.
 \]
 \begin{table}
-	\centering
+  \centering
   \begin{tabular}{|c|c|c|c||c|}
     \hline
     $x_0$&$x_1$&$x_2$&$x_3$&$f(x_0,x_1,x_2,x_3)$\\
@@ -206,9 +243,9 @@ wt(f)=\lvert\{u\in\gftwo^n:f(u)=1\}\rvert.
     1&0&1&1&0\\
     0&1&1&1&1\\
     1&1&1&1&1\\
-  	\hline
-	\end{tabular}
-	\caption{Truth Table of $f$}
+    \hline
+  \end{tabular}
+  \caption{Truth Table of $f$}
   \label{tab:truth-table}
 \end{table}
 
@@ -221,7 +258,7 @@ one-to-one and onto function will be defined which maps every $f$ in
 $\BF_n$ to a vector in $\gftwo^{2^n}$. This will be the function
 $V:\BF_n\rightarrow\gftwo^{2^n}$ such that
 \begin{equation}\label{eqn:bool-vector}
-	V(f)
+  V(f)
     :=(f(v_0),\dots,f(v_{2^n-1}))\ {\rm where\ } v_i=B^{-1}(i).
 \end{equation}
 It is trivial to show that addition is homomorphic under $V$,
@@ -231,10 +268,10 @@ V(f_1\oplus f_2)=V(f_1)\oplus V(f_2).
 Then the standard basis of $\gftwo^{2^n}$ can be used to pull back to an
 equivalent basis of $\BF_n$. Let $e_i\in\gftwo^{2^n}$ be defined so that
 \begin{align*}
-	e_0&=(1,0,\dots)\\
-	e_1&=(0,1,\dots)\\
-	\vdots \\
-	e_{2^n-1}&=(0,\dots,0,1).
+  e_0&=(1,0,\dots)\\
+  e_1&=(0,1,\dots)\\
+  \vdots \\
+  e_{2^n-1}&=(0,\dots,0,1).
 \end{align*}
 \par The {\em atomic Boolean functions} will be defined as the
 $f_i\in\BF_n$ where there exists an $e_i\in\gftwo^{2^n}$ such that
@@ -243,15 +280,15 @@ combination of the standard basis vectors, and equivalently, every Boolean
 function is a linear combination of atomic Boolean functions. This means
 for every $u\in\gftwo^{2^n}$ there exists a set of $c_i\in\gftwo$ such that
 \begin{align*}
-	u  &=c_0e_0\oplus\cdots\oplus c_{2^n-1}e_{2^n-1} \\
-	\Leftrightarrow f &=c_0f_0\oplus\cdots\oplus c_{2^n-1}f_{2^n-1}.\\
+  u  &=c_0e_0\oplus\cdots\oplus c_{2^n-1}e_{2^n-1} \\
+  \Leftrightarrow f &=c_0f_0\oplus\cdots\oplus c_{2^n-1}f_{2^n-1}.\\
 \end{align*}
 where $V(f)=u$.
 
 \par The function $f$ defined in Table \ref{tab:truth-table} can be written
 as a linear combination of the atomic Boolean functions in $\BF_4$. Since
 the coefficients in the linear combinations are either 0 or 1, it is true
-that every Boolean function can be written as the sum of $wt(f)$ atomic
+that every Boolean function can be written as the sum of ${\rm wt}(f)$ atomic
 Boolean functions.
 \begin{table}[h!]
   \centering
@@ -292,20 +329,20 @@ $(x_0,\cdots,x_{n-1})$. Recall the support function from Definition
 \ref{def:support}. Then the polynomial respresenting each Boolean function
 is as follows:
 \begin{equation}\label{eqn:atomic-ANF}
-  f_i=\bigg(\prod_{j\in supp(B^{-1}(i))}x_j\bigg)
-    \bigg(\prod_{j\not\in supp(B^{-1}(i))}(1\oplus x_j)\bigg).
+  f_i=\bigg(\prod_{j\in {\rm supp}(B^{-1}(i))}x_j\bigg)
+    \bigg(\prod_{j\not\in {\rm supp}(B^{-1}(i))}(1\oplus x_j)\bigg).
 \end{equation}
 \begin{proof}
   Let $x=B^{-1}(i)$ where $x=(x_0,\cdots,x_{n-1})$. Then
-  $\{x_i:x_i=1\}=\{x_i:i\in supp(x)\}$. Therefore,
+  $\{x_i:x_i=1\}=\{x_i:i\in {\rm supp}(x)\}$. Therefore,
   \[
-  f_i(x)=\bigg(\prod_{j\in supp(B^{-1}(i))}x_j\bigg)
-    \bigg(\prod_{j\not\in supp(B^{-1}(i))}(1\oplus x_j)\bigg)=1.
+  f_i(x)=\bigg(\prod_{j\in {\rm supp}(B^{-1}(i))}x_j\bigg)
+    \bigg(\prod_{j\not\in {\rm supp}(B^{-1}(i))}(1\oplus x_j)\bigg)=1.
   \]
 
   Let $x\not=B^{-1}(i)$. Then,
   \[
-  \bigg(\prod_{j\in supp(B^{-1}(i))}x_j\bigg)=0
+  \bigg(\prod_{j\in {\rm supp}(B^{-1}(i))}x_j\bigg)=0
   \]\[
   \therefore f_i(x)=0.
   \]
@@ -326,9 +363,15 @@ the sum of the following atomic polynomials:
 \end{align*}
 \par After summing the atomic polynomials upon multiplying them out,
 \[
-	f=x_0x_1x_2x_3\oplus x_0x_1x_3 \oplus x_0x_3 \oplus x_0 \oplus x_1x_2x_3
+  f=x_0x_1x_2x_3\oplus x_0x_1x_3 \oplus x_0x_3 \oplus x_0 \oplus x_1x_2x_3
     \oplus x_1x_2\oplus x_1\oplus x_2x_3 \oplus x_2.
 \]
+This result is easily verified in Sage:
+\begin{lstlisting}[gobble=1]
+  sage: f=BooleanFunction([0,1,1,0,1,0,1,0,0,0,1,0,0,0,1,1])
+  sage: f.algebraic_normal_form()
+  x0*x1*x2*x3 + x0*x1*x3 + x0*x3 + x0 + x1*x2*x3 + x1*x2 + x1 + x2*x3 + x2
+\end{lstlisting}
 
 \par Now the uniqueness of the polynomial representation for each Boolean
 function is considered. This is easily seen by considering the uniqueness of
@@ -394,17 +437,17 @@ This operation is closed under multiplication.
 \begin{proof}
   \par Let $\Upsilon:\gftwo^n\rightarrow\hat{\gftwo^n}$ where
   $\Upsilon(\lambda):=\Chi_\lambda$.
-	Every character in $\hat{\gftwo^n}$ corresponds to an element of
+  Every character in $\hat{\gftwo^n}$ corresponds to an element of
   $\gftwo^n$. Thus, $\lvert\gftwo^n\rvert=\lvert\hat{\gftwo^n}\rvert$.
   Therefore if $\Upsilon$ is one-to-one, then it must be an isomorphism.\\
-	Let $\Upsilon(\lambda_1)=\Upsilon(\lambda_2)$. Then for all $x$
-	\begin{align*}
-		(-1)^{\lambda_1\cdot x}
+  Let $\Upsilon(\lambda_1)=\Upsilon(\lambda_2)$. Then for all $x$
+  \begin{align*}
+    (-1)^{\lambda_1\cdot x}
       &=(-1)^{\lambda_2\cdot x}\\
-		  &=(-1)^{(\lambda_1+\lambda_1+\lambda_2)\cdot x}\\
+      &=(-1)^{(\lambda_1+\lambda_1+\lambda_2)\cdot x}\\
       &=(-1)^{\lambda_1\cdot x}(-1)^{(\lambda_1+\lambda_2)\cdot x}.
-	\end{align*}
-	Finally, $(\lambda_1+\lambda_2)\cdot x=0$ for all $x\in\gftwo^n$, which
+  \end{align*}
+  Finally, $(\lambda_1+\lambda_2)\cdot x=0$ for all $x\in\gftwo^n$, which
   implies $\lambda_1+\lambda_2=0$. Therefore, $\lambda_1=\lambda_2$.
 \end{proof}
 
@@ -424,13 +467,13 @@ of $\gftwo^n$ correspond to all of the linear functions in $\BF_n$.
 \begin{definition}\label{def:pBF}
   Let $f\in\BF_n$. Then $\hat{f}:\gftwo^n\rightarrow\rrr$ such that
   $\hat{f}(x)=(-1)^{f(x)}$ is a \textit{pseudo-Boolean function}. The set of all
-	pseudo Boolean functions is denoted $\hat{\BF}_n=\{\hat{f}:f\in\BF_n\}$.
+  pseudo Boolean functions is denoted $\hat{\BF}_n=\{\hat{f}:f\in\BF_n\}$.
 \end{definition}
 \begin{lemma}
 \par Clearly, every character $\Chi_\lambda$ belongs to $\hat{\BF_n}$.
 \end{lemma}
 \begin{proof}
-	\par This is trivially true.
+  \par This is trivially true.
 \end{proof}
 \begin{lemma}
   If \[W={\rm span}_\rrr(\hat{\BF}_n)=\left\{\sum_{i\in I}a_i\hat{f}_i:
@@ -438,10 +481,10 @@ of $\gftwo^n$ correspond to all of the linear functions in $\BF_n$.
   then the $\hat{\gftwo^n}$ forms an orthonormal basis of $W$.
 \end{lemma}
 \begin{proof}
-	The atomic Boolean functions correspond to a trivial basis of $W$,
-	$\{(-1)^{f(x)}:f \text{ is an atomic Boolean function}\}$. Thus, the dimension
-	of $\hat{\BF_n}$ is at most $2^n$. There are $2^n$ characters of $\gftwo^n$
-	which are all elements of $\hat{\BF}_n$.
+  The atomic Boolean functions correspond to a trivial basis of $W$,
+  $\{(-1)^{f(x)}:f \text{ is an atomic Boolean function}\}$. Thus, the dimension
+  of $\hat{\BF_n}$ is at most $2^n$. There are $2^n$ characters of $\gftwo^n$
+  which are all elements of $\hat{\BF}_n$.
   \begin{align*}
     \sum_{x\in\gftwo^n}{\Chi_{\lambda_i}(x)\cdot\Chi_{\lambda_j}(x)}
     &=\sum_{x\in\gftwo^n}
@@ -452,17 +495,17 @@ of $\gftwo^n$ correspond to all of the linear functions in $\BF_n$.
     \end{cases}
   \end{align*}
   Therefore, the characters of $\gftwo^n$ are orthonormal in $W$. Since the
-	dimension of $W$ is at most $2^n$ and there are $2^n$ characters,
-	$\hat{\gftwo^n}$ forms an orthonormal basis of $W$.
+  dimension of $W$ is at most $2^n$ and there are $2^n$ characters,
+  $\hat{\gftwo^n}$ forms an orthonormal basis of $W$.
 \end{proof}
 
 %\begin{definition}\label{def:DFT}
-%	The {\em discrete\ Fourier\ transform} or DFT of a Boolean function is
+% The {\em discrete\ Fourier\ transform} or DFT of a Boolean function is
 %  defined by
-%	\begin{equation}\label{eqn:DFT}
+% \begin{equation}\label{eqn:DFT}
 %    \mathcal{F}f(\lambda)
 %      =\sum_{x\in\gftwo^n}f(x)\Chi_\lambda(x)
-%	\end{equation}
+% \end{equation}
 %\end{definition}
 
 \begin{definition}\label{def:walsh}
@@ -482,11 +525,11 @@ as follows \cite{art:r76}.
 \begin{lemma}
   For $\hat{f}\in\hat{\BF}_n$,
 \begin{equation}\label{eqn:rewrite-pseudo}
-	\hat{f}(x)
+  \hat{f}(x)
     =\frac{1}{2^{n/2}}
       \sum_{\lambda\in\gftwo^n}c(\lambda)\Chi_\lambda(x)
 \end{equation}
-	where $c(\lambda)$ are given by
+  where $c(\lambda)$ are given by
   \begin{equation}\label{eqn:clambda}
     c(\lambda)=\frac{1}{2^{n/2}}\mathcal{W}_f(\lambda)
     %\mathcal{F}\hat{f}(\lambda).
@@ -500,11 +543,11 @@ number of zeros minus the number of ones of the function
 $f(x)+\lambda\cdot x$. The Hamming weight of $f$ is easily determined using
 the zero Fourier coefficient $c(0)$:
 \begin{align*}
-	c(0)&=\frac{1}{2^{n/2}}\sum_{x\in\gftwo^n}(-1)^{f(x)}\\
-	&=\frac{1}{2^{n/2}}\big((2^n-wt(f))-wt(f)\big)
+  c(0)&=\frac{1}{2^{n/2}}\sum_{x\in\gftwo^n}(-1)^{f(x)}\\
+  &=\frac{1}{2^{n/2}}\big((2^n-{\rm wt}(f))-{\rm wt}(f)\big)
 \end{align*}
 \begin{equation}
-  \Rightarrow wt(f)=2^{n-1}-2^{n/2-1}c(0).
+  \Rightarrow {\rm wt}(f)=2^{n-1}-2^{n/2-1}c(0).
 \end{equation}
 
 \par Clearly $\mathcal{W}_f(\lambda)=\frac{1}{2^{n/2}}c(\lambda)$. For large
@@ -533,9 +576,9 @@ definition of a bent function is presented here.
 \end{definition}
 
 \begin{theorem}{\rm \cite{art:r76}}\label{thm:deg-of-bent-function}
-	If $f$ is a bent function on $\gftwo^n$, then $n$ is even, $n=2k$.
+  If $f$ is a bent function on $\gftwo^n$, then $n$ is even, $n=2k$.
   Moreover,
-	the degree of $f$ is at most $k$, except in the case $k=1$.
+  the degree of $f$ is at most $k$, except in the case $k=1$.
 \end{theorem}
 \begin{proof}
   \par $c(\lambda)=\pm1$. This implies $2^{n/2}c(\lambda)$ is an
@@ -551,7 +594,7 @@ definition of a bent function is presented here.
   \]
   and
   \[
-	\hat{f}(x,0)=\frac{1}{2^{n/2}}
+  \hat{f}(x,0)=\frac{1}{2^{n/2}}
     \sum_{\lambda_1,\lambda_2,\dots,\lambda_n=0,1}
     c(\lambda_1,\dots,\lambda_n)\Chi_{(\lambda_1,\ldots,\lambda_n)}(x,0).
   \]
@@ -564,7 +607,7 @@ definition of a bent function is presented here.
   \]
   \par Then,
   \begin{align*}
-  wt(f(x,0))&=wt(g(x))\\
+  {\rm wt}(f(x,0))&={\rm wt}(g(x))\\
     &=2^{r-1}-2^{r/2-1}b(0)\\
     &=2^{r-1}-2^{r-n/2-1}\sum_{\lambda_{r+1},\dots,\lambda_n=0,1}
       c(0,\dots,0,\lambda_{r+1},\dots,\lambda_n).
@@ -574,10 +617,10 @@ definition of a bent function is presented here.
   $c(\lambda)=\pm1$. By rewriting $1=-1+2$,
   \begin{align*}
     \sum{c(0,\dots,0,\lambda_{r+1},\dots,\lambda_n)}
-      &=-2^{n-r}+2wt(c(0,\dots,0,\lambda_{r+1},\dots,\lambda_n))\\
-      &=2\big(wt(c(0,\dots,0,\lambda_{r+1},\dots,\lambda_n))-2^{n-r-1}\big)
+      &=-2^{n-r}+2{\rm wt}(c(0,\dots,0,\lambda_{r+1},\dots,\lambda_n))\\
+      &=2\big({\rm wt}(c(0,\dots,0,\lambda_{r+1},\dots,\lambda_n))-2^{n-r-1}\big)
   \end{align*}
-  \par Thus, $wt(g(x))$ is even. This implies that $g(x)$ is the sum of an
+  \par Thus, ${\rm wt}(g(x))$ is even. This implies that $g(x)$ is the sum of an
   even number of atomic Boolean functions. Therefore the coefficient of
   $x_1x_2\cdots x_r$ in the polynomial representing $g(x)$ must be 0. This
   is true for every $r>k$, so the degree of $f$ must not be greater than
@@ -600,7 +643,7 @@ permutation function $\pi$ on half of the input variables to each function.
 
 \begin{definition}
   Let $\pi:\gftwo^k\rightarrow\gftwo^k$ be the linear transformation on
-	$\gftwo^n$ represented by the matrix $\pi\in M_{k\times k}(\gftwo)$ such that the
+  $\gftwo^n$ represented by the matrix $\pi\in M_{k\times k}(\gftwo)$ such that the
   matrix $\pi$ has exactly $k$ non-zero entries arranged so that every row
   and column has exactly one non-zero entry. Then $\pi$ is a
   {\it permutation matrix}.
@@ -622,13 +665,13 @@ multiplication or $x$ being mapped by $\pi$ mean the same thing.
                  1&0&0\\
                  0&1&0\\
                \end{bmatrix}\begin{bmatrix}0\\1\\1\end{bmatrix}
-								 =\begin{bmatrix}1\\0\\1\end{bmatrix}\\
+                 =\begin{bmatrix}1\\0\\1\end{bmatrix}\\
              \pi_0(y)=\begin{bmatrix}
                  0&0&1\\
                  1&0&0\\
                  0&1&0\\
                \end{bmatrix}\begin{bmatrix}1\\0\\0\end{bmatrix}
-								 =\begin{bmatrix}0\\1\\0\end{bmatrix}\\
+                 =\begin{bmatrix}0\\1\\0\end{bmatrix}\\
            \end{align*}
 \end{example}
 
@@ -644,13 +687,13 @@ e_j\in\gftwo^k.
                0&0&1\\
                1&0&0\\
                0&1&0\\
-						 \end{bmatrix}$ and $\pi_1=
+             \end{bmatrix}$ and $\pi_1=
              \begin{bmatrix}
                0&1&0\\
                1&0&0\\
                0&0&1\\
-					   \end{bmatrix}$, then $\bar{\pi}_0$ is the permutation cycle $(012)$
-						 and $\bar{\pi}_1$ is the permutation cycle $(01)(2)$.
+             \end{bmatrix}$, then $\bar{\pi}_0$ is the permutation cycle $(012)$
+             and $\bar{\pi}_1$ is the permutation cycle $(01)(2)$.
 \end{example}
 \par A simple bent function construction is accomplished by using permutations
 like the ones defined here. These Boolean functions belong to the {\it
@@ -683,10 +726,10 @@ bent.
 %\[
 %v\leq w
 %\]
-%whenever $supp(v)\subseteq supp(w)$.
+%whenever ${\rm supp}(v)\subseteq {\rm supp}(w)$.
 %(This partial order is not to be confused with the lexicographical order.)
 %A Boolean function is called {\it monotone} if whenever we have $v\leq w$
-%then we also have $f(v) \leq f(w)$. In the case $supp(v)\subset supp(w)$,
+%then we also have $f(v) \leq f(w)$. In the case ${\rm supp}(v)\subset {\rm supp}(w)$,
 %$v<w$ may be written.
 %
 %\par Each monotone function corresponds to a unique set of vectors which
@@ -709,18 +752,18 @@ bent.
 %
 %\begin{proof}
 %  Let $f(x)=\prod_{i\in I}x_i$ for $I\in2^{\{0,\cdots,n-1\}}$ and
-%  $y\in\gftwo^n$. Then $supp(y)\supseteq I$ if and only if $f(y)=1$ and
-%  $supp(y) \not\supseteq I$ if and only if $f(y)=0$.
-%  Let $u,v\in\gftwo^n$ such that $supp(u)\subseteq supp(v)$ and $f(u)=1$.
-%  Then, $I\subseteq supp(u) \subseteq supp(v)$. This implies $f(v)=1$. Thus,
+%  $y\in\gftwo^n$. Then ${\rm supp}(y)\supseteq I$ if and only if $f(y)=1$ and
+%  ${\rm supp}(y) \not\supseteq I$ if and only if $f(y)=0$.
+%  Let $u,v\in\gftwo^n$ such that ${\rm supp}(u)\subseteq {\rm supp}(v)$ and $f(u)=1$.
+%  Then, $I\subseteq {\rm supp}(u) \subseteq {\rm supp}(v)$. This implies $f(v)=1$. Thus,
 %  $f$ is a monotone Boolean function.
 %\end{proof}
 %
 %\begin{example}
 %  In the following examples, the two functions $f=x_0x_2$ and $g=x_1x_2$
 %  are monomials. Each function is also a monotone function. For $f$, every
-%  $x\in\gftwo^4$ such that $supp(x)\supseteq supp((1,0,1,0))$ implies
-%  $f(x)=1$. For $g$, $supp(x)\supseteq supp( (0,1,1,0) )$ implies $g(x)=1$.
+%  $x\in\gftwo^4$ such that ${\rm supp}(x)\supseteq {\rm supp}((1,0,1,0))$ implies
+%  $f(x)=1$. For $g$, ${\rm supp}(x)\supseteq {\rm supp}( (0,1,1,0) )$ implies $g(x)=1$.
 %  \begin{verbatim}
 %  sage: B=BooleanPolynomialRing(4,'x')
 %  sage: x0,x1,x2,x3=B.gens()
@@ -773,7 +816,7 @@ bent.
 %the function $S$:
 %\begin{align}
 %  S:\ 2^\Gamma \rightarrow 2^{\{0,\cdots,n-1\}} \\
-%  S(\alpha):=\bigcup_{v\in\alpha}supp(v)
+%  S(\alpha):=\bigcup_{v\in\alpha}{\rm supp}(v)
 %\end{align}
 %
 %\begin{theorem}
@@ -787,7 +830,7 @@ bent.
 %\begin{proof}
 %  \par Define $g(x)=\sum_{I\in S(2^\Gamma),\ I\not=\emptyset}x^I$.
 %  Pick $y\in\gftwo^n$. Let $\alpha_y=\{v\in\Gamma|
-%  supp(v)\subseteq supp(y)\}$. It follows that $\beta\subseteq\alpha_y$ and
+%  {\rm supp}(v)\subseteq {\rm supp}(y)\}$. It follows that $\beta\subseteq\alpha_y$ and
 %  $\beta\not=\emptyset$ if and only if $y^{S(\beta) \cup C}=1$,
 %  $C\subseteq\{0,\cdots,n-1\}$. Let $\beta\subseteq\alpha$. Then
 %  $\alpha\not=\emptyset$, therefore $|2^\alpha|$ is even. Thus, the number
@@ -796,10 +839,10 @@ bent.
 %  \text{ for }C\subseteq\{0,\cdots,n-1\}\text{ and }
 %  C\not\in S(2^\Gamma)\}\rvert$ is odd.
 %
-%  \par Case 1: Suppose $supp(y)\in S(2^\Gamma)\cup C$. Then the number of
+%  \par Case 1: Suppose ${\rm supp}(y)\in S(2^\Gamma)\cup C$. Then the number of
 %  non-zero terms in $g(y)$ is odd, therfore $g(y)=1$.
 %
-%  \par Case 2: Suppose $supp(y)\not\in S(2^\Gamma)\cup C$. Then there do not
+%  \par Case 2: Suppose ${\rm supp}(y)\not\in S(2^\Gamma)\cup C$. Then there do not
 %  exist any non-zero terms in $g(y)$, therefore $g(y)=0$.
 %
 %  \par Then $g$ is 1 at precisely all of the palces $f$ is 1. Therefore
@@ -815,21 +858,21 @@ bent.
 %%
 %%\begin{theorem}[NOT CORRECT]
 %%  Let $f\in\BF_n$ be monotone and $x\in\gftwo^n$ such that
-%%  $f(x)=1$ and $\nexists y\in\gftwo^n$ such that $supp(y)\subsetneq
-%%  supp(x)$ where $f(y)=1$. Then, $f$ is not bent.
+%%  $f(x)=1$ and $\nexists y\in\gftwo^n$ such that ${\rm supp}(y)\subsetneq
+%%  {\rm supp}(x)$ where $f(y)=1$. Then, $f$ is not bent.
 %%\end{theorem}
 %%\begin{proof}
-%%  Define $\lambda\in\gftwo^n$ such that $supp(x)\subsetneq supp(\lambda)$
-%%  and $wt(\lambda)=wt(x)+1$. Also, define $x_I\in\gftwo^n$ such that
-%%  $supp(x_I)=I$. Then by Equation (\ref{eqn:clambda}), 
+%%  Define $\lambda\in\gftwo^n$ such that ${\rm supp}(x)\subsetneq {\rm supp}(\lambda)$
+%%  and ${\rm wt}(\lambda)={\rm wt}(x)+1$. Also, define $x_I\in\gftwo^n$ such that
+%%  ${\rm supp}(x_I)=I$. Then by Equation (\ref{eqn:clambda}), 
 %%  \begin{align*}
 %%    c(\lambda)&=\frac{1}{2^{n/2}}\sum_{u\in\gftwo^n}
 %%        (-1)^{f(u)+u\cdot\lambda}\\
-%%      &=\frac{1}{2^{n/2}}\left(\sum_{x_I:I\supseteq supp(x)}
-%%        {(-1)^{f(x_I)+x_I\cdot\lambda}}+\sum_{x_J:J\nsupseteq supp(x)}
+%%      &=\frac{1}{2^{n/2}}\left(\sum_{x_I:I\supseteq {\rm supp}(x)}
+%%        {(-1)^{f(x_I)+x_I\cdot\lambda}}+\sum_{x_J:J\nsupseteq {\rm supp}(x)}
 %%        {(-1)^{f(x_J)+x_J\cdot\lambda}}\right)\\
-%%      &=\frac{1}{2^{n/2}}\left(\sum_{x_I:I\supseteq supp(x)}
-%%        {(-1)^{1+x_I\cdot\lambda}}+\sum_{x_J:J\nsupseteq supp(x)}
+%%      &=\frac{1}{2^{n/2}}\left(\sum_{x_I:I\supseteq {\rm supp}(x)}
+%%        {(-1)^{1+x_I\cdot\lambda}}+\sum_{x_J:J\nsupseteq {\rm supp}(x)}
 %%        {(-1)^{f(x_J)+x_J\cdot\lambda}}\right)\\
 %%  \end{align*}
 %%  $f(x_I)=1$ because $f$ is monotone. And $x_I\cdot\lambda$ turns out so
@@ -837,21 +880,21 @@ bent.
 %%  \[
 %%  x_I\cdot\lambda =
 %%    \begin{cases}
-%%      |supp(\lambda)| & \text{for } \lambda\subseteq x_I \\
-%%      |supp(\lambda)|+1 & \text{for } x_I = x.
+%%      |{\rm supp}(\lambda)| & \text{for } \lambda\subseteq x_I \\
+%%      |{\rm supp}(\lambda)|+1 & \text{for } x_I = x.
 %%    \end{cases}
 %%  \] 
-%%  So the first sum equals $\pm2^{n-|supp(x)|-1}\mp1$,\ldots
-%%%   $2wt(f)-2^{n-|supp(x)|+1}-2^n$. 
+%%  So the first sum equals $\pm2^{n-|{\rm supp}(x)|-1}\mp1$,\ldots
+%%%   $2{\rm wt}(f)-2^{n-|{\rm supp}(x)|+1}-2^n$. 
 %%%   \begin{align*}
 %%%      c(\lambda)&=
 %%%      \begin{cases}
 %%%        \frac{1}{2^{n/2}}
-%%%          \left(2^{n-|supp(x)|+1}-1+2wt(f)-2^{n-|supp(x)|+1}-2^n\right)
-%%%          & \text{for } |supp(x)|\ even \\
+%%%          \left(2^{n-|{\rm supp}(x)|+1}-1+2{\rm wt}(f)-2^{n-|{\rm supp}(x)|+1}-2^n\right)
+%%%          & \text{for } |{\rm supp}(x)|\ even \\
 %%%        \frac{1}{2^{n/2}}
-%%%          \left(-2^{n-|supp(x)|+1}+1+2wt(f)-2^{n-|supp(x)|+1}-2^n\right)
-%%%          & \text{for } |supp(x)|\ odd\\
+%%%          \left(-2^{n-|{\rm supp}(x)|+1}+1+2{\rm wt}(f)-2^{n-|{\rm supp}(x)|+1}-2^n\right)
+%%%          & \text{for } |{\rm supp}(x)|\ odd\\
 %%%      \end{cases}
 %%%      &=
 %%%  \end{align*}

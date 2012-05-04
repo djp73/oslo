@@ -177,7 +177,7 @@ REFERENCES:
 
 ######## utility functions #########################
 
-def binary2integer(v):
+def GFn_to_integer(v):
     """
     Returns the integer value of the vector v interpreted as a binary number
 
@@ -186,13 +186,38 @@ def binary2integer(v):
 
     EXAMPLES:
         sage: V = GF(2)^2
-        sage: [binary2integer(v) for v in V]
+        sage: [GFn_to_integer(v) for v in V]
 
     """
     S = 0
     for i in range(len(v)):
         S+=2^i*ZZ(v[i])
     return S
+
+def Hamming_weight(v):
+    """
+    Returns the Hamming weight of the vector v
+
+    INPUT:
+        v - vector in GF(2)^n
+
+    EXAMPLES:
+        sage: V=GF(2)^5
+        sage: a=V([0,1,1,0,1]); b=V([1,1,1,0,0]); c=V([0,0,1,1,0])
+        sage: Hammin
+        HammingCode     Hamming_weight  
+        sage: Hamming_weight(a)
+        3
+        sage: Hamming_weight(b)
+        3
+        sage: Hammi
+        HammingCode     Hamming_weight  
+        sage: Hamming_weight(c)
+        2
+
+    """
+    return len(v.support())
+
 
 ###################################################
 
@@ -863,7 +888,7 @@ def is_monotone(f, n = 0):
         True
 
     """
-    b2i = binary2integer
+    b2i = GFn_to_integer
     try:
         V = GF(2)**n
         for x in V:
@@ -991,7 +1016,7 @@ def print_truth_table(f):
         (0, 1, 1, 1) 0 True
         (1, 1, 1, 1) 0 True
     """ 
-    b2i = binary2integer
+    b2i = GFn_to_integer
     n = f.nvariables()
     V = GF(2)^(n)
     W = GF(2)^(2^n)

@@ -27,7 +27,7 @@ integers is shown to be a commutative ring with an identity.
 \par Each integer $x$ is associated with a $N$-adic integer, determined
 by the sequence ($x,\ x, \ \dots, \ x,\ \dots$). These integers will be
 called {\em rational integers} in the $N$-adic integers.
-	
+  
 \begin{example} \label{ex:equiv-seq}
   Let $\xn \rightarrow \alpha \in \zzz_3$. Then the first 5 terms of
   $\xn$ may look something like:
@@ -70,11 +70,11 @@ when writing $N$-adic integers as sequences.
     \item $\an=(a_0, \ a_0+a_1\cdot N, \ \dots, \ a_0+\dots+a_i\cdot N^i, \ \dots) : 0 \leq a_i < N \ \ \ \forall i \geq 0$
   \end{enumerate}
   will be called {\em canonical}.
-	\par The sequence $(a_0,a_1,a_2,\cdots,a_i,\cdots)$ is the {\em digit
-	representation} of $\alpha$. When $N<10$, the digits are usually
-	written adjacent to one another. Another equivalent representation of $\alpha$
+  \par The sequence $(a_0,a_1,a_2,\cdots,a_i,\cdots)$ is the {\em digit
+  representation} of $\alpha$. When $N<10$, the digits are usually
+  written adjacent to one another. Another equivalent representation of $\alpha$
   is the {\it power series representation} where $\alpha=\sum_{i=0}^\infty
-	a_iN^i$ where the $a_i$'s are from the digit representation of $\alpha$.
+  a_iN^i$ where the $a_i$'s are from the digit representation of $\alpha$.
 \end{definition}
 
 \begin{example} \label{ex:canon}
@@ -260,35 +260,35 @@ addition and multiplication of power series representations of $N$-adic
 integers.
 
 \begin{lemma}
-	Addition and multiplication of canonical sequences of $\alpha$ and $\beta$ are
-	equivalent to the usual addition and multiplication of the power series
-	representations for $\alpha$ and $\beta$.
+  Addition and multiplication of canonical sequences of $\alpha$ and $\beta$ are
+  equivalent to the usual addition and multiplication of the power series
+  representations for $\alpha$ and $\beta$.
 \end{lemma}
 \begin{proof}
-	Let $\alpha=(a_0,a_0+a_1N,\cdots,a_0+a_1N+\cdots+a_kN^k,\cdots)$
-	and $\beta=(b_0,b_0+b_1N,\cdots,b_0+b_1N+\cdots+b_kN^k,\cdots)$. And $\alpha'$
-	and $\beta'$ be represented by power series so that
-	\[
-		\alpha'=\sum_{i=0}^\infty a_iN^i{\rm \ and\ } \beta'=\sum_{i=0}^\infty b_iN^i.
-	\]
-	Rewrite $\alpha=(\sum_{i=0}^ia_i,\cdots,\sum_{i=0}^ka_i2^i,\cdots)$ and
-	$\beta=(\sum_{i=0}^ib_i,\cdots,\sum_{i=0}^kb_i2^i,\cdots)$. By the defined
-	$N$-adic addition,
-	\begin{align*}
-		\alpha+\beta&=(\sum_{i=0}^0a_i+b_i,\cdots,\sum_{i=0}^k(a_i+b_i)2^i,\cdots)\\
-		            &=\sum_{i=0}^\infty(a_i+b_i)2^i\\
-								&=\sum_{i=0}^\infty a_iN^i + \sum_{i=0}^\infty b_iN^i\\
-								&=\alpha'+\beta'.
+  Let $\alpha=(a_0,a_0+a_1N,\cdots,a_0+a_1N+\cdots+a_kN^k,\cdots)$
+  and $\beta=(b_0,b_0+b_1N,\cdots,b_0+b_1N+\cdots+b_kN^k,\cdots)$. And $\alpha'$
+  and $\beta'$ be represented by power series so that
+  \[
+    \alpha'=\sum_{i=0}^\infty a_iN^i{\rm \ and\ } \beta'=\sum_{i=0}^\infty b_iN^i.
+  \]
+  Rewrite $\alpha=(\sum_{i=0}^ia_i,\cdots,\sum_{i=0}^ka_i2^i,\cdots)$ and
+  $\beta=(\sum_{i=0}^ib_i,\cdots,\sum_{i=0}^kb_i2^i,\cdots)$. By the defined
+  $N$-adic addition,
+  \begin{align*}
+    \alpha+\beta&=(\sum_{i=0}^0a_i+b_i,\cdots,\sum_{i=0}^k(a_i+b_i)2^i,\cdots)\\
+                &=\sum_{i=0}^\infty(a_i+b_i)2^i\\
+                &=\sum_{i=0}^\infty a_iN^i + \sum_{i=0}^\infty b_iN^i\\
+                &=\alpha'+\beta'.
   \end{align*}
-	Clearly addition is equivalent. By the defined $N$-adic multiplication,
-	\begin{align*}
-		\alpha\cdot\beta&=(\sum_{i=0}^0a_i\cdot b_i,\cdots,\sum_{i=0}^k\sum_{j=0}^k(a_ib_j)2^{i+j},\cdots)\\
-		                &=(a_0\cdot b_0,\cdots,\sum_{i+j\leq k}(a_ib_j)2^{i+j},\cdots)\\
-										&=\sum_{k=0}^\infty\left(\sum_{i+j=k}a_ib_j2^k\right)\\
-										&=\left(\sum_{i=0}^\infty a_i2^i\right)\left(\sum_{j=0}^\infty b_j2^j\right)\\
-										&=\alpha'\cdot\beta'.
-	\end{align*}
-	Therfore, multiplication is equivalent as well.
+  Clearly addition is equivalent. By the defined $N$-adic multiplication,
+  \begin{align*}
+    \alpha\cdot\beta&=(\sum_{i=0}^0a_i\cdot b_i,\cdots,\sum_{i=0}^k\sum_{j=0}^k(a_ib_j)2^{i+j},\cdots)\\
+                    &=(a_0\cdot b_0,\cdots,\sum_{i+j\leq k}(a_ib_j)2^{i+j},\cdots)\\
+                    &=\sum_{k=0}^\infty\left(\sum_{i+j=k}a_ib_j2^k\right)\\
+                    &=\left(\sum_{i=0}^\infty a_i2^i\right)\left(\sum_{j=0}^\infty b_j2^j\right)\\
+                    &=\alpha'\cdot\beta'.
+  \end{align*}
+  Therfore, multiplication is equivalent as well.
 \end{proof}
 
 \begin{theorem}\label{thm:units}
@@ -479,54 +479,54 @@ sequences are infinite sequences of 0s and 1s. The following definitions and
 propositions will be used in the discussion of FCSRs and the main result.
 
 \begin{proposition}{\rm \cite{art:kg97}}\label{prop:rational-periodic}
-	There is a one-to-one correspondence between rational numbers
-	$\alpha=p/q\in\zzz_2$ (where $q$ is odd) and eventually periodic binary
-	sequences ${\bf a}=(a_0,a_1,\cdots)$, which associates to each such rational
-	number $\alpha$ its digit representation {\bf a}. The sequence ${\bf a}$ is
-	strictly periodic if and only if $\alpha\leq 0$ and $|\alpha|<1$.
+  There is a one-to-one correspondence between rational numbers
+  $\alpha=p/q\in\zzz_2$ (where $q$ is odd) and eventually periodic binary
+  sequences ${\bf a}=(a_0,a_1,\cdots)$, which associates to each such rational
+  number $\alpha$ its digit representation {\bf a}. The sequence ${\bf a}$ is
+  strictly periodic if and only if $\alpha\leq 0$ and $|\alpha|<1$.
 \end{proposition}
 \begin{proof}
-	\par Consider the strictly periodic case first. Let ${\bf a}=(a_0,a_1,\cdots)$
-	be a strictly periodic sequence of period $T$. Set $\alpha={\bf a}$. Computing
-	in $\zzz_2$,
-	\[
-		2^T\alpha=\sum_{i=0}^\infty a_i2^{i+T}
-		         =\sum_{i=0}^\infty a_{i+T}2^{i+T}
-						 =\sum_{i=T}^\infty a_i2^i
-						 =\alpha-\sum_{i=0}^{T-1}a_i2^i.
-	\]
-	Hence
-	\begin{equation}\label{eqn:3}
-		\alpha=-\frac{\sum_{i=0}^{T-1}a_i2^i}{2^T-1}
-	\end{equation}
-	is a negative rational number. Write $\alpha=p/q$ as a fraction reduced to
-	lowest terms with $q$ positive. Then $q$ is odd, $p\leq0$, and $|p|<q$.
-	\par On the other hand, suppose that $\alpha=p/q$ is given in lowest terms
-	with $q$ an odd positive integer, $p\leq0$, and $|p|<q$. Let $T$ be the
-	smallest integer such that $2^T\equiv 1 \pmod q$. Such a $T$ exists because
-	$q$ is odd. Then $2^T-1$ is divisble by $q$, so set $s=(2^T-1)/q$. Because
-	$p=q\sum_{i=0}^\infty a_i2^i$
-	\[
-		s\cdot(-p)=s(-q\sum_{i=0}^\infty a_i2^i)
-		          =(1-2^T)(\sum_{i=0}^\infty a_i2^i)
-		          =\sum_{i=0}^\infty a_i2^i - \sum_{i=T}^\infty a_i2^i
-							=\sum_{i=0}^{T-1}a_i2^i
-	\]
-	Thus $\alpha=sp/(2^T-1)=-(\sum_{i=0}^{T-1}a_i2^i)/(2^T-1)$. It directly
-	follows that $\alpha=2^T\alpha+\sum_{i=0}^{T-1}a_i2^i$, implying that the
-	digits sequence ${\bf a}$ of $\alpha$ is strictly periodic.
-	\par Now suppose that $\alpha=p/q$ is an arbitrary rational number. Let
-	$M=\lceil\alpha\rceil$ be the next largest integer. If $M\geq0$, then its digit
-	sequence ends in an infinite string of 0s. If $M<0$, then its digit sequence
-	ends in an infinite string of 1s. However, $\alpha=M+p'/q$ where $p'\leq0$ and
-	$|p'|<q$, so the digit sequence of $p'/q$ is strictly periodic. It follows
-	that the digit sequence ${\bf a}$ of $\alpha=M+p'/q$ must be eventually
-	periodic.
-	\par On the other hand, an eventually periodic sequence ${\bf
-	a}=(a_0,a_1,\cdots)$ corresponds to a rational number $\alpha={\bf a}$ because
-	it is given by a finite transient term $\sum_{i=0}^{K-1}a_i2^i$ (for some
-	nonnegative integer $K$) plus a periodic term, $\sum_{i=K}^\infty
-	a_i2^i=2^K\sum_{i=0}^\infty a_{j+K}2^j$, both of which are rational numbers.
+  \par Consider the strictly periodic case first. Let ${\bf a}=(a_0,a_1,\cdots)$
+  be a strictly periodic sequence of period $T$. Set $\alpha={\bf a}$. Computing
+  in $\zzz_2$,
+  \[
+    2^T\alpha=\sum_{i=0}^\infty a_i2^{i+T}
+             =\sum_{i=0}^\infty a_{i+T}2^{i+T}
+             =\sum_{i=T}^\infty a_i2^i
+             =\alpha-\sum_{i=0}^{T-1}a_i2^i.
+  \]
+  Hence
+  \begin{equation}\label{eqn:3}
+    \alpha=-\frac{\sum_{i=0}^{T-1}a_i2^i}{2^T-1}
+  \end{equation}
+  is a negative rational number. Write $\alpha=p/q$ as a fraction reduced to
+  lowest terms with $q$ positive. Then $q$ is odd, $p\leq0$, and $|p|<q$.
+  \par On the other hand, suppose that $\alpha=p/q$ is given in lowest terms
+  with $q$ an odd positive integer, $p\leq0$, and $|p|<q$. Let $T$ be the
+  smallest integer such that $2^T\equiv 1 \pmod q$. Such a $T$ exists because
+  $q$ is odd. Then $2^T-1$ is divisble by $q$, so set $s=(2^T-1)/q$. Because
+  $p=q\sum_{i=0}^\infty a_i2^i$
+  \[
+    s\cdot(-p)=s(-q\sum_{i=0}^\infty a_i2^i)
+              =(1-2^T)(\sum_{i=0}^\infty a_i2^i)
+              =\sum_{i=0}^\infty a_i2^i - \sum_{i=T}^\infty a_i2^i
+              =\sum_{i=0}^{T-1}a_i2^i
+  \]
+  Thus $\alpha=sp/(2^T-1)=-(\sum_{i=0}^{T-1}a_i2^i)/(2^T-1)$. It directly
+  follows that $\alpha=2^T\alpha+\sum_{i=0}^{T-1}a_i2^i$, implying that the
+  digits sequence ${\bf a}$ of $\alpha$ is strictly periodic.
+  \par Now suppose that $\alpha=p/q$ is an arbitrary rational number. Let
+  $M=\lceil\alpha\rceil$ be the next largest integer. If $M\geq0$, then its digit
+  sequence ends in an infinite string of 0s. If $M<0$, then its digit sequence
+  ends in an infinite string of 1s. However, $\alpha=M+p'/q$ where $p'\leq0$ and
+  $|p'|<q$, so the digit sequence of $p'/q$ is strictly periodic. It follows
+  that the digit sequence ${\bf a}$ of $\alpha=M+p'/q$ must be eventually
+  periodic.
+  \par On the other hand, an eventually periodic sequence ${\bf
+  a}=(a_0,a_1,\cdots)$ corresponds to a rational number $\alpha={\bf a}$ because
+  it is given by a finite transient term $\sum_{i=0}^{K-1}a_i2^i$ (for some
+  nonnegative integer $K$) plus a periodic term, $\sum_{i=K}^\infty
+  a_i2^i=2^K\sum_{i=0}^\infty a_{j+K}2^j$, both of which are rational numbers.
 \end{proof}
 
 
@@ -541,7 +541,7 @@ propositions will be used in the discussion of FCSRs and the main result.
 \end{definition}
 
 \begin{definition}\label{2-adic-norm}
-	If $\alpha \in \zzz_2$, then the {\em 2-adic norm} of $\alpha$ is
+  If $\alpha \in \zzz_2$, then the {\em 2-adic norm} of $\alpha$ is
   $\lVert \alpha \rVert_2 = 2^{-m}$ where $m=\log_2(\alpha)$. 
 \end{definition}
 

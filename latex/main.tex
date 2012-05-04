@@ -19,6 +19,31 @@ urlcolor=black
 \usepackage{enumerate}
 \usepackage{cite}
 
+% fancyvrb settings
+\usepackage{fancyvrb}
+\DefineVerbatimEnvironment%
+  {MyVerbatim}{Verbatim}
+  {gobble=4,
+  numbers=left,
+  numbersep=2mm,
+  frame=leftline,
+  label=sage code,
+  framesep=2mm}
+
+% listings settings
+\usepackage{listings}
+\lstset{
+  gobble=3,
+  language=Python,
+  basicstyle=\ttfamily\footnotesize,
+  %numbers=left,
+  %numberstyle=\tiny,
+  %numbersep=5pt,
+  frame=single,
+  tabsize=2,
+  breaklines=true,
+}
+
 % Definitions
 \def\qqq{\mathbb{Q}}
 \def\rrr{\mathbb{R}}

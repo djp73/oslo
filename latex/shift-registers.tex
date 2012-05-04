@@ -245,11 +245,11 @@ prime.
 \end{figure}
 
 \begin{definition}\label{def:fcsr}
-	Let $q_1,\dots,q_n\in{0,1}\subset\zzz$ and $q_0=-1$. A {\em binary feedback with carry shift register} 
+  Let $q_1,\dots,q_n\in{0,1}\subset\zzz$ and $q_0=-1$. A {\em binary feedback with carry shift register} 
   of length $n$ with {\em taps} $q_1,\dots,q_n$ is a modified shift register
   whose states are collections
   \[
-	(x_0,x_1,\dots,x_{n-1};z) \text{ where } x_i\in\gftwo \text{ and } z \in \zzz
+  (x_0,x_1,\dots,x_{n-1};z) \text{ where } x_i\in\gftwo \text{ and } z \in \zzz
   \]
   where $z$ is called the {\it memory cell}. The state changes according
   to the following rules:
@@ -281,82 +281,82 @@ $\zzz_2$. This rational number, or sequence generated, is entirely determined by
 the initial state and the taps of the register.
 
 \begin{proposition}{\rm \cite{art:kg97}}\label{prop:FCSR-seq}
-	Let $q_1,\cdots,q_r$ be the taps, $m_{r-1}$ be the initial memory, and
-	$a_{r-1},\cdots,a_1,a_0$ be the initial state of an FCSR. Define
-	$q=1+\sum_{i=1}^{r}q_i2^i$ and
-	\begin{equation*}
-		p=\left(\sum_{i=0}^{r-1}\sum_{j=0}^iq_ja_{i-j}2^i\right)-m_{r-1}2^r.
-	\end{equation*}
-	Then the output sequence ${\bf a}$ of this FCSR is the digit representation of
-	the 2-adic integer
-	\begin{equation}\label{eqn:alpha}
-		\alpha=\sum_{i=0}^\infty a_i2^i=p/q.
-	\end{equation}
+  Let $q_1,\cdots,q_r$ be the taps, $m_{r-1}$ be the initial memory, and
+  $a_{r-1},\cdots,a_1,a_0$ be the initial state of an FCSR. Define
+  $q=1+\sum_{i=1}^{r}q_i2^i$ and
+  \begin{equation*}
+    p=\left(\sum_{i=0}^{r-1}\sum_{j=0}^iq_ja_{i-j}2^i\right)-m_{r-1}2^r.
+  \end{equation*}
+  Then the output sequence ${\bf a}$ of this FCSR is the digit representation of
+  the 2-adic integer
+  \begin{equation}\label{eqn:alpha}
+    \alpha=\sum_{i=0}^\infty a_i2^i=p/q.
+  \end{equation}
 \end{proposition}
 \begin{proof}
-	Consider the transition from one state of the FCSR to the next. Suppose that,
-	for some given state, the value of the memory is $m_{n-1}$ and that the
-	contents of the register is given by the $r$ bits $a_{n-1},\cdots,a_{n-r}$.
-	The next state of the register is determined by calculating
-	\begin{equation*}
-		\sigma_n=m_{n-1}+\sum_{i=1}^rq_ia_{n-i},
-	\end{equation*}
-	writing the new memory contents as $m_n=\sigma_n(\text{div }2)$, and writing
-	the new contents of the state $a_n=\sigma_n\pmod2$. As stated in Lemma
-	\ref{lem:linear-recur}, these equations may be combined into the expression
-	\[
-		\sigma_n=2m_n+a_n.
-	\]
-	It follows that
-	\begin{equation}\label{eqn:an}
-		a_n=\sum_{i=1}^rq_ia_{n-i}+(m_{n-1}-2m_n),
-	\end{equation}
-	for $n\geq r$. Now, by substituting Equation (\ref{eqn:an}) into Equation
-	(\ref{eqn:alpha}),
-	\begin{align}
-		\alpha&=a_0+a_1 2+\cdots+a_{r-1}2^{r-1}+\sum_{n=r}^\infty a_n2^n \notag\\
-		      &=x+\sum_{n=r}^\infty\left( \sum_{i=1}^r q_ia_{n-i} \right)2^n
-					+\sum_{n=r}^\infty (m_{n-1}-2m_n)2^n. \label{eqn:alpha-fcsr}
-  \end{align}
-	where $x=\sum_{i=0}^{r-1}a_i2^i$ is the integer represented by the initial
-	state of the register. The second summation in Equation (\ref{eqn:alpha-fcsr})
-	cancels except for the first term, $m_{r-1}$, leaving
-	\begin{align*}
-		\alpha&=x+m_{r-1}2^r+\sum_{n=r}^\infty\sum_{i=1}^r q_i2^ia_{n-i}2^{n-i}\\
-  				&=x+m_{r-1}2^r+\sum_{i=1}^r{q_i2^i}\left(\sum_{n=r}^\infty a_{n-i}2^{n-i}\right)\\
-					&=x+m_{r-1}2^r+\sum_{i=1}^r{q_i2^i}(\alpha-(a_02^0+a_12^1+\cdots+a_{r-i-1}2^{r-i-1}))\\
-					&=x+m_{r-1}2^r+\alpha\sum_{i=1}^r{q_i2^i}-\sum_{i=1}^{r-1}\sum_{j=0}^{r-i-1}q_i2^ia_j2^j.
-	\end{align*}
-	(where the inner sum is empty, hence zero, when $i=r$ in the third line).
-	These equations give
-	\begin{align*}
-		\alpha&=\frac{x+m_{r-1}2^r-\sum_{i=1}^{r-1}\sum_{j=0}^{r-i-1}q_i2^ia_j2^j}
-								{1-\sum_{i=1}^r q_i2^i}\\
-					&=\frac{\sum_{i=0}^{r-1}\sum_{j=0}^{r-i-1}q_i2^ia_j2^j-m_{r-1}2^r}{q}
-  \end{align*}
-	since $q_0=-1$. The double summation is over all pairs of integers $0\leq i,j
-	\leq r-1$ with $i+j\leq r-1$. Setting $k=i+j$ gives
-	\begin{equation}\label{eqn:fcsr-seq}
-		\alpha=\frac{\left(\sum_{k=0}^{r-1}\sum_{i=0}^kq_ia_{k-i}2^k\right)-m_{r-1}2^r}{q}
-		      =\frac{p}{q}
+  Consider the transition from one state of the FCSR to the next. Suppose that,
+  for some given state, the value of the memory is $m_{n-1}$ and that the
+  contents of the register is given by the $r$ bits $a_{n-1},\cdots,a_{n-r}$.
+  The next state of the register is determined by calculating
+  \begin{equation*}
+    \sigma_n=m_{n-1}+\sum_{i=1}^rq_ia_{n-i},
+  \end{equation*}
+  writing the new memory contents as $m_n=\sigma_n(\text{div }2)$, and writing
+  the new contents of the state $a_n=\sigma_n\pmod2$. As stated in Lemma
+  \ref{lem:linear-recur}, these equations may be combined into the expression
+  \[
+    \sigma_n=2m_n+a_n.
+  \]
+  It follows that
+  \begin{equation}\label{eqn:an}
+    a_n=\sum_{i=1}^rq_ia_{n-i}+(m_{n-1}-2m_n),
   \end{equation}
-	as claimed.
+  for $n\geq r$. Now, by substituting Equation (\ref{eqn:an}) into Equation
+  (\ref{eqn:alpha}),
+  \begin{align}
+    \alpha&=a_0+a_1 2+\cdots+a_{r-1}2^{r-1}+\sum_{n=r}^\infty a_n2^n \notag\\
+          &=x+\sum_{n=r}^\infty\left( \sum_{i=1}^r q_ia_{n-i} \right)2^n
+          +\sum_{n=r}^\infty (m_{n-1}-2m_n)2^n. \label{eqn:alpha-fcsr}
+  \end{align}
+  where $x=\sum_{i=0}^{r-1}a_i2^i$ is the integer represented by the initial
+  state of the register. The second summation in Equation (\ref{eqn:alpha-fcsr})
+  cancels except for the first term, $m_{r-1}$, leaving
+  \begin{align*}
+    \alpha&=x+m_{r-1}2^r+\sum_{n=r}^\infty\sum_{i=1}^r q_i2^ia_{n-i}2^{n-i}\\
+          &=x+m_{r-1}2^r+\sum_{i=1}^r{q_i2^i}\left(\sum_{n=r}^\infty a_{n-i}2^{n-i}\right)\\
+          &=x+m_{r-1}2^r+\sum_{i=1}^r{q_i2^i}(\alpha-(a_02^0+a_12^1+\cdots+a_{r-i-1}2^{r-i-1}))\\
+          &=x+m_{r-1}2^r+\alpha\sum_{i=1}^r{q_i2^i}-\sum_{i=1}^{r-1}\sum_{j=0}^{r-i-1}q_i2^ia_j2^j.
+  \end{align*}
+  (where the inner sum is empty, hence zero, when $i=r$ in the third line).
+  These equations give
+  \begin{align*}
+    \alpha&=\frac{x+m_{r-1}2^r-\sum_{i=1}^{r-1}\sum_{j=0}^{r-i-1}q_i2^ia_j2^j}
+                {1-\sum_{i=1}^r q_i2^i}\\
+          &=\frac{\sum_{i=0}^{r-1}\sum_{j=0}^{r-i-1}q_i2^ia_j2^j-m_{r-1}2^r}{q}
+  \end{align*}
+  since $q_0=-1$. The double summation is over all pairs of integers $0\leq i,j
+  \leq r-1$ with $i+j\leq r-1$. Setting $k=i+j$ gives
+  \begin{equation}\label{eqn:fcsr-seq}
+    \alpha=\frac{\left(\sum_{k=0}^{r-1}\sum_{i=0}^kq_ia_{k-i}2^k\right)-m_{r-1}2^r}{q}
+          =\frac{p}{q}
+  \end{equation}
+  as claimed.
 \end{proof}
 
 \begin{corollary}
-	\par Changing the memory by $b$ changes the value of $\alpha$ by $-b2^r/q$. If
-	$\alpha=p/q<0$, then the initial memory $m_{r-1}\geq 0$.
+  \par Changing the memory by $b$ changes the value of $\alpha$ by $-b2^r/q$. If
+  $\alpha=p/q<0$, then the initial memory $m_{r-1}\geq 0$.
 \end{corollary}
 \begin{proof}
-	\par First statement follow trivially from Equation (\ref{fcsr-seq}).
-	\par The second statemtent is not as obvious. If $q<0$, then the numerator
-	must be positive for $p/q$ to be negative. Since
-	\begin{equation}\label{eqn:memory-v-initial_state}
-		m_{r-1}2^r\geq\sum_{k=0}^{r-1}\sum_{i=0}^kq_ia_{k-i}2^k\geq0,
-	\end{equation}
-	this implies $m_{r-1}=0$. If $q>0$, then the numerator must negative.
-	By Equation (\ref{eqn:memory-v-initial_state}), $m_{r-1}>0$. Therefore,
-	$m_{r-1}\geq0$.
+  \par First statement follow trivially from Equation (\ref{fcsr-seq}).
+  \par The second statemtent is not as obvious. If $q<0$, then the numerator
+  must be positive for $p/q$ to be negative. Since
+  \begin{equation}\label{eqn:memory-v-initial_state}
+    m_{r-1}2^r\geq\sum_{k=0}^{r-1}\sum_{i=0}^kq_ia_{k-i}2^k\geq0,
+  \end{equation}
+  this implies $m_{r-1}=0$. If $q>0$, then the numerator must negative.
+  By Equation (\ref{eqn:memory-v-initial_state}), $m_{r-1}>0$. Therefore,
+  $m_{r-1}\geq0$.
 \end{proof}
 
 \subsection{Xu's Rational Approximation Algorithm}
