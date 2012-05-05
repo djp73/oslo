@@ -19,20 +19,11 @@ urlcolor=black
 \usepackage{enumerate}
 \usepackage{cite}
 
-% fancyvrb settings
-\usepackage{fancyvrb}
-\DefineVerbatimEnvironment%
-  {MyVerbatim}{Verbatim}
-  {gobble=4,
-  numbers=left,
-  numbersep=2mm,
-  frame=leftline,
-  label=sage code,
-  framesep=2mm}
-
 % listings settings
 \usepackage{listings}
 \lstset{
+  float,
+  title={\ttfamily\small Sage},
   gobble=3,
   language=Python,
   basicstyle=\ttfamily\footnotesize,
@@ -80,6 +71,7 @@ urlcolor=black
 \input{title}
 \input{abstract}
 \input{introduction}
+\input{acknowledgments}
 \input{boolean-functions}
 \input{n-adic-ring}
 \input{shift-registers}

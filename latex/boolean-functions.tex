@@ -1,10 +1,10 @@
 \section{Boolean Functions}\label{sec:boolean-functions}
-\par This section will establish the definition of a {\em Boolean function}
+\par This section will establish the definition of a Boolean function
 and how to write these functions as polynomials. The goal is to introduce the
 Walsh transform, and important tools used in cryptography. The Walsh transform
 measures the non-linearity of a Boolean function. This section concludes with
 the definition of bent functions which in terms of the Walsh transform are
-perfectly non-linear Boolean functions. The definitions and
+``perfectly non-linear'' Boolean functions. The definitions and
 notations will follow those found in \cite{bk:cs09}.
 
 \subsection{Review of Boolean Functions}
@@ -28,12 +28,12 @@ to as the logical {\em XOR} and {\em AND} operators respectively.
 \end{table}
 \par It should be clear that $(\gftwo,\oplus,\cdot)$ is a commutative ring
 with an identity. Additionally, the only non-zero element $1$ is its own
-inverse. Therefore $(\gftwo,\oplus,\cdot)$ is a finite field, which will now
+inverse. In fact, $(\gftwo,\oplus,\cdot)$ is a finite field, which will now
 be denoted by $\gftwo$. The $n$-dimensional vector space over $\gftwo$ will
 be denoted by $\gftwo^n$, with the usual inner product. Components of vectors in
 $\gftwo^n$ will be known as {\em bits}.
-For two vectors $x,y\in\gftwo^n$ where $x=(x_0,\cdots,x_{n-1})$ and
-$y=(y_0,\cdots,y_{n-1})$, the inner product in $\gftwo^n$ will be defined
+For two vectors $x,y\in\gftwo^n$ where $x=(x_0,\dots,x_{n-1})$ and
+$y=(y_0,\dots,y_{n-1})$, the inner product in $\gftwo^n$ will be defined
 as $x\cdot y:=\allowbreak x_0\cdot y_0 \oplus\allowbreak
 \cdots \oplus\allowbreak x_{n-1}\cdot y_{n-1}$.
 
@@ -59,13 +59,13 @@ between $0$ and $2^n-1$. To do this, the components of each vector in
 $\gftwo^n$ are trivially mapped to the integers 0 and 1, and then used in
 the one-to-one binary representation function $B$:
 \begin{equation}
-  B:\gftwo^n\rightarrow\nnn\cup\{0\}\ \allowbreak
+  B:\gftwo^n\rightarrow\{0,\dots,n-1\}\ \allowbreak
   {\rm such\ that }\ \allowbreak B(u) := \sum_{i=0}^{n-1}u_i\cdot2^i.
 \end{equation}
 
-\par If we define the vectors $v_i\in\gftwo^n$ such that $v_i=B^{-1}(i)$
+\par If we define the vectors $v_i\in\gftwo^n$ by $v_i=B^{-1}(i)$
 for $0\leq i\leq2^{n-1}$, then the sequence $(v_0,v_1,\allowbreak \dots,
-\allowbreak v_{2^n-1})$ is said to be in {\em lexicographical order}. This
+\allowbreak v_{2^n-1})$ is said to be in {\em binary order}. This
 ordering is the standard ordering used by Sage to list vectors in $\gftwo^n$.
 
 \begin{example}
@@ -88,12 +88,12 @@ $\gftwo^n$. These are fundmental functions in coding theory and are useful
 when talking about Boolean functions.
 
 \begin{definition}\label{def:Hamming}
-  Let $x,y\in\gftwo^n$. Then $wt:\gftwo^n\rightarrow\nnn\cup\{0\}$
+  Let $x,y\in\gftwo^n$. Then $wt:\gftwo^n\rightarrow\{0,\dots,n-1\}$
   is defined by
   \[
     {\rm wt}(x):=\sum_{i=0}^{n-1}x_i
   \]
-  and $d:\gftwo^n\times\gftwo^n\rightarrow\nnn\cup\{0\}$ is defined by
+  and $d:\gftwo^n\times\gftwo^n\rightarrow\{0,\dots,n-1\}$ is defined by
   \[
     d(x,y):={\rm wt}(x+y).
   \]
@@ -103,10 +103,10 @@ when talking about Boolean functions.
 
 \begin{definition}
 \label{def:support}
-  Let $x\in\gftwo^n$. Then $supp:\gftwo^n\rightarrow\allowbreak
-  \mathcal{P}(\nnn\cup\{0\})$ is defined by
+  Let $x\in\gftwo^n$. Then ${\rm supp}:\gftwo^n\rightarrow\allowbreak
+  2^{\{0,\dots,n-1\}}$ is defined by
   \[
-    {\rm supp}(x):=\{i\in\nnn\cup\{0\}:x_i=1\}
+    {\rm supp}(x):=\{i\in\{0,\dots,n-1\}:x_i=1\}
   \]
 \end{definition}
 
@@ -144,7 +144,7 @@ when talking about Boolean functions.
 \par There is an interesting orthogonality property in the vector space
 $\gftwo^n$ known as the {\em orthogonality principle} that every non-zero
 vector in $\gftwo^n$ is orthogonal to exactly half of the vectors in the
-vectorspace.
+vector space.
 
 \begin{proposition}
 \label{prop:orthogonality-principle}
@@ -174,7 +174,9 @@ vectorspace.
   \end{align*}
   Therefore, $\sum_{y\in\gftwo^n}(-1)^{x\cdot y}=\allowbreak
   -\sum_{y\in\gftwo^n}(-1)^{x\cdot y}$, which implies
-  $\sum_{y\in\gftwo^n}(-1)^{x\cdot y}=0$.
+  \[
+  \sum_{y\in\gftwo^n}(-1)^{x\cdot y}=0.
+  \]
 \end{proof}
 
 \begin{example}
@@ -322,10 +324,10 @@ Boolean functions.
 from Table \ref{tab:atomic-f}. Knowing how to write the atomic Boolean
 functions as polynomials would lead to knowing how to write any Boolean
 function as a polynomial. The polynomials representing the Boolean functions
-will belong to the the polynomial ring $\gftwo[x_0,\cdots,x_{n-1}]/
-(x_0^2\oplus x_0,\cdots,x_{n-1}^2\oplus x_{n-1})$. To properly represent
+will belong to the the polynomial ring $\gftwo[x_0,\dots,x_{n-1}]/
+(x_0^2\oplus x_0,\dots,x_{n-1}^2\oplus x_{n-1})$. To properly represent
 an atomic Boolean function, a polynomial must equal 1 at only one vector
-$(x_0,\cdots,x_{n-1})$. Recall the support function from Definition
+$(x_0,\dots,x_{n-1})$. Recall the support function from Definition
 \ref{def:support}. Then the polynomial respresenting each Boolean function
 is as follows:
 \begin{equation}\label{eqn:atomic-ANF}
@@ -333,7 +335,7 @@ is as follows:
     \bigg(\prod_{j\not\in {\rm supp}(B^{-1}(i))}(1\oplus x_j)\bigg).
 \end{equation}
 \begin{proof}
-  Let $x=B^{-1}(i)$ where $x=(x_0,\cdots,x_{n-1})$. Then
+  Let $x=B^{-1}(i)$ where $x=(x_0,\dots,x_{n-1})$. Then
   $\{x_i:x_i=1\}=\{x_i:i\in {\rm supp}(x)\}$. Therefore,
   \[
   f_i(x)=\bigg(\prod_{j\in {\rm supp}(B^{-1}(i))}x_j\bigg)
@@ -379,9 +381,9 @@ each Boolean function and the size of the polynomial ring.
 
 \begin{theorem}
 Each $n$-variable Boolean function is uniquely represeneted as a polynomial
-in the polynomial ring $\gftwo[x_0,\cdots,x_{n-1}]/ (x_0^2\oplus x_0,\cdots,
+in the polynomial ring $\gftwo[x_0,\dots,x_{n-1}]/ (x_0^2\oplus x_0,\dots,
 x_{n-1}^2 \oplus x_{n-1})$. Let $f\in\BF_n$. Then there exists a unique set
-of $a_I\in\gftwo$ such that
+of $a_I\in\gftwo$, $I\in2^{\{0,\dots,n-1\}}$, such that
 \begin{equation}\label{eqn:ANF}
   f(x)=\sum_{I\in2^{\{0,\dots,n-1\}}}a_I\bigg(\prod_{i\in I}x_i\bigg)
 \end{equation}
@@ -392,7 +394,7 @@ of $a_I\in\gftwo$ such that
   \lvert\BF_n\rvert
     &= \lvert \gftwo^{2^n} \rvert \\
     &= \lvert \{(a_{\emptyset},\ldots,a_I,\ldots):a_I\in\gftwo\} \rvert \\
-    &= \lvert \gftwo[x_0,\cdots,x_{n-1}]/ (x_0^2\oplus x_0,\cdots,
+    &= \lvert \gftwo[x_0,\dots,x_{n-1}]/ (x_0^2\oplus x_0,\dots,
     x_{n-1}^2 \oplus x_{n-1})\rvert
   \end{align*}
   Because every Boolean function is determined by at least one polynomial
@@ -408,11 +410,9 @@ function $\lambda\cdot x$. The Walsh transform is similar to the discrete
 Fourier transform and is in fact used to obtain the Fourier coefficients for a
 Boolean function. For this paper, the Walsh transform is considered over the
 discrete Fourier transform because this is the transformation used by Rothaus
-in his original definition of bent functions published in the {\it Journal of
-Combinatorial Theory} in 1976 \cite{art:r76}. 
-
-\par It is necessary to discuss \textit{characters} as a preliminary to Walsh
-transforms. The definitions in this section follow \cite{bk:lsy11}.
+in his original definition of bent functions published in the Journal of
+Combinatorial Theory in 1976 \cite{art:r76}. The definitions in this section
+follow \cite{bk:lsy11}.
 
 \begin{definition}
   A {\em character} $\Chi$ of a finite abelian group $G$ is a group
@@ -469,8 +469,8 @@ of $\gftwo^n$ correspond to all of the linear functions in $\BF_n$.
   $\hat{f}(x)=(-1)^{f(x)}$ is a \textit{pseudo-Boolean function}. The set of all
   pseudo Boolean functions is denoted $\hat{\BF}_n=\{\hat{f}:f\in\BF_n\}$.
 \end{definition}
-\begin{lemma}
-\par Clearly, every character $\Chi_\lambda$ belongs to $\hat{\BF_n}$.
+\begin{lemma}\label{lem:characters}
+\par Every character $\Chi_\lambda$ belongs to $\hat{\BF_n}$.
 \end{lemma}
 \begin{proof}
   \par This is trivially true.
@@ -481,10 +481,9 @@ of $\gftwo^n$ correspond to all of the linear functions in $\BF_n$.
   then the $\hat{\gftwo^n}$ forms an orthonormal basis of $W$.
 \end{lemma}
 \begin{proof}
-  The atomic Boolean functions correspond to a trivial basis of $W$,
-  $\{(-1)^{f(x)}:f \text{ is an atomic Boolean function}\}$. Thus, the dimension
-  of $\hat{\BF_n}$ is at most $2^n$. There are $2^n$ characters of $\gftwo^n$
-  which are all elements of $\hat{\BF}_n$.
+  The atomic Boolean functions correspond to a basis of $W$. Thus, the dimension
+  of $\hat{\BF_n}$ is at most $2^n$. The $2^n$ characters of $\gftwo^n$
+  are elements of $\hat{\BF}_n$, by Lemma \ref{lem:characters}.
   \begin{align*}
     \sum_{x\in\gftwo^n}{\Chi_{\lambda_i}(x)\cdot\Chi_{\lambda_j}(x)}
     &=\sum_{x\in\gftwo^n}
@@ -495,7 +494,7 @@ of $\gftwo^n$ correspond to all of the linear functions in $\BF_n$.
     \end{cases}
   \end{align*}
   Therefore, the characters of $\gftwo^n$ are orthonormal in $W$. Since the
-  dimension of $W$ is at most $2^n$ and there are $2^n$ characters,
+  dimension of $W$ is at most $2^n$, and there are $2^n$ characters,
   $\hat{\gftwo^n}$ forms an orthonormal basis of $W$.
 \end{proof}
 
@@ -516,7 +515,7 @@ of $\gftwo^n$ correspond to all of the linear functions in $\BF_n$.
   \end{equation}
   Let
   \[
-    \mathcal{W}(f)=(\mathcal{W}_f(\lambda_0),\cdots,\mathcal{W}_f(\lambda_{2^n-1})),
+    \mathcal{W}(f)=(\mathcal{W}_f(\lambda_0),\dots,\mathcal{W}_f(\lambda_{2^n-1})),
   \]
   where $\lambda_i=B^{-1}(i)$, be the {\it Walsh spectrum} of $f$.
 \end{definition}
@@ -601,8 +600,8 @@ an affine function in $\BF_n$ is small.
 
 \subsection{Bent Functions}
 \par These functions are useful in cryptographic applications because they
-add resistance to differential attacks as a result of being \textit{perfectly
-nonlinear}. As mentioned before, these were defined by Rothaus in 1976. The main
+add resistance to differential attacks as a result of being ``perfectly
+non-linear''. As mentioned before, these were defined by Rothaus in 1976. The main
 result in Section \ref{sec:boolean-sequences} is given on bent functions because
 of their important cryptographic property of being as far away as possible from
 every affine function in $\BF_n$.
@@ -624,7 +623,7 @@ every affine function in $\BF_n$.
   $f(x,\allowbreak 0,0,\dots,0)=\allowbreak g(x)$ where $x=(x_1,x_2,\dots,x_r)$
   (up to this point all indexing has
   started at 0; it is more convenient in this proof to begin numbering at
-  1). Then by Equation (\ref{eqn:rewrite-pseudo}),
+  1). Then by Equation~(\ref{eqn:rewrite-pseudo}),
   \[
   \hat{g}(x)=\frac{1}{2^{r/2}}\sum_{\lambda_1,\lambda_2,\dots,\lambda_r=0,1}
     b(\lambda_1,\dots,\lambda_r)\Chi_{(\lambda_1,\ldots,\lambda_r)}(x)
@@ -668,17 +667,17 @@ every affine function in $\BF_n$.
 % directional derivatives
 % equivalent definition of a bent function
 
-\subsection{Constructions of Bent Functions}\label{subsec:bent-constructions}
 \par The set of all bent functions is not known. There however are a few basic
 constructions which are known. The Rothaus construction and Maiorana-McFarland class of Boolean
 functions are presented here as two of the known constructions for bent
 functions.
-\subsubsection{Rothaus Construction}
+
+\subsubsection{Rothaus Construction of Bent Functions}
 \par In one of the first papers written about bent functions, Rothaus identified
 two large general classes of bent function on $\BF_n$, $n=2k$. The simpler of
 the two is presented here:
 \begin{proposition}
-  Let $n$ be even, $x_1,y_1,\cdots,x_k,y_k$ be independent variables, and
+  Let $n$ be even, $x_1,y_1,\dots,x_k,y_k$ be independent variables, and
   $P(x)\in\BF_{n/2}$ (so $P(x)$ is a function $n/2$ variables). Then the polynomial
   $Q(x,y)\in\BF_{n}$ given by
   \begin{equation}
@@ -686,30 +685,33 @@ the two is presented here:
   \end{equation}
   is bent.
 \end{proposition}
-\begin{proof}
-
-\end{proof}
+\par The proof that this function is bent can be found in Rothaus' paper
+\cite{art:r76}.
 
 \begin{example}
-  \ 
+  \par Both $f$ and $g$ in this example are bent according to Rothaus.
   \begin{lstlisting}
     sage: B=BooleanPolynomialRing(6,'x')
     sage: B.inject_variables(verbose=false)
-    sage: f=BooleanFunction(x0*x2+x1*x3+x4*x5+x0*x1*x4)
+    sage: f=BooleanFunction(x0*x1+x2*x3+x4*x5)
     sage: f.truth_table(format='int')
-    (0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0)
-    sage: f.is_bent( )
+    (0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0,
+    0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1,
+    1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 1)
+    sage: f.is_bent()
     True
-    sage: 
-    sage: g=BooleanFunction(x0*x1+x2*x3+x4*x5+x0*x2+x4)
+    sage: g=f+BooleanFunction(x0*x2+x0)
     sage: g.truth_table(format='int')
-    (0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1)
-    sage: g.is_bent( )
+    (0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1,
+    0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1,
+    1, 1, 0, 1, 0, 1, 1, 0, 0, 0, 1)
+    sage: g.is_bent()
     True
   \end{lstlisting}
 \end{example}
-\subsubsection{Maiorana-McFarland Class}
-\par The Maiorana-McFarland class (or M-M class) of Boolean functions uses a
+\subsubsection{Maiorana-McFarland Class Construction of Bent Functions}
+\par The Maiorana-McFarland class (or M-M class) of Boolean functions is a
+generalized Rothaus construction of bent functions. It uses a
 permutation function $\pi$ on half of the input variables to each function.
 
 \begin{definition}
@@ -720,30 +722,33 @@ permutation function $\pi$ on half of the input variables to each function.
   {\it permutation matrix}.
 \end{definition}
 
-\par There is no distinction between the matrix $\pi$ and the function $\pi$
-because the two are equivalent. The term $\pi(x)$ interpreted as matrix
-multiplication or $x$ being mapped by $\pi$ mean the same thing.
-
 \begin{example}
-  Let $\pi_0=\begin{bmatrix}
-               0&0&1\\
-               1&0&0\\
-               0&1&0\\
-           \end{bmatrix}$, $x=(0,1,1)$, and $y=(1,0,0)$.
-           \begin{align*}
-             \pi_0(x)=\begin{bmatrix}
-                 0&0&1\\
-                 1&0&0\\
-                 0&1&0\\
-               \end{bmatrix}\begin{bmatrix}0\\1\\1\end{bmatrix}
-                 =\begin{bmatrix}1\\0\\1\end{bmatrix}\\
-             \pi_0(y)=\begin{bmatrix}
-                 0&0&1\\
-                 1&0&0\\
-                 0&1&0\\
-               \end{bmatrix}\begin{bmatrix}1\\0\\0\end{bmatrix}
-                 =\begin{bmatrix}0\\1\\0\end{bmatrix}\\
-           \end{align*}
+  \ 
+  \begin{lstlisting}
+    sage: pi0=matrix(GF(2),[[0,0,1],[1,0,0],[0,1,0]])
+    sage: pi0
+    [0 0 1]
+    [1 0 0]
+    [0 1 0]
+    sage: V=GF(2)^3
+    sage: x=V([0,1,1]); y=V([1,0,0])
+    sage: (matrix(x)).transpose()
+    [0]
+    [1]
+    [1]
+    sage: pi0*(matrix(x)).transpose()
+    [1]
+    [0]
+    [1]
+    sage: (matrix(y)).transpose(
+    [1]
+    [0]
+    [0]
+    sage: pi0*(matrix(y)).transpose( )
+    [0]
+    [1]
+    [0]
+  \end{lstlisting}
 \end{example}
 
 \par For every permutation function $\pi$ on $\gftwo^k$ the {\it component permutation
@@ -763,14 +768,14 @@ e_j\in\gftwo^k.
                0&1&0\\
                1&0&0\\
                0&0&1\\
-             \end{bmatrix}$, then $\bar{\pi}_0$ is the permutation cycle $(012)$
-             and $\bar{\pi}_1$ is the permutation cycle $(01)(2)$.
+             \end{bmatrix}$, then $\bar{\pi}_0$ is the permutation cycle $(0\,1\,2)$
+             and $\bar{\pi}_1$ is the permutation cycle $(0\,1)(2)$.
 \end{example}
 \par A simple bent function construction is accomplished by using permutations
 like the ones defined here. These Boolean functions belong to the {\it
 Maiorana-McFarland original class}. This is the set
 $\mathcal{M}$ which contains all Boolean functions on
-$\gftwo^n=\{(x,y):x,y\in\gftwo^{n/2}\}$, of the form
+$\gftwo^n=\{(x,y)=(x_0,\dots,x_{n-1},y_0,\dots,y_{n-1}):x,y\in\gftwo^{n/2}\}$, of the form
   \[
   f(x,y)=x\cdot\pi(y)\oplus g(y)
   \]
@@ -781,194 +786,22 @@ function on $\gftwo^{n/2}$.
 \par All functions in the Maiorana-McFarland class of Boolean functions are
 bent.
 \end{proposition}
+\par The proof of these functions being bent can be found in \cite{col:c06}.
 
-\begin{proof}
 
-\end{proof}
-
-%\subsection{Monotone Boolean Functions}
-%\par In the introduction to Boolean functions, each Boolean function was
-%shown as a sum of atomic Boolean functions. This section will show how it is
-%possible to construct every Boolean function from monotone Boolean
-%functions.
-%
-%\par Define a partial order $\leq $ on $\gftwo^n$ as follows:
-%for each $v,w\in \gftwo^n$,
-%\[
-%v\leq w
-%\]
-%whenever ${\rm supp}(v)\subseteq {\rm supp}(w)$.
-%(This partial order is not to be confused with the lexicographical order.)
-%A Boolean function is called {\it monotone} if whenever we have $v\leq w$
-%then we also have $f(v) \leq f(w)$. In the case ${\rm supp}(v)\subset {\rm supp}(w)$,
-%$v<w$ may be written.
-%
-%\par Each monotone function corresponds to a unique set of vectors which
-%determine where the function begins mapping to 1s.
-%
-%\begin{definition}
-%  Let $f$ be an $n$-variable monotone Boolean function. Every $x\in\gftwo^n$
-%  where for all $x'\in\gftwo^n$ such that $x'<x$, $f(x')<f(x)$ is called a
-%  \textit{least support} of $f$.
-%\end{definition}
-%
-%\begin{definition}
-%  If an $n$-variable monotone Boolean function $f$ has exactly one least
-%  support, then $f$ is an \textit{atomic monotone Boolean function}.
-%\end{definition}
-%
-%\begin{theorem}
-%  All monomials are monotone Boolean functions.
-%\end{theorem}
-%
-%\begin{proof}
-%  Let $f(x)=\prod_{i\in I}x_i$ for $I\in2^{\{0,\cdots,n-1\}}$ and
-%  $y\in\gftwo^n$. Then ${\rm supp}(y)\supseteq I$ if and only if $f(y)=1$ and
-%  ${\rm supp}(y) \not\supseteq I$ if and only if $f(y)=0$.
-%  Let $u,v\in\gftwo^n$ such that ${\rm supp}(u)\subseteq {\rm supp}(v)$ and $f(u)=1$.
-%  Then, $I\subseteq {\rm supp}(u) \subseteq {\rm supp}(v)$. This implies $f(v)=1$. Thus,
-%  $f$ is a monotone Boolean function.
-%\end{proof}
-%
-%\begin{example}
-%  In the following examples, the two functions $f=x_0x_2$ and $g=x_1x_2$
-%  are monomials. Each function is also a monotone function. For $f$, every
-%  $x\in\gftwo^4$ such that ${\rm supp}(x)\supseteq {\rm supp}((1,0,1,0))$ implies
-%  $f(x)=1$. For $g$, ${\rm supp}(x)\supseteq {\rm supp}( (0,1,1,0) )$ implies $g(x)=1$.
-%  \begin{verbatim}
-%  sage: B=BooleanPolynomialRing(4,'x')
-%  sage: x0,x1,x2,x3=B.gens()
-%  sage: f=BooleanFunction(x0*x2)
-%  sage: print_truth(f)
-%  (0, 0, 0, 0) 0 False
-%  (1, 0, 0, 0) 0 False
-%  (0, 1, 0, 0) 0 False
-%  (1, 1, 0, 0) 0 False
-%  (0, 0, 1, 0) 0 False
-%  (1, 0, 1, 0) 1 True
-%  (0, 1, 1, 0) 0 False
-%  (1, 1, 1, 0) 0 True
-%  (0, 0, 0, 1) 0 False
-%  (1, 0, 0, 1) 0 False
-%  (0, 1, 0, 1) 0 False
-%  (1, 1, 0, 1) 0 False
-%  (0, 0, 1, 1) 0 False
-%  (1, 0, 1, 1) 0 True
-%  (0, 1, 1, 1) 0 False
-%  (1, 1, 1, 1) 0 True
-%  \end{verbatim}
-%
-%  \begin{verbatim}
-%  sage: g=BooleanFunction(x1*x2)
-%  sage: print_truth(g)
-%  (0, 0, 0, 0) 0 False
-%  (1, 0, 0, 0) 0 False
-%  (0, 1, 0, 0) 0 False
-%  (1, 1, 0, 0) 0 False
-%  (0, 0, 1, 0) 0 False
-%  (1, 0, 1, 0) 0 False
-%  (0, 1, 1, 0) 1 True
-%  (1, 1, 1, 0) 0 True
-%  (0, 0, 0, 1) 0 False
-%  (1, 0, 0, 1) 0 False
-%  (0, 1, 0, 1) 0 False
-%  (1, 1, 0, 1) 0 False
-%  (0, 0, 1, 1) 0 False
-%  (1, 0, 1, 1) 0 False
-%  (0, 1, 1, 1) 0 True
-%  (1, 1, 1, 1) 0 True
-%  \end{verbatim}
-%\end{example}
-%
-%\par Every monotone Boolean function can be written as a sum of monomials
-%based on the least supports of the function. This is done by unioning in
-%every way all of the least supports. If $\Gamma$ is the set of all the least
-%supports of a monotone Boolean function, then this unioning is defined by
-%the function $S$:
-%\begin{align}
-%  S:\ 2^\Gamma \rightarrow 2^{\{0,\cdots,n-1\}} \\
-%  S(\alpha):=\bigcup_{v\in\alpha}{\rm supp}(v)
-%\end{align}
-%
-%\begin{theorem}
-%  Let $f$ be an $n$-variable monotone Boolean function with least supports
-%  $\Gamma$. Then
-%  \begin{equation}
-%    f(x)=\sum_{I\in S(2^\Gamma),\ I\not=\emptyset} x^I
-%  \end{equation}
-%\end{theorem}
-%
-%\begin{proof}
-%  \par Define $g(x)=\sum_{I\in S(2^\Gamma),\ I\not=\emptyset}x^I$.
-%  Pick $y\in\gftwo^n$. Let $\alpha_y=\{v\in\Gamma|
-%  {\rm supp}(v)\subseteq {\rm supp}(y)\}$. It follows that $\beta\subseteq\alpha_y$ and
-%  $\beta\not=\emptyset$ if and only if $y^{S(\beta) \cup C}=1$,
-%  $C\subseteq\{0,\cdots,n-1\}$. Let $\beta\subseteq\alpha$. Then
-%  $\alpha\not=\emptyset$, therefore $|2^\alpha|$ is even. Thus, the number
-%  of $\beta$'s is odd. In other words,
-%  $\lvert\{\beta\subseteq\Gamma\text{: } y^{S(\beta)\cup C}=1
-%  \text{ for }C\subseteq\{0,\cdots,n-1\}\text{ and }
-%  C\not\in S(2^\Gamma)\}\rvert$ is odd.
-%
-%  \par Case 1: Suppose ${\rm supp}(y)\in S(2^\Gamma)\cup C$. Then the number of
-%  non-zero terms in $g(y)$ is odd, therfore $g(y)=1$.
-%
-%  \par Case 2: Suppose ${\rm supp}(y)\not\in S(2^\Gamma)\cup C$. Then there do not
-%  exist any non-zero terms in $g(y)$, therefore $g(y)=0$.
-%
-%  \par Then $g$ is 1 at precisely all of the palces $f$ is 1. Therefore
-%  $g=f$.
-%\end{proof}
-%
-%
-%%\begin{definition}\label{def:mono-bool}
-%%  Let $f\in\BF_n$ and $r,r'\in\gftwo^n$ such that $r_i=1 \Rightarrow r'_i=1$
-%%  for $0\leq i\leq n-1$. If $f(r)=1 \Rightarrow f(r')=1$, then $f$ is a
-%%  monotone function.
-%%\end{definition}
-%%
-%%\begin{theorem}[NOT CORRECT]
-%%  Let $f\in\BF_n$ be monotone and $x\in\gftwo^n$ such that
-%%  $f(x)=1$ and $\nexists y\in\gftwo^n$ such that ${\rm supp}(y)\subsetneq
-%%  {\rm supp}(x)$ where $f(y)=1$. Then, $f$ is not bent.
-%%\end{theorem}
-%%\begin{proof}
-%%  Define $\lambda\in\gftwo^n$ such that ${\rm supp}(x)\subsetneq {\rm supp}(\lambda)$
-%%  and ${\rm wt}(\lambda)={\rm wt}(x)+1$. Also, define $x_I\in\gftwo^n$ such that
-%%  ${\rm supp}(x_I)=I$. Then by Equation (\ref{eqn:clambda}), 
-%%  \begin{align*}
-%%    c(\lambda)&=\frac{1}{2^{n/2}}\sum_{u\in\gftwo^n}
-%%        (-1)^{f(u)+u\cdot\lambda}\\
-%%      &=\frac{1}{2^{n/2}}\left(\sum_{x_I:I\supseteq {\rm supp}(x)}
-%%        {(-1)^{f(x_I)+x_I\cdot\lambda}}+\sum_{x_J:J\nsupseteq {\rm supp}(x)}
-%%        {(-1)^{f(x_J)+x_J\cdot\lambda}}\right)\\
-%%      &=\frac{1}{2^{n/2}}\left(\sum_{x_I:I\supseteq {\rm supp}(x)}
-%%        {(-1)^{1+x_I\cdot\lambda}}+\sum_{x_J:J\nsupseteq {\rm supp}(x)}
-%%        {(-1)^{f(x_J)+x_J\cdot\lambda}}\right)\\
-%%  \end{align*}
-%%  $f(x_I)=1$ because $f$ is monotone. And $x_I\cdot\lambda$ turns out so
-%%  that 
-%%  \[
-%%  x_I\cdot\lambda =
-%%    \begin{cases}
-%%      |{\rm supp}(\lambda)| & \text{for } \lambda\subseteq x_I \\
-%%      |{\rm supp}(\lambda)|+1 & \text{for } x_I = x.
-%%    \end{cases}
-%%  \] 
-%%  So the first sum equals $\pm2^{n-|{\rm supp}(x)|-1}\mp1$,\ldots
-%%%   $2{\rm wt}(f)-2^{n-|{\rm supp}(x)|+1}-2^n$. 
-%%%   \begin{align*}
-%%%      c(\lambda)&=
-%%%      \begin{cases}
-%%%        \frac{1}{2^{n/2}}
-%%%          \left(2^{n-|{\rm supp}(x)|+1}-1+2{\rm wt}(f)-2^{n-|{\rm supp}(x)|+1}-2^n\right)
-%%%          & \text{for } |{\rm supp}(x)|\ even \\
-%%%        \frac{1}{2^{n/2}}
-%%%          \left(-2^{n-|{\rm supp}(x)|+1}+1+2{\rm wt}(f)-2^{n-|{\rm supp}(x)|+1}-2^n\right)
-%%%          & \text{for } |{\rm supp}(x)|\ odd\\
-%%%      \end{cases}
-%%%      &=
-%%%  \end{align*}
-%%%  \par It follows that $c(\lambda)$ cannot be an integer. For a Bent
-%%%  function, $c(\lambda)=\pm1\in\zzz$. Therefore, $f$ is not bent.
-%%\end{proof}
+\begin{example}
+  \par Both $f$ and $g$ in this example are in the Maiorana-McFarland class of
+  Boolean functions.
+  \begin{lstlisting}
+    sage: f=BooleanFunction(x0*x4+x1*x3+x2*x5)
+    sage: f.truth_table(format='int')
+    (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0,
+    1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 0, 1,
+    0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1)
+    sage: f.is_bent()
+    True
+    sage: g=f+BooleanFunction(x0*x2+x0)
+    sage: g.is_bent()
+    True
+  \end{lstlisting}
+\end{example}
