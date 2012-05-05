@@ -1,4 +1,4 @@
-filename=main
+filename=fcsr_and_bs
 
 pdf: ps
 	 ps2pdf ${filename}.ps
