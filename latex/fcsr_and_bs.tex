@@ -930,16 +930,12 @@ the two is presented here:
     sage: B.inject_variables(verbose=false)
     sage: f=BooleanFunction(x0*x1+x2*x3+x4*x5)
     sage: f.truth_table(format='int')
-    (0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0,
-    0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1,
-    1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 1)
+    (0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 1)
     sage: f.is_bent()
     True
     sage: g=f+BooleanFunction(x0*x2+x0)
     sage: g.truth_table(format='int')
-    (0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1,
-    0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1,
-    1, 1, 0, 1, 0, 1, 1, 0, 0, 0, 1)
+    (0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 0, 0, 0, 1)
     sage: g.is_bent()
     True
   \end{lstlisting}
@@ -1030,9 +1026,7 @@ bent.
   \begin{lstlisting}
     sage: f=BooleanFunction(x0*x4+x1*x3+x2*x5)
     sage: f.truth_table(format='int')
-    (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0,
-    1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 0, 1,
-    0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1)
+    (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1)
     sage: f.is_bent()
     True
     sage: g=f+BooleanFunction(x0*x2+x0)
@@ -1314,11 +1308,11 @@ integers.
   \[
     \alpha=\sum_{i=0}^\infty a_iN^i{\rm \ and\ } \beta=\sum_{i=0}^\infty b_iN^i.
   \]
-  Rewrite ${\bf a}=(\sum_{i=0}^ia_i,\dots,\sum_{i=0}^ka_i2^i,\dots)$ and
-  ${\bf b}=(\sum_{i=0}^ib_i,\dots,\sum_{i=0}^kb_i2^i,\dots)$. By the defined
+  Rewrite ${\bf a}=(\sum_{i=0}^0a_i2^i,\dots,\sum_{i=0}^ka_i2^i,\dots)$ and
+  ${\bf b}=(\sum_{i=0}^0b_i2^i,\dots,\sum_{i=0}^kb_i2^i,\dots)$. By the defined
   $N$-adic addition,
   \begin{align*}
-    {\bf a}+{\bf b}&=(\sum_{i=0}^0a_i+b_i,\dots,\sum_{i=0}^k(a_i+b_i)2^i,\dots)\\
+    {\bf a}+{\bf b}&=(\sum_{i=0}^0(a_i+b_i)2^i,\dots,\sum_{i=0}^k(a_i+b_i)2^i,\dots)\\
                 &\rightarrow\sum_{i=0}^\infty(a_i+b_i)2^i\\
                 &=\sum_{i=0}^\infty a_iN^i + \sum_{i=0}^\infty b_iN^i\\
                 &=\alpha+\beta.
