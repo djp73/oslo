@@ -185,8 +185,8 @@ postulates on periodic binary sequences:
 		\begin{align*}
       C(\tau)=\frac{1}{p}\sum_{n=1}^p(-1)^{a_na_{n+\tau}}=
 			\begin{cases}
-				1 \text{if } \tau=0,\\
-				K \text{if } 0<\tau<p.
+				1 \text{ if } \tau=0,\\
+				K \text{ if } 0<\tau<p.
 			\end{cases}
 		\end{align*}
 \end{enumerate}
@@ -276,6 +276,9 @@ For two vectors $x,y\in\gftwo^n$ where $x=(x_0,\dots,x_{n-1})$ and
 $y=(y_0,\dots,y_{n-1})$, the inner product in $\gftwo^n$ will be defined
 as $x\cdot y:=\allowbreak x_0\cdot y_0 \oplus\allowbreak
 \cdots \oplus\allowbreak x_{n-1}\cdot y_{n-1}$.
+\par The elements of $\gftwo$ will sometimes be regarded as integers and other
+times as elements of $\zzz/2\zzz$. Generally, the only time that considering
+0 and 1 as elements of $\gftwo$ is necessary is when adding vectors in $\gftwo^n$.
 
 \begin{example}
   \ 
@@ -328,12 +331,12 @@ $\gftwo^n$. These are fundmental functions in coding theory and are useful
 when talking about Boolean functions.
 
 \begin{definition}\label{def:Hamming}
-  Let $x,y\in\gftwo^n$. Then $wt:\gftwo^n\rightarrow\{0,\dots,n-1\}$
+  Let $x,y\in\gftwo^n$. Then ${\rm wt}:\gftwo^n\rightarrow\{0,\dots,n\}$
   is defined by
   \[
     {\rm wt}(x):=\sum_{i=0}^{n-1}x_i
   \]
-  and $d:\gftwo^n\times\gftwo^n\rightarrow\{0,\dots,n-1\}$ is defined by
+  and $d:\gftwo^n\times\gftwo^n\rightarrow\{0,\dots,n\}$ is defined by
   \[
     d(x,y):={\rm wt}(x+y).
   \]
@@ -1965,11 +1968,12 @@ the initial state and the taps of the register.
   $z_{r-1}\geq0$.
 \end{proof}
 
-\par It can also be shown that the memory cell of every FCSR is bounded and
-eventually lies between 0 and ${\rm wt(q+1)}$, for $q>0$.
+\par If we define $Wt:\zzz\rightarrow\zzz$ such that $Wt(a)=wt(B^{-1}(a))$, then
+it can also be shown that the memory cell of every FCSR is bounded and
+eventually lies between 0 and ${\rm Wt(q+1)}$, for $q>0$.
 
 \begin{proposition}{\rm \cite{art:kg97}}\label{prop:mem-bound}
-  \par Let $w={\rm wt}(q+1)$. If an FCSR is in a periodic state, then the memory
+  \par Let $w={\rm Wt}(q+1)$. If an FCSR is in a periodic state, then the memory
   is in the range $0\leq z<w$. If the initial memory $z_{n-1}\geq w$, then it
   will monotonically decrease and will arrive in the range $0\leq z<w$ within
   $\lfloor\log_2(z_{n-1}-w)\rfloor+r$ steps. If the initial memory $z_{n-1}<0$,
