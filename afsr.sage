@@ -943,7 +943,7 @@ def boolean_monomial(u):
     F = GF(2)
     V = F^n
     B = BooleanPolynomialRing(n,'x')
-    B.inject_variables()
+    B.inject_variables(verbose=false)
     f = B(0); f=f+1;
     for i in range(n):
       if u[i]==1:
@@ -974,7 +974,7 @@ def monotone_from_support(L):
     n = L[0].degree()
     V = F^n
     B = BooleanPolynomialRing(n,'x')
-    B.inject_variables()
+    B.inject_variables(verbose=false)
     f = B(0); f = f+1;
     for u in L:
       f=f*(boolean_monomial(u)+1)
